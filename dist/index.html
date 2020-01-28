@@ -6,32 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Read you</title>
     <link rel="stylesheet" href="./index.css">
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js">
+    // This is the trickiest part!!!
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBr4QB1H8JxbgRnSOLvCH2g3rCN691RwqM",
+        authDomain: "readyou-1579828612559.firebaseapp.com",
+        databaseURL: "https://readyou-1579828612559.firebaseio.com",
+        projectId: "readyou-1579828612559",
+        storageBucket: "readyou-1579828612559.appspot.com",
+        messagingSenderId: "42078634819",
+        appId: "1:42078634819:web:9853031eb69c6f090f65f6",
+        measurementId: "G-PN0SWSJ0QY"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
 </head>
 <body>
     <div id="root">Hello test</div>
     <script src="main.js"></script>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
 
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyBr4QB1H8JxbgRnSOLvCH2g3rCN691RwqM",
-    authDomain: "readyou-1579828612559.firebaseapp.com",
-    databaseURL: "https://readyou-1579828612559.firebaseio.com",
-    projectId: "readyou-1579828612559",
-    storageBucket: "readyou-1579828612559.appspot.com",
-    messagingSenderId: "42078634819",
-    appId: "1:42078634819:web:9853031eb69c6f090f65f6",
-    measurementId: "G-PN0SWSJ0QY"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
 </body>
 </html>
