@@ -1,20 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import styles from './index.scss'
+import styles from './sass/main.scss'
 
 class App extends React.Component {
   constructor (props) {
     super(props)
-  
+
     this.dataAll = {
       hightlightText: '',
-      dictionaryGoogleAPI:
-        'http://googledictionaryapi.eu-gb.mybluemix.net/',
+      dictionaryGoogleAPI: 'http://googledictionaryapi.eu-gb.mybluemix.net/',
       transGoogleAPI:
         'https://translation.googleapis.com/language/translate/v2',
       apiKeyMerriam: '1c8b8f95-5745-4aae-834d-ad6674ea2f13',
       apiKeyGoogle: 'AIzaSyBr4QB1H8JxbgRnSOLvCH2g3rCN691RwqM',
-      fileContent: `Aili said she was told that the reason why the Saudi patients insisted
+      bookContent: `Aili said she was told that the reason why the Saudi patients insisted
       on receiving organs from Uyghur donors was that they wanted "Halal
       organs. " 
       real.`,
@@ -48,28 +47,29 @@ class App extends React.Component {
         data.hightlightText.split(' ').length === 1 &&
         data.hightlightText !== ''
       ) {
+        let uid = firebase.auth().currentUser.uid
+        let disName = firebase.auth().currentUser.displayName
+        let db = firebase.firestore()
         // Use Merriam-Webster dictionary api
-        fetch(
-          `${data.dictionaryGoogleAPI}?define=${data.hightlightText}`
-        )
+        fetch(`${data.dictionaryGoogleAPI}?define=${data.hightlightText}`)
           .then(res => res.json())
           .then(res => {
-            console.table(res)
-            // Should I save the link of the queried word or the whole definition?
-
-            // Should set the document name to uid, not randomly assigned id by system.
-            //console.log('current user=', firebase.auth().currentUser.uid)
-            let db = firebase.firestore()
-           // db.collection('users').doc('ENkKK1xJZ5vxMyRmuSTI_test').collection('library').doc('Two towers').set(res)
-            db.collection('users').doc('ENkKK1xJZ5vxMyRmuSTI_test').set({
-              displayName:'',
-              preference:{},
-              line_height: {
-                large: '90',
-                normal: '25',
-                small: '20'
-              }
-            })
+            db.collection('users')
+              .doc(`${uid}`)
+              .collection('Search_history')
+              .doc(`${data.hightlightText}`)
+              .set(res[0])
+            db.collection('users')
+              .doc(`${uid}`)
+              .set({
+                displayName: `${disName}`,
+                preference: {
+                  background_color: '#E3C38A',
+                  font_size: 16,
+                  font_type: 'Roboto Sans',
+                  line_height: '25',
+                }
+              })
             return db.collection('users').get()
           })
           .then(querySnapshot => {
@@ -85,7 +85,7 @@ class App extends React.Component {
         )
           .then(res => res.json())
           .then(res => {
-            console.log('Google translate result=',res)
+            console.log('Google translate result=', res)
           })
       }
     }
@@ -148,7 +148,11 @@ class App extends React.Component {
         Hi, I am...
         <input type='text' id='name' onChange={this.onNameChange}></input>
         ID
-        <input type='text' id='email' onChange={this.onIDChange.bind(this)}></input>
+        <input
+          type='text'
+          id='email'
+          onChange={this.onIDChange.bind(this)}
+        ></input>
         <br />
         Password
         <input type='password' id='password' onChange={this.onPWChange}></input>
@@ -160,7 +164,7 @@ class App extends React.Component {
           Sign in
         </button>
         <br />
-        <h1 className={styles.main}>{this.dataAll.fileContent}</h1>
+        <h1 className={styles.main}>{this.dataAll.bookContent}</h1>
       </div>
     )
   }
@@ -259,7 +263,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 //           Sign in
 //         </button>
 //         <br />
-//         <h1 className={styles.main}>{this.props.dataAll.fileContent}</h1>
+//         <h1 className={styles.main}>{this.props.dataAll.bookContent}</h1>
 
 //       </div>        
 //     )
