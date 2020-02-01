@@ -36,6 +36,7 @@ class App extends React.Component {
       transGoogleAPI:
         'https://translation.googleapis.com/language/translate/v2',
       apiKeyGoogle: 'AIzaSyBr4QB1H8JxbgRnSOLvCH2g3rCN691RwqM',
+      // This should be in 
       bookContent: `Aili said she was told that the reason `,
       signInRoute: '',
       newContentRoute: 'new_content',
@@ -140,3 +141,10 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+
+// Data in Redux ( could prevent from unsyncronous manipulation )
+// uid
+// user mail
+// page settings
+// searched words ?
+// books ?

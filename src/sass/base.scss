@@ -4,6 +4,12 @@
     margin: 0;
     padding: 0;
     box-sizing: inherit;
+    font-family: 'Muli', sans-serif;
+}
+
+::selection {
+    background-color: $color-primary;
+    color: white;
 }
 
 html {
@@ -13,4 +19,18 @@ html {
 body {
     box-sizing: border-box;
     padding: 0rem;
+    font-weight: 600;
+    line-height: 1.7;
+    color: $color-grey-dark;
+    button {
+        border-radius: 10rem;
+        overflow: hidden;
+        &:hover{
+            transform: translateY(-.2rem);
+            transition: all .2s;
+            box-shadow: 1px 2px 4px rgba($color: #000000, $alpha: .3);
+
+        }
+    
+    }
 }

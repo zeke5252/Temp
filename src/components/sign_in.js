@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styles from'../sass/main.scss'
+import styles from '../sass/main.scss'
 import { connect } from 'react-redux'
 import { createHashHistory } from 'history'
 
@@ -12,9 +12,13 @@ class Sign_in extends React.Component {
     this.state = {
       userID: '',
       userPW: '',
-      userName: ''
+      userName: '',
+      errorMsg: ''
     }
-    this.signUpHandler = this.signUpHandler.bind(this)
+    this.signUpHandler = this.signUpHandler.bind(
+      this,
+      this.props.dispatch
+      )
     this.signInHandler = this.signInHandler.bind(
       this,
       this.props.hightlightHandler,
@@ -26,7 +30,7 @@ class Sign_in extends React.Component {
     this.onPWChange = this.onPWChange.bind(this)
   }
 
-  signUpHandler () {
+  signUpHandler (propsDispatch) {
     console.log(this.state)
     firebase
       .auth()
@@ -41,12 +45,17 @@ class Sign_in extends React.Component {
           'Sign up done, the user data is=',
           firebase.auth().currentUser
         )
+        propsDispatch(updateID(firebase.auth().currentUser.uid))
+        history.push('/library')
       })
-      .catch(error => console.log(error.message)) // Add warning message here
+      .catch(error => {
+        this.setState({
+          errorMsg: error.message
+        })
+      }) // Add warning message here
   }
 
   signInHandler (handler, data, propsDispatch) {
-
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
@@ -56,10 +65,7 @@ class Sign_in extends React.Component {
           if (user) {
             console.log('the user is signed in, the data is = ', user)
             //handler(data)
-            propsDispatch({
-              type: 'UPDATE_ID',
-              payload: firebase.auth().currentUser.uid
-            });
+            propsDispatch(updateID(firebase.auth().currentUser.uid))
             history.push('/library')
           } else {
             // No user is signed in.
@@ -67,7 +73,11 @@ class Sign_in extends React.Component {
           }
         })
       })
-      .catch(error => console.log(error.message)) // Add warning message here
+      .catch(error => {
+        this.setState({
+          errorMsg: error.message
+        })
+      }) // Add warning message here
   }
 
   onNameChange () {
@@ -90,25 +100,48 @@ class Sign_in extends React.Component {
 
   render () {
     return (
-      <div className={styles.sign_in_container}>
-        <input type='text' id='name' onChange={this.onNameChange}  placeholder="Your name"></input>
-        <input type='text' id='email' onChange={this.onIDChange} placeholder="Your e-mail"></input>
-        <input type='password' id='password' onChange={this.onPWChange} placeholder="Your password"></input>
-        <button id='signupBtn' onClick={this.signUpHandler}>
-          Sign up
-        </button>
-        <button id='signinBtn' onClick={this.signInHandler}>
-          Sign in
-        </button>
+      <div className={styles.container}>
+        <div className={styles.sign_in_container}>
+          <img
+            src={require('../images/logo_signin.png')}
+            className={styles.logo_signin}
+          />
+          <span className={styles.sign_in_title}>Sign in / up</span>
+          <input
+            type='text'
+            id='name'
+            onChange={this.onNameChange}
+            placeholder='Your name'
+          ></input>
+          <input
+            type='text'
+            id='email'
+            onChange={this.onIDChange}
+            placeholder='Your e-mail'
+          ></input>
+          <input
+            type='password'
+            id='password'
+            onChange={this.onPWChange}
+            placeholder='Your password'
+          ></input>
+          <button id='signupBtn' onClick={this.signUpHandler}>
+            Sign up
+          </button>
+          <button id='signinBtn' onClick={this.signInHandler}>
+            Sign in
+          </button>
+          <span className={styles.message}>{this.state.errorMsg}</span>
+        </div>
       </div>
     )
   }
 }
 
-const updateID = function(){
+const updateID = function ( idData ) {
   return {
     type: 'UPDATE_ID',
-    payload: 'tempNew id la'
+    payload: idData
   }
 }
 
