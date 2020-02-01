@@ -1,4 +1,5 @@
 import React from 'react'
+import Search_history from './search_history.js'
 
 export default class Book_content extends React.Component {
   constructor (props) {

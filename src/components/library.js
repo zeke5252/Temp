@@ -1,4 +1,6 @@
 import React from 'react'
+import Book from './book.js'
+import Search_history from './search_history.js'
 
 export default class Library extends React.Component {
   constructor (props) {

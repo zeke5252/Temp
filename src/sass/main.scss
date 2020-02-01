@@ -1,5 +1,33 @@
 @import './variables.scss';
+@import './base.scss';
 
-.main{
-    color: $color_primary;
+.sign_in_container{
+    background-image:  url("../images/bg_signin.jpg");
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    :nth-child(4){
+        margin-top: 2rem;
+    }
+    input{
+        width: 40%;
+        min-width: 20rem;
+        max-width: 26rem;
+        height: $height-input;
+        margin-top: 1rem;
+        padding: 1rem;
+        border: none;
+    }
+    button{
+        width: 40%;
+        min-width: 20rem;
+        max-width: 26rem;
+        height: $height-button;
+        margin-top: 1rem;
+        border: none;
+        
+    }
 };

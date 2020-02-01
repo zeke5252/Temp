@@ -1,21 +1,25 @@
 import React from 'react'
-import styles from '../sass/main.scss'
+import { Link } from 'react-router-dom'
+import styles from'../sass/main.scss'
+import { connect } from 'react-redux'
+import { createHashHistory } from 'history'
 
-export default class Sign_in extends React.Component {
+const history = createHashHistory()
+
+class Sign_in extends React.Component {
   constructor (props) {
     super(props)
-    this.state ={
+    this.state = {
       userID: '',
       userPW: '',
       userName: ''
     }
-    this.signUpHandler = this.signUpHandler.bind(
-      this
-    )
+    this.signUpHandler = this.signUpHandler.bind(this)
     this.signInHandler = this.signInHandler.bind(
       this,
       this.props.hightlightHandler,
-      this.props.dataAll
+      this.props.dataAll,
+      this.props.dispatch
     )
     this.onNameChange = this.onNameChange.bind(this)
     this.onIDChange = this.onIDChange.bind(this)
@@ -41,15 +45,22 @@ export default class Sign_in extends React.Component {
       .catch(error => console.log(error.message)) // Add warning message here
   }
 
-  signInHandler (handler, data) {
+  signInHandler (handler, data, propsDispatch) {
+
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
+        console.log('res=', res)
         let user = firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            console.log('the user is signed in, the data is = ',user)
-            handler(data);
+            console.log('the user is signed in, the data is = ', user)
+            //handler(data)
+            propsDispatch({
+              type: 'UPDATE_ID',
+              payload: firebase.auth().currentUser.uid
+            });
+            history.push('/library')
           } else {
             // No user is signed in.
             console.log('No one signed in')
@@ -78,41 +89,33 @@ export default class Sign_in extends React.Component {
   }
 
   render () {
-    return(
-        <div>
-        Hi, I am...
-        <input type='text' id='name' onChange={this.onNameChange}></input>
-        ID
-        <input type='text' id='email' onChange={this.onIDChange}></input>
-        <br />
-        Password
-        <input type='password' id='password' onChange={this.onPWChange}></input>
-        <br />
+    return (
+      <div className={styles.sign_in_container}>
+        <input type='text' id='name' onChange={this.onNameChange}  placeholder="Your name"></input>
+        <input type='text' id='email' onChange={this.onIDChange} placeholder="Your e-mail"></input>
+        <input type='password' id='password' onChange={this.onPWChange} placeholder="Your password"></input>
         <button id='signupBtn' onClick={this.signUpHandler}>
           Sign up
         </button>
         <button id='signinBtn' onClick={this.signInHandler}>
           Sign in
         </button>
-      </div>        
+      </div>
     )
   }
 }
 
+const updateID = function(){
+  return {
+    type: 'UPDATE_ID',
+    payload: 'tempNew id la'
+  }
+}
 
-// import React from 'react'
-// import styles from '../sass/main.scss'
+function mapStateToProps (state) {
+  return {
+    userID: state.userID
+  }
+}
 
-// export default class Sign_in extends React.Component {
-//   constructor (props) {
-//     super(props)
-//   }
-
-//   render () {
-//     return(
-//         <div >
-//             <h1 className={styles.main}>This is a sign inup panel.</h1>
-//         </div>        
-//     )
-//   }
-// }
+export default connect(mapStateToProps)(Sign_in)
