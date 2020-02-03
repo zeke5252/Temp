@@ -1,4 +1,373 @@
-.main {
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+  font-family: 'Muli', sans-serif;
+}
+
+::-moz-selection {
+  background-color: #6A4A3C;
+  color: white;
+}
+
+::selection {
+  background-color: #6A4A3C;
+  color: white;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0rem;
+  font-weight: 600;
+  line-height: 1.7;
+  color: #333333;
+}
+
+body button {
+  border-radius: 10rem;
+  overflow: hidden;
+}
+
+body button:hover {
+  -webkit-transform: translateY(-0.2rem);
+          transform: translateY(-0.2rem);
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+          box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@-webkit-keyframes topDown {
+  0% {
+    margin-top: -30px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes topDown {
+  0% {
+    margin-top: -30px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: rotateY(-360deg);
+            transform: rotateY(-360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: rotateY(-360deg);
+            transform: rotateY(-360deg);
+  }
+}
+
+.container_init {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../images/bg_signin.jpg");
+  background-clip: border-box;
+  background-color: #F2F2F2;
+  border: 0.8rem solid white;
+  background-size: cover;
+  position: relative;
+}
+
+.container_init .sign_in_container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+          animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.container_init .sign_in_container input {
+  width: 30%;
+  min-width: 20rem;
+  max-width: 22rem;
+  border-radius: 0.5rem;
+  height: 3.6rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #F2F2F2;
+}
+
+.container_init .sign_in_container button {
+  width: 30%;
+  min-width: 20rem;
+  max-width: 22rem;
+  height: 4.4rem;
+  margin-top: 4.4rem;
+  border: none;
+  background-color: #6A4A3C;
+  color: white;
+}
+
+.container_init .sign_in_container .message {
+  margin-top: 1.6rem;
+  font-size: 1.2rem;
+  color: #EB6841;
+}
+
+.container_init .sign_in_container .logo_signin {
+  width: 14rem;
+  height: auto;
+  margin-bottom: 1rem;
+  -webkit-animation: spinner 2s cubic-bezier(0.23, 1, 0.32, 1);
+          animation: spinner 2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.container_init .sign_in_container .sign_in_title {
+  font-size: 4rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
   color: #6A4A3C;
+}
+
+.container_init .sign_in_container .sign_switch {
+  margin-top: 1.2rem;
+  text-decoration: underline;
+  color: #333333;
+}
+
+.container_library {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: #F2F2F2;
+  border: 0.8rem solid white;
+  background-size: cover;
+  position: relative;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.container_library .library_right_container {
+  display: block;
+  width: 25%;
+}
+
+.container_library .library_left_container {
+  width: 70%;
+  position: relative;
+}
+
+.container_library .library_left_container .library_greeting {
+  font-size: 3.8rem;
+  color: #6A4A3C;
+  margin: 5%;
+  line-height: 4.56rem;
+}
+
+.container_library .library_left_container .library_yourName {
+  color: #EB6841;
+}
+
+.container_library .library_left_top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.container_library .add {
+  width: 7.6rem;
+  height: 7.6rem;
+  margin: 5%;
+}
+
+.container_library .library_book_container {
+  width: 100%;
+  margin-left: 5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.book_cover {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-image: url("../images/book_cover.png");
+  width: 19.4rem;
+  height: 26.2rem;
+  margin-right: 1%;
+  padding: 2%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.book_cover .book_cover_color {
+  width: 5%;
+  height: 97%;
+  background-color: #EB6841;
+  position: absolute;
+  left: 2px;
+  top: 6px;
+}
+
+.book_cover .book_title {
+  text-align: center;
+  font-size: 2.2rem;
+}
+
+.book_cover .book_page_container {
+  margin: 0 auto;
+  color: #6A4A3C;
+  letter-spacing: 1px;
+}
+
+.book_cover .book_page_container .book_page {
+  color: #EB6841;
+  font-weight: 900;
+}
+
+.search_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.search_container ul {
+  margin-top: 4rem;
+}
+
+.search_container ul li {
+  font-size: 2.2rem;
+  font-weight: 900;
+  list-style: none;
+  padding: 4% 15%;
+}
+
+.search_container .search_title {
+  color: #6A4A3C;
+  font-size: 1.6rem;
+  letter-spacing: .4rem;
+  margin: 14% auto 2% auto;
+}
+
+.search_container .search_title::before {
+  content: "-  ";
+}
+
+.search_container .search_title::after {
+  content: "  -";
+}
+
+.search_container select {
+  width: 70%;
+  min-width: 20rem;
+  background-color: #F2F2F2;
+  border-radius: 10rem;
+  border-width: 0;
+  height: 4rem;
+  margin: 3% auto;
+  padding-left: 2rem;
+  color: #6A4A3C;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.search_container .search_radio_container {
+  font-size: 1.6rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: #6A4A3C;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 4% auto;
+}
+
+.search_container .search_radio_container * {
+  margin-right: 1rem;
+}
+
+.search_container .search_radio_container .search_radio {
+  width: 2rem;
+  height: 2rem;
+  background-color: #6A4A3C;
+}
+
+.search_container .search_radio_container .search_radio_divider {
+  margin: 0 2rem 0 1rem;
+  font-size: 1.2rem;
+  color: #6A4A3C;
+}
+
+.logout {
+  position: absolute;
+  left: 1%;
+  top: 1%;
+  font-size: 1.2rem;
+  padding: .8rem 1.2rem;
+  background-color: white;
+  border: none;
+  color: #333333;
+  font-weight: 600;
+  z-index: 10000;
 }
 /*# sourceMappingURL=main.css.map */

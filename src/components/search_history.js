@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from '../sass/main.scss'
 
 export default class Search_history extends React.Component {
   constructor (props) {
@@ -7,16 +8,17 @@ export default class Search_history extends React.Component {
 
   render () {
     return(
-        <div>
-            <h1>Search history</h1>
+        <div className={styles.search_container}>
+            <span className={styles.search_title}>Search history</span>
             <select>
                 <option>by frequency</option>
                 <option>by time</option>
             </select>
-            <div>
-                <input type="radio" name="" value="" id=""></input>
-                <span> all </span>
-                <input type="radio" name="" value="" id=""></input>
+            <div className={styles.search_radio_container}>
+                <input type="radio" name="" value="" id="" className={styles.search_radio}></input>
+                <span> All </span>
+                <span className={styles.search_radio_divider}> | </span>
+                <input type="radio" name="" value="" id="" className={styles.search_radio}></input>
                 <span> Favorite </span>
             </div>
             <ul>

@@ -1,154 +1,206 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import styles from '../sass/main.scss'
-import { connect } from 'react-redux'
-import { createHashHistory } from 'history'
-
-const history = createHashHistory()
+import React from "react";
+import { Link } from "react-router-dom";
+import styles from "../sass/main.scss";
+import { connect } from "react-redux";
+import { createHashHistory } from "history";
+import { updateUID, updateDisplayName } from "../actions/";
+const history = createHashHistory();
 
 class Sign_in extends React.Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      userID: '',
-      userPW: '',
-      userName: '',
-      errorMsg: ''
-    }
-    this.signUpHandler = this.signUpHandler.bind(
-      this,
-      this.props.dispatch
-      )
+      userID: "",
+      userPW: "",
+      userName: "",
+      errorMsg: "",
+      mode: "signIn"
+    };
+    this.onModeSwitch = this.onModeSwitch.bind(this);
+    this.signUpHandler = this.signUpHandler.bind(this, this.props.dispatch);
     this.signInHandler = this.signInHandler.bind(
       this,
       this.props.hightlightHandler,
       this.props.dataAll,
       this.props.dispatch
-    )
-    this.onNameChange = this.onNameChange.bind(this)
-    this.onIDChange = this.onIDChange.bind(this)
-    this.onPWChange = this.onPWChange.bind(this)
+    );
+    this.onNameChange = this.onNameChange.bind(this);
+    this.onIDChange = this.onIDChange.bind(this);
+    this.onPWChange = this.onPWChange.bind(this);
   }
 
-  signUpHandler (propsDispatch) {
-    console.log(this.state)
+  onModeSwitch(text) {
+    if(this.state.mode === 'signIn'){
+      this.setState({
+        mode: 'signUp'
+      })
+    } else {
+      this.setState({
+        mode: 'signIn'
+      })
+    }
+    
+  }
+
+  signUpHandler(propsDispatch) {
+    console.log(this.state);
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
         firebase.auth().currentUser.updateProfile({
           displayName: this.state.userName
-        })
+        });
       })
       .then(res => {
         console.log(
-          'Sign up done, the user data is=',
+          "Sign up done, the user data is=",
           firebase.auth().currentUser
-        )
-        propsDispatch(updateID(firebase.auth().currentUser.uid))
-        history.push('/library')
+        );
+        propsDispatch(updateUID(firebase.auth().currentUser.uid));
+        propsDispatch(updateDisplayName(this.state.userName));
+      })
+      .then(res => {
+        history.push("/library");
       })
       .catch(error => {
         this.setState({
           errorMsg: error.message
-        })
-      }) // Add warning message here
+        });
+      }); // Add warning message here
   }
 
-  signInHandler (handler, data, propsDispatch) {
+  signInHandler(handler, data, propsDispatch) {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
-        console.log('res=', res)
+        console.log("res=", res);
         let user = firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            console.log('the user is signed in, the data is = ', user)
+            console.log("the user is signed in, the data is = ", user);
             //handler(data)
-            propsDispatch(updateID(firebase.auth().currentUser.uid))
-            history.push('/library')
+            propsDispatch(updateUID(firebase.auth().currentUser.uid));
+            history.push("/library");
           } else {
             // No user is signed in.
-            console.log('No one signed in')
+            console.log("No one signed in");
           }
-        })
+        });
       })
       .catch(error => {
         this.setState({
           errorMsg: error.message
-        })
-      }) // Add warning message here
+        });
+      }); // Add warning message here
   }
 
-  onNameChange () {
+  onNameChange() {
     this.setState({
       userName: event.target.value
-    })
+    });
   }
 
-  onIDChange () {
+  onIDChange() {
     this.setState({
       userID: event.target.value
-    })
+    });
   }
 
-  onPWChange () {
+  onPWChange() {
     this.setState({
       userPW: event.target.value
-    })
+    });
   }
 
-  render () {
-    return (
-      <div className={styles.container}>
-        <div className={styles.sign_in_container}>
-          <img
-            src={require('../images/logo_signin.png')}
-            className={styles.logo_signin}
-          />
-          <span className={styles.sign_in_title}>Sign in / up</span>
-          <input
-            type='text'
-            id='name'
-            onChange={this.onNameChange}
-            placeholder='Your name'
-          ></input>
-          <input
-            type='text'
-            id='email'
-            onChange={this.onIDChange}
-            placeholder='Your e-mail'
-          ></input>
-          <input
-            type='password'
-            id='password'
-            onChange={this.onPWChange}
-            placeholder='Your password'
-          ></input>
-          <button id='signupBtn' onClick={this.signUpHandler}>
-            Sign up
-          </button>
-          <button id='signinBtn' onClick={this.signInHandler}>
-            Sign in
-          </button>
-          <span className={styles.message}>{this.state.errorMsg}</span>
+  render() {
+    console.log('the start is=', this.state.mode)
+    if (this.state.mode === "signIn") {
+      console.log(this.state.mode)
+      return (
+        <div className={styles.container_init}>
+          <div className={styles.sign_in_container}>
+            <img
+              src={require("../images/logo_signin.png")}
+              className={styles.logo_signin}
+            />
+            <span className={styles.sign_in_title}>Sign in</span>
+            <input
+              type="text"
+              id="email"
+              onChange={this.onIDChange}
+              placeholder="Your e-mail"
+            ></input>
+            <input
+              type="password"
+              id="password"
+              onChange={this.onPWChange}
+              placeholder="Your password"
+            ></input>
+            <button id="signinBtn" onClick={this.signInHandler}>
+              Sign in
+            </button>
+            <span
+              className={styles.sign_switch}
+              onClick={this.onModeSwitch}
+            >
+              Create an account
+            </span>
+            <span className={styles.message}>{this.state.errorMsg}</span>
+          </div>
         </div>
-      </div>
-    )
+      );
+    } else {
+      console.log(this.state.mode)
+      return (
+        <div className={styles.container_init}>
+          <div className={styles.sign_in_container}>
+            <img
+              src={require("../images/logo_signin.png")}
+              className={styles.logo_signin}
+            />
+            <span className={styles.sign_in_title}>Sign up</span>
+            <input
+              type="text"
+              id="name"
+              onChange={this.onNameChange}
+              placeholder="Your name"
+            ></input>
+            <input
+              type="text"
+              id="email"
+              onChange={this.onIDChange}
+              placeholder="Your e-mail"
+            ></input>
+            <input
+              type="password"
+              id="password"
+              onChange={this.onPWChange}
+              placeholder="Your password"
+            ></input>
+            <button id="signupBtn" onClick={this.signUpHandler}>
+              Sign up
+            </button>
+            <span
+              className={styles.sign_switch}
+              onClick={this.onModeSwitch}
+              text="signIn"
+            >
+              Sign in with the existing account
+            </span>
+            <span className={styles.message}>{this.state.errorMsg}</span>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
-const updateID = function ( idData ) {
+function mapStateToProps(state) {
   return {
-    type: 'UPDATE_ID',
-    payload: idData
-  }
+    userUID: state.userUID,
+    userName: state.userName
+  };
 }
 
-function mapStateToProps (state) {
-  return {
-    userID: state.userID
-  }
-}
-
-export default connect(mapStateToProps)(Sign_in)
+export default connect(mapStateToProps)(Sign_in);

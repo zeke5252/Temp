@@ -8,18 +8,7 @@ import Library from './components/library'
 import Book_content from './components/book_content'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-
-const initState = {
-  userID: ''
-}
-
-function reducer (state = initState, action) {
-  if (action.type === 'UPDATE_ID') {
-    return { userID: action.payload }
-  } else {
-    return state
-  }
-}
+import reducer from './reducers'
 
 const store = createStore(
   reducer,
@@ -29,7 +18,6 @@ const store = createStore(
 class App extends React.Component {
   constructor (props) {
     super(props)
-
     this.dataAll = {
       hightlightText: '',
       dictionaryGoogleAPI: 'http://googledictionaryapi.eu-gb.mybluemix.net/',
@@ -141,10 +129,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
-
-// Data in Redux ( could prevent from unsyncronous manipulation )
-// uid
-// user mail
-// page settings
-// searched words ?
-// books ?
