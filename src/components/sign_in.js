@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import { createHashHistory } from "history";
-import { updateUID, updateDisplayName } from "../actions/";
+import { updateUID, updateDisplayName, createFirebaseData } from "../actions/";
 const history = createHashHistory();
 
 class Sign_in extends React.Component {
@@ -30,20 +30,19 @@ class Sign_in extends React.Component {
   }
 
   onModeSwitch(text) {
-    if(this.state.mode === 'signIn'){
+    if (this.state.mode === "signIn") {
       this.setState({
-        mode: 'signUp'
-      })
+        mode: "signUp"
+      });
     } else {
       this.setState({
-        mode: 'signIn'
-      })
+        mode: "signIn"
+      });
     }
-    
   }
 
   signUpHandler(propsDispatch) {
-    console.log(this.state);
+   // console.log(this.state);
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
@@ -58,6 +57,7 @@ class Sign_in extends React.Component {
           firebase.auth().currentUser
         );
         propsDispatch(updateUID(firebase.auth().currentUser.uid));
+        console.log('this.state.userName=', this.state.userName)
         propsDispatch(updateDisplayName(this.state.userName));
       })
       .then(res => {
@@ -76,11 +76,12 @@ class Sign_in extends React.Component {
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
         console.log("res=", res);
-        let user = firebase.auth().onAuthStateChanged(function (user) {
+        let user = firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
             console.log("the user is signed in, the data is = ", user);
             //handler(data)
             propsDispatch(updateUID(firebase.auth().currentUser.uid));
+            propsDispatch(updateDisplayName(firebase.auth().currentUser.displayName));
             history.push("/library");
           } else {
             // No user is signed in.
@@ -96,6 +97,7 @@ class Sign_in extends React.Component {
   }
 
   onNameChange() {
+    console.log('change=', this.state)
     this.setState({
       userName: event.target.value
     });
@@ -114,9 +116,7 @@ class Sign_in extends React.Component {
   }
 
   render() {
-    console.log('the start is=', this.state.mode)
     if (this.state.mode === "signIn") {
-      console.log(this.state.mode)
       return (
         <div className={styles.container_init}>
           <div className={styles.sign_in_container}>
@@ -140,10 +140,7 @@ class Sign_in extends React.Component {
             <button id="signinBtn" onClick={this.signInHandler}>
               Sign in
             </button>
-            <span
-              className={styles.sign_switch}
-              onClick={this.onModeSwitch}
-            >
+            <span className={styles.sign_switch} onClick={this.onModeSwitch}>
               Create an account
             </span>
             <span className={styles.message}>{this.state.errorMsg}</span>
@@ -151,7 +148,6 @@ class Sign_in extends React.Component {
         </div>
       );
     } else {
-      console.log(this.state.mode)
       return (
         <div className={styles.container_init}>
           <div className={styles.sign_in_container}>

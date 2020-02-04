@@ -6,8 +6,8 @@
   display: block;
   width: 100%;
   height: 100vh;
-  background-image: url('../images/bg_signin.jpg');
-  background-clip: border-box;
+  background-image: url("../images/bg_signin.jpg");
+  background-position: bottom;
   background-color: $color-grey-light;
   border: 0.8rem solid white;
   background-size: cover;
@@ -22,7 +22,7 @@
     left: 50%;
     top: 45%;
     transform: translate(-50%, -50%);
-    animation: topDown .4s cubic-bezier(0.785, 0.135, 0.15, 0.86) ;
+    animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
     input {
       width: 30%;
@@ -56,7 +56,7 @@
       width: 14rem;
       height: auto;
       margin-bottom: 1rem;
-      animation: spinner 2s cubic-bezier(0.23, 1, 0.320, 1) ;
+      animation: spinner 2s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .sign_in_title {
@@ -65,7 +65,7 @@
       margin-bottom: 2rem;
       color: $color-primary;
     }
-    .sign_switch{
+    .sign_switch {
       margin-top: 1.2rem;
       text-decoration: underline;
       color: $color-grey-dark;
@@ -79,13 +79,13 @@
   height: 100vh;
   background-color: $color-grey-light;
   border: 0.8rem solid white;
-  background-size: cover;
   position: relative;
   justify-content: space-between;
 
   .library_right_container {
     display: block;
     width: 25%;
+    min-width: 35rem;
   }
   .library_left_container {
     width: 70%;
@@ -94,7 +94,8 @@
     .library_greeting {
       font-size: $size-large;
       color: $color-primary;
-      margin: 5%;
+      font-weight: 400;
+      margin: 4%;
       line-height: 1.2 * $size-large;
     }
 
@@ -108,42 +109,102 @@
     justify-content: space-between;
   }
 
-  .add {
-    width: 7.6rem;
-    height: 7.6rem;
-    margin: 5%;
+  .addBtn {
+    width: 5rem;
+    height: 5rem;
+    padding: 0;
+    margin: 4% 0 0 5%;
+    border: none;
+  }
+
+  .groupBtn{
+    display: flex;
+    justify-content: flex-end;
+    height: 5rem;
+    padding: 0;
+    margin: 4% 0 0 5%;
+  }
+
+  .saveBtn {
+    display: inline-block;
+    height: $height-button;
+    padding: .5rem 5rem;
+    margin: 4% 0 0 10%;
+    border: none;
+    background-color: $color-orange;
+    color: white;
+  }
+
+  .resetBtn {
+    display:  inline-block;
+    height: $height-button;
+    padding: .5rem 1.6rem;
+    margin: 4% 0 0 5%;
+    border: none;
+    background-color: $color-primary;
+    color: white;
+  }
+
+  .cancelBtn{
+    display:  inline-block;
+    height: $height-button;
+    padding: .5rem 1.6rem;
+    margin: 4% 0 0 5%;
+    border: none;
+    background-color: $color-primary;
+    color: white;
+  }
+
+  .addImg {
+    width: 5rem;
+    height: 5rem;
   }
 
   .library_book_container {
     width: 100%;
-    margin-left: 5%;
+    margin-left: 4%;
     display: flex;
     flex-wrap: wrap;
+  }
+  .library_new_content_container{
+    width: 100%;
+    height:80%;
+    margin-left: 4%;
+    background-color: white;
+    font-size: $size-normal;
+    color: $color-grey-dark;
+    padding: 2%;
+    line-height: 3rem;
+    border: none;
   }
 }
 
 .book_cover {
   display: flex;
-  background-image: url("../images/book_cover.png");
-  width: 19.4rem;
-  height: 26.2rem;
+  border: 1px $color-primary solid;
+  background-color: white;
+  width: 15.4rem;
+  height: 20.8rem;
   margin-right: 1%;
+  margin-bottom: 1%;
   padding: 2%;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  overflow: hidden;
+  box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.1);
   .book_cover_color {
-    width: 5%;
-    height: 97%;
-    background-color: $color-secondary;
+    width: 4%;
+    height: 100%;
+    background-color: $color-primary;
     position: absolute;
-    left: 2px;
-    top: 6px;
+    left: 0px;
+    top: 0px;
+    z-index: 2000;
   }
   .book_title {
-    text-align: center;
-    font-size: $size-medium;
+    color: $color-grey-dark;
+    font-size: $size-normal;
+    font-weight: 800;
   }
   .book_page_container {
     margin: 0 auto;
@@ -162,20 +223,75 @@
   width: 100%;
   height: 100%;
   background-color: white;
-  ul{
-    margin-top: 4rem;
-    li{
-      font-size: $size-medium;
-      font-weight: 900;
+  ul {
+    margin-top: 1rem;
+
+    li {
+      padding: 0% 7% 0 10%;
       list-style: none;
-      padding: 4% 15%;
+      .s_container {
+        position: relative;
+      }
+      .s_times {
+        position: absolute;
+        right: 0;
+        top: 0.5rem;
+        color: white;
+        background-color: $color-orange;
+        font-size: $size-small;
+        padding: 0.4rem 1rem;
+        border-radius: 10rem;
+      }
+      .s_word {
+        font-size: $size-medium;
+        font-weight: 900;
+        color: $color-primary;
+      }
+      .s_phonetic {
+        font-size: $size-s-detail;
+        font-weight: 600;
+        color: $color-orange;
+        margin-bottom: 0.5rem;
+        letter-spacing: 2px;
+      }
+      .s_origin {
+        font-size: $size-s-detail;
+        color: $color-grey-dark;
+        margin-bottom: 0rem;
+      }
+      .s_meaning {
+        font-size: $size-normal;
+        color: $color-green;
+        margin-top: 0.5rem;
+        &::before {
+          content: "-";
+          margin-right: 1rem;
+        }
+      }
+      .s_block {
+        margin-bottom: 1rem;
+      }
+      .s_definition {
+        font-size: $size-s-detail;
+        color: $color-grey-dark;
+      }
+      .s_example {
+        font-size: $size-s-detail;
+        color: grey;
+        margin-bottom: 0rem;
+      }
+      .s_synonyms {
+        margin-bottom: 0.5rem;
+        font-size: $size-s-detail;
+        color: $color-secondary;
+        font-style: italic;
+      }
     }
-    
   }
   .search_title {
     color: $color-primary;
     font-size: $size-normal;
-    letter-spacing: .4rem;
+    letter-spacing: 0.4rem;
     margin: 14% auto 2% auto;
     &::before {
       content: "-  ";
@@ -189,10 +305,10 @@
     min-width: 20rem;
     background-color: $color-grey-light;
     border-radius: 10rem;
-    border-width:0;
+    border-width: 0;
     height: $height-select;
     margin: 3% auto;
-    padding-left: 2rem;
+    padding: 1.2rem;
     color: $color-primary;
     font-weight: 600;
     font-size: $size-normal;
@@ -211,7 +327,7 @@
       height: 2rem;
       background-color: $color-primary;
     }
-    .search_radio_divider{
+    .search_radio_divider {
       margin: 0 2rem 0 1rem;
       font-size: $size-small;
       color: $color-primary;
@@ -219,15 +335,19 @@
   }
 }
 
-.logout{
+.logout {
   position: absolute;
-  left: 1%;
-  top: 1%;
+  left: 0%;
+  top: 0%;
   font-size: $size-small;
-  padding: .8rem 1.2rem;
+  padding: 0.1rem 2rem 1rem 1rem;
   background-color: white;
+  border-radius: 0 0 10rem 0;
   border: none;
-  color: $color-grey-dark;
+  color: rgba($color: $color-grey-dark, $alpha: 0.5);
   font-weight: 600;
   z-index: 10000;
+  &:hover {
+    box-shadow: 3px 4px 5px rgba($color: #000000, $alpha: 0.3);
+  }
 }

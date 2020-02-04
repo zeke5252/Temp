@@ -12,4 +12,11 @@ const updateDisplayName = function (name) {
   })
 }
 
-export { updateUID, updateDisplayName }
+const createViewPreference = function (settings) {
+  return ({
+    type: 'CREATE_VIEW_PREFERENCE',
+    payload: settings
+  })
+}
+
+export { updateUID, updateDisplayName, createViewPreference }

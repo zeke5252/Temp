@@ -7,13 +7,8 @@ import New_content from './components/new_content'
 import Library from './components/library'
 import Book_content from './components/book_content'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import reducer from './reducers'
-
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor} from './configureStore'
 
 class App extends React.Component {
   constructor (props) {
@@ -89,7 +84,6 @@ class App extends React.Component {
   }
 
   render () {
-    console.log('store= ', store)
     return (
       <div>
         <Switch>
@@ -123,9 +117,11 @@ class App extends React.Component {
 
 ReactDOM.render(
   <Provider store={store}>
+  <PersistGate loading={null} persistor={persistor}>  
     <HashRouter>
       <App />
     </HashRouter>
+  </PersistGate>
   </Provider>,
   document.getElementById('root')
 )

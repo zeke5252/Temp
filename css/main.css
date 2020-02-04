@@ -37,12 +37,12 @@ body button {
 }
 
 body button:hover {
-  -webkit-transform: translateY(-0.2rem);
-          transform: translateY(-0.2rem);
+  -webkit-transform: translateY(-0.35rem);
+          transform: translateY(-0.35rem);
   -webkit-transition: all .2s;
   transition: all .2s;
-  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
-          box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.3);
+          box-shadow: 1px 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 @-webkit-keyframes topDown {
@@ -94,7 +94,6 @@ body button:hover {
   width: 100%;
   height: 100vh;
   background-image: url("../images/bg_signin.jpg");
-  background-clip: border-box;
   background-color: #F2F2F2;
   border: 0.8rem solid white;
   background-size: cover;
@@ -197,10 +196,10 @@ body button:hover {
 }
 
 .container_library .library_left_container .library_greeting {
-  font-size: 3.8rem;
+  font-size: 3.2rem;
   color: #6A4A3C;
   margin: 5%;
-  line-height: 4.56rem;
+  line-height: 3.84rem;
 }
 
 .container_library .library_left_container .library_yourName {
@@ -217,9 +216,9 @@ body button:hover {
 }
 
 .container_library .add {
-  width: 7.6rem;
-  height: 7.6rem;
-  margin: 5%;
+  width: 6rem;
+  height: 6rem;
+  margin: 6% 0 0 5%;
 }
 
 .container_library .library_book_container {
@@ -360,13 +359,14 @@ body button:hover {
 
 .logout {
   position: absolute;
-  left: 1%;
-  top: 1%;
+  left: 3%;
+  top: 0%;
   font-size: 1.2rem;
-  padding: .8rem 1.2rem;
+  padding: .3rem 2rem 1rem 2rem;
   background-color: white;
+  border-radius: 0 0 10rem 10rem;
   border: none;
-  color: #333333;
+  color: rgba(51, 51, 51, 0.5);
   font-weight: 600;
   z-index: 10000;
 }

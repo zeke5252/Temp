@@ -11,49 +11,80 @@ const history = createHashHistory()
 class Library extends React.Component {
   constructor (props) {
     super(props)
+    this.addNewContent = this.addNewContent.bind(this)
+    this.state = {
+      books: [],
+      colors: []
+    }
   }
 
-  logOut(){
-    console.log('start to log out')
-    firebase.auth().signOut()
-    .then(function() {
-      alert('Sign-out successful.')
-      history.push('/')
-    }).catch(function(error) {
-      console.log('An error happened')
-    });
+  addNewContent () {
+    history.push('/New_content')
   }
 
+  logOut () {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        alert('Sign-out successful.')
+        history.push('/')
+      })
+      .catch(function (error) {
+        console.log('An error happened')
+      })
+  }
   componentDidMount () {
-    console.log('auth', firebase.auth())
-
+    let uid = this.props.userUID
+    let db = firebase.firestore()
+    db.collection('users')
+      .doc(`${uid}`)
+      .collection('Library')
+      .get()
+      .then( (library) => {  //這裡明天再找人討論一下為什麼這邊用箭頭函式可行，我知道這樣this就抓的到，如果是原先function是抓不到的
+        let tempBooks=[]
+        let tempColors=[]
+        library.forEach(book => {
+          tempColors.push(book.data().coverColor)
+          tempBooks.push(book.id)
+        })
+        this.setState({
+          books: tempBooks,
+          colors: tempColors
+        })
+      }
+      )
   }
+
   render () {
-    console.log('username=', this.props.userName)
+    // Get data from firebase, if library array is not 0
+    // If library array is 0
+    // Tell user to add some thing by clicking the button above
     return (
       <div className={styles.container_library}>
-        <button className={styles.logout} onClick={this.logOut}>Log out here</button>
+        <button className={styles.logout} onClick={this.logOut}>
+          sign out
+        </button>
         <div className={styles.library_left_container}>
           <div className={styles.library_left_top}>
             <p className={styles.library_greeting}>
-              Hi,{' '}
+              Hi,
               <span className={styles.library_yourName}>
-               {this.props.userName}
+                {this.props.userName}
               </span>
               <br /> what would you like to read today?
             </p>
-            <img src={require('../images/add.png')} className={styles.add} />
+            <button onClick={this.addNewContent} className={styles.addBtn}>
+              <img
+                src={require('../images/add.png')}
+                className={styles.addImg}
+              />
+            </button>
           </div>
           <div className={styles.library_book_container}>
-            <Book />
-            <Book />
-            <Book />
-            <Book />
-            <Book />
-            <Book />
-            <Book />
-            <Book />
-            <Book />
+            {this.state.books.map((booktitle, index)=>(
+              <Book title={booktitle} color={this.state.colors[index]} key={index}/>
+            ))}
           </div>
         </div>
         <div className={styles.library_right_container}>
@@ -64,10 +95,6 @@ class Library extends React.Component {
   }
 }
 
-Library.defaultProps={
-  greetingName:'My friend'
-}
-
 function mapStateToProps (state) {
   return {
     userUID: state.userUID,
@@ -75,3 +102,16 @@ function mapStateToProps (state) {
   }
 }
 export default connect(mapStateToProps)(Library)
+
+// If not,
+//      loop through the library, render books on the screen. ( firebase )
+//      Organize the search result from the search api.
+//      loop through the search history, render words on search panel. ( firebase & Redux )
+//      Switch the dropdown list, re-arrange the order of the words. ( Redux )
+//      toggle the all/Favorite to filter out the words ( Redux )
+// Click on the book, push route history to book content. ( firebase )
+// Grab the view settings ( Redux )
+// Render book content on the screen.
+// Select one word, send request to api, get data, store the data ( Redux & firebase )
+// Select a phrase, send request to api, get data.
+// Change view settings, press save, ( Redux & fires ) close settings panel, render the change on the screen
