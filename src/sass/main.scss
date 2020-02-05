@@ -117,7 +117,7 @@
     border: none;
   }
 
-  .groupBtn{
+  .groupBtn {
     display: flex;
     justify-content: flex-end;
     height: 5rem;
@@ -128,7 +128,7 @@
   .saveBtn {
     display: inline-block;
     height: $height-button;
-    padding: .5rem 5rem;
+    padding: 0.5rem 5rem;
     margin: 4% 0 0 10%;
     border: none;
     background-color: $color-orange;
@@ -136,19 +136,19 @@
   }
 
   .resetBtn {
-    display:  inline-block;
+    display: inline-block;
     height: $height-button;
-    padding: .5rem 1.6rem;
+    padding: 0.5rem 1.6rem;
     margin: 4% 0 0 5%;
     border: none;
     background-color: $color-primary;
     color: white;
   }
 
-  .cancelBtn{
-    display:  inline-block;
+  .cancelBtn {
+    display: inline-block;
     height: $height-button;
-    padding: .5rem 1.6rem;
+    padding: 0.5rem 1.6rem;
     margin: 4% 0 0 5%;
     border: none;
     background-color: $color-primary;
@@ -165,10 +165,16 @@
     margin-left: 4%;
     display: flex;
     flex-wrap: wrap;
+    .loading {
+      display: block;
+      width: 8rem;
+      height: 6rem;
+      margin: 0 auto;
+    }
   }
-  .library_new_content_container{
+  .library_new_content_container {
     width: 100%;
-    height:80%;
+    height: 80%;
     margin-left: 4%;
     background-color: white;
     font-size: $size-normal;
@@ -350,4 +356,12 @@
   &:hover {
     box-shadow: 3px 4px 5px rgba($color: #000000, $alpha: 0.3);
   }
+}
+
+.bookContent{
+  font-size: $size-content;
+  font-weight: 500;
+  color: $color-grey-dark;
+  padding: 3%;
+  line-height: 4rem;
 }

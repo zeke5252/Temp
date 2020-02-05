@@ -13,22 +13,24 @@ class New_content extends React.Component {
     this.resetContent = this.resetContent.bind(this)
     this.cancelContent = this.cancelContent.bind(this)
     this.saveBook = this.saveBook.bind(this);
-    this.assignColor = this.assignColor.bind(this);
+    this.assignBookAttr = this.assignBookAttr.bind(this);
     this.state = { 
       content: '',
-      coverColor:''
+      coverColor:'',
+      createdTime:''
     }
   }
 
   componentDidMount(){
-    this.assignColor()
+    this.assignBookAttr()
   }
 
-  assignColor(){
+  assignBookAttr(){
     let bookCoverColorSet = [ '#6A4A3C', '#CC333F', '#EB6841', '#EDC951', '#00A0B0', '#EB6841', '#333333' ];
     let color = bookCoverColorSet[Math.floor(Math.random()*bookCoverColorSet.length)];
     this.setState({
-      coverColor: color
+      coverColor: color,
+      createdTime: Date.now()
     })
   }
 

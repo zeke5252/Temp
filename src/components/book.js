@@ -1,9 +1,19 @@
 import React from 'react'
 import styles from '../sass/main.scss'
+import { addTempContent } from '../actions/'
+import { connect } from 'react-redux'
+import { createHashHistory } from 'history'
+const history = createHashHistory()
 
-export default class Book extends React.Component {
+class Book extends React.Component {
   constructor (props) {
     super(props)
+    this.openBook = this.openBook.bind(this, this.props.dispatch)
+  }
+
+  openBook(propsDispatch){
+    propsDispatch(addTempContent(this.props.content))
+    history.push('./Book_content')
   }
 
   render () {
@@ -11,7 +21,8 @@ export default class Book extends React.Component {
       backgroundColor:this.props.color
     }
     return (
-      <div className={styles.book_cover}>
+      // 從這邊開連結到book content頁面，在這邊把bookContent設到redux上。再到Book_content那頁的時候抓取。
+      <div className={styles.book_cover} onClick={this.openBook}>
         <span className={styles.book_cover_color} style={theColor}></span>
         <span className={styles.book_title}>{this.props.title}</span>
         <div className={styles.book_page_container}>
@@ -21,3 +32,12 @@ export default class Book extends React.Component {
     )
   }
 }
+
+function mapStateToProps (state) {
+  return {
+    userUID: state.userUID,
+    userName: state.userName,
+    bookContent: state.bookContent
+  }
+}
+export default connect(mapStateToProps)(Book)

@@ -19,4 +19,11 @@ const createViewPreference = function (settings) {
   })
 }
 
-export { updateUID, updateDisplayName, createViewPreference }
+const addTempContent = function (bookContent) {
+  return ({
+    type: 'ADD_TEMP_CONTENT',
+    payload: bookContent
+  })
+}
+
+export { updateUID, updateDisplayName, createViewPreference, addTempContent }

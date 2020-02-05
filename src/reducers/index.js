@@ -6,7 +6,8 @@ const initState = {
         font_size: 16,
         font_type: '"Muli", sans-serif',
         line_height: 25
-    }
+    },
+    bookContent:''
   }
 
   function reducer (state = initState, action) {
@@ -17,6 +18,8 @@ const initState = {
             return Object.assign({}, state, {userName:action.payload})
         case 'CREATE_VIEW_PREFERENCE':
             return Object.assign({}, state, {userName:action.payload})
+        case 'ADD_TEMP_CONTENT':
+            return Object.assign({}, state, {bookContent:action.payload})
         default:
             return state
     }

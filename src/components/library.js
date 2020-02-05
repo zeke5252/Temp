@@ -13,8 +13,10 @@ class Library extends React.Component {
     super(props)
     this.addNewContent = this.addNewContent.bind(this)
     this.state = {
+      isLoading: true,
       books: [],
-      colors: []
+      colors: [],
+      bookContent: ''
     }
   }
 
@@ -40,20 +42,24 @@ class Library extends React.Component {
     db.collection('users')
       .doc(`${uid}`)
       .collection('Library')
+      .orderBy('createdTime', 'desc')
       .get()
-      .then( (library) => {  //這裡明天再找人討論一下為什麼這邊用箭頭函式可行，我知道這樣this就抓的到，如果是原先function是抓不到的
-        let tempBooks=[]
-        let tempColors=[]
+      .then(library => {
+        let tempBooks = []
+        let tempColors = []
+        let tempBookContent = []
         library.forEach(book => {
           tempColors.push(book.data().coverColor)
           tempBooks.push(book.id)
+          tempBookContent.push(book.data().content)
         })
         this.setState({
           books: tempBooks,
-          colors: tempColors
+          colors: tempColors,
+          bookContent: tempBookContent,
+          isLoading: false
         })
-      }
-      )
+      })
   }
 
   render () {
@@ -82,9 +88,22 @@ class Library extends React.Component {
             </button>
           </div>
           <div className={styles.library_book_container}>
-            {this.state.books.map((booktitle, index)=>(
-              <Book title={booktitle} color={this.state.colors[index]} key={index}/>
-            ))}
+            {this.state.isLoading === true ? (
+              <img
+                className={styles.loading}
+                src={require('../images/loading2.gif')}
+              />
+            ) : (
+              this.state.books.map((booktitle, index) => (
+                <Book
+                  title={booktitle}
+                  color={this.state.colors[index]}
+                  key={index}
+                  id={index}
+                  content={this.state.bookContent[index]}
+                />
+              ))
+            )}
           </div>
         </div>
         <div className={styles.library_right_container}>
@@ -98,13 +117,14 @@ class Library extends React.Component {
 function mapStateToProps (state) {
   return {
     userUID: state.userUID,
-    userName: state.userName
+    userName: state.userName,
   }
 }
 export default connect(mapStateToProps)(Library)
 
+// Add time stamp to each book when creating a new content
+
 // If not,
-//      loop through the library, render books on the screen. ( firebase )
 //      Organize the search result from the search api.
 //      loop through the search history, render words on search panel. ( firebase & Redux )
 //      Switch the dropdown list, re-arrange the order of the words. ( Redux )
