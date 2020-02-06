@@ -3,6 +3,8 @@ import Book from './book.js'
 import Search_history from './search_history.js'
 import { connect } from 'react-redux'
 import styles from '../sass/main.scss'
+import SignOut from './sign_out'
+import Greetings from '../components/greeting'
 import { createHashHistory } from 'history'
 const history = createHashHistory()
 
@@ -20,22 +22,12 @@ class Library extends React.Component {
     }
   }
 
+ 
+
   addNewContent () {
     history.push('/New_content')
   }
 
-  logOut () {
-    firebase
-      .auth()
-      .signOut()
-      .then(function () {
-        alert('Sign-out successful.')
-        history.push('/')
-      })
-      .catch(function (error) {
-        console.log('An error happened')
-      })
-  }
   componentDidMount () {
     let uid = this.props.userUID
     let db = firebase.firestore()
@@ -68,18 +60,10 @@ class Library extends React.Component {
     // Tell user to add some thing by clicking the button above
     return (
       <div className={styles.container_library}>
-        <button className={styles.logout} onClick={this.logOut}>
-          sign out
-        </button>
+        <SignOut />
         <div className={styles.library_left_container}>
           <div className={styles.library_left_top}>
-            <p className={styles.library_greeting}>
-              Hi,
-              <span className={styles.library_yourName}>
-                {this.props.userName}
-              </span>
-              <br /> what would you like to read today?
-            </p>
+            <Greetings userName={this.props.userName} />
             <button onClick={this.addNewContent} className={styles.addBtn}>
               <img
                 src={require('../images/add.png')}
@@ -122,14 +106,11 @@ function mapStateToProps (state) {
 }
 export default connect(mapStateToProps)(Library)
 
-// Add time stamp to each book when creating a new content
 
-// If not,
 //      Organize the search result from the search api.
 //      loop through the search history, render words on search panel. ( firebase & Redux )
 //      Switch the dropdown list, re-arrange the order of the words. ( Redux )
 //      toggle the all/Favorite to filter out the words ( Redux )
-// Click on the book, push route history to book content. ( firebase )
 // Grab the view settings ( Redux )
 // Render book content on the screen.
 // Select one word, send request to api, get data, store the data ( Redux & firebase )

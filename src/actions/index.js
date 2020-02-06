@@ -26,4 +26,10 @@ const addTempContent = function (bookContent) {
   })
 }
 
-export { updateUID, updateDisplayName, createViewPreference, addTempContent }
+const cleanStoreData = function () {
+  return ({
+    type: 'CLEAN_STORE_DATA',
+  })
+}
+
+export { updateUID, updateDisplayName, createViewPreference, addTempContent, cleanStoreData }

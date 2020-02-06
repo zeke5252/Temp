@@ -95,12 +95,14 @@
       font-size: $size-large;
       color: $color-primary;
       font-weight: 400;
-      margin: 4%;
+      margin: 4% auto 4% 4%;
       line-height: 1.2 * $size-large;
     }
 
     .library_yourName {
       color: $color-orange;
+      margin-left: .5rem;
+      margin-right: 1rem;
     }
   }
 
@@ -341,12 +343,12 @@
   }
 }
 
-.logout {
+.signout {
   position: absolute;
   left: 0%;
   top: 0%;
   font-size: $size-small;
-  padding: 0.1rem 2rem 1rem 1rem;
+  padding: 0.3rem 2rem 1rem 1rem;
   background-color: white;
   border-radius: 0 0 10rem 0;
   border: none;
@@ -355,6 +357,11 @@
   z-index: 10000;
   &:hover {
     box-shadow: 3px 4px 5px rgba($color: #000000, $alpha: 0.3);
+  }
+  .signout_img{
+    width: 1.6rem;
+    height:auto;
+    opacity: .5;
   }
 }
 

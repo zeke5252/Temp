@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import styles from '../sass/main.scss'
 import Search_history from './search_history'
 import { createHashHistory } from 'history'
+import Greetings from '../components/greeting'
+import SignOut from './sign_out'
 const history = createHashHistory()
 
 class New_content extends React.Component {
@@ -61,35 +63,18 @@ class New_content extends React.Component {
   }
 
   resetContent (evn) {
-    console.log('try to clear')
     this.setState({
       content: ''
     })
   }
 
-  logOut(){
-    firebase.auth().signOut()
-    .then(function() {
-      alert('Sign-out successful.')
-      history.push('/')
-    }).catch(function(error) {
-      console.log('An error happened')
-    });
-  }
-
   render () {
     return (
       <div className={styles.container_library}>
-      <button className={styles.logout} onClick={this.logOut}>sign out</button>
+      <SignOut />
       <div className={styles.library_left_container}>
         <div className={styles.library_left_top}>
-          <p className={styles.library_greeting}>
-            Hi,
-            <span className={styles.library_yourName}>
-             {this.props.userName}
-            </span>
-            <br /> what would you like to read today?
-          </p>
+        <Greetings userName={this.props.userName} />
           <div className={styles.groupBtn}>
             <button className={styles.cancelBtn} onClick={this.cancelContent}>Cancel</button>
             <button className={styles.resetBtn} onClick={this.resetContent}>Reset</button>
