@@ -1,6 +1,4 @@
 import React from 'react'
-import { createHashHistory } from 'history'
-const history = createHashHistory()
 import styles from '../sass/main.scss'
 
 export default class Greetings extends React.Component {

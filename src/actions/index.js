@@ -32,4 +32,39 @@ const cleanStoreData = function () {
   })
 }
 
-export { updateUID, updateDisplayName, createViewPreference, addTempContent, cleanStoreData }
+const saveViewPreference = function (preference) {
+  return({
+    type: 'SAVE_VIEW_PREFERENCE',
+    payload: preference
+  })
+}
+
+const changeViewFontType = function (value) {
+  return({
+    type: 'CHANGE_VIEW_FONT_TYPE',
+    payload: value
+  })
+}
+
+const changeViewBG = function (value) {
+  return({
+    type: 'CHANGE_VIEW_BG',
+    payload: value
+  })
+}
+
+const changeViewFontSize = function (value) {
+  return({
+    type: 'CHANGE_VIEW_FONT_SIZE',
+    payload: value
+  })
+}
+
+const changeViewLineHeight = function (value) {
+  return({
+    type: 'CHANGE_VIEW_LINE_HEIGHT',
+    payload: value
+  })
+}
+
+export { updateUID, updateDisplayName, createViewPreference, addTempContent, cleanStoreData, saveViewPreference, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight }

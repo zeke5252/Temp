@@ -1,10 +1,8 @@
 import React from 'react'
 import SignOut from './sign_out'
 import { connect } from 'react-redux'
-
 import styles from '../sass/main.scss'
-import { createHashHistory } from 'history'
-const history = createHashHistory()
+import ViewPreference from '../components/view_preference'
 
 class Book_content extends React.Component {
   constructor (props) {
@@ -18,17 +16,17 @@ class Book_content extends React.Component {
     }
   }
 
-  turnOffHighlight(){
+  turnOffHighlight () {
     console.log(this.state)
     this.setState({
-        hightlightMode: false
-      })
+      hightlightMode: false
+    })
   }
 
   hightlightHandler (data) {
     if (this.state.hightlightMode) {
       document.onmouseup = () => {
-        //Get the hightlight text
+        // Get the hightlight text
         let hightlightText = window
           .getSelection()
           .toString()
@@ -83,19 +81,26 @@ class Book_content extends React.Component {
 
   componentDidMount () {
     this.hightlightHandler(this.state)
+    console.log('book content after mount =', this.props)
   }
 
-  componentWillUnmount(){
+  componentWillUnmount () {
     this.hightlightHandler(this.state)
   }
 
   render () {
+    // Using store data
+    let preferenceStyle = {
+      fontSize: this.props.viewPreference.font_size, // 17, 19, 21, 23, 25
+      fontFamily: this.props.viewPreference.font_type, // 'Lora', serif  ;  'Bitter', serif  ;  'Muli', sans-serif;
+      backgroundColor: this.props.viewPreference.background_color, // #edd1b0, #f6efdc
+      lineHeight: this.props.viewPreference.line_height // 2 ; 2.5 ; 3
+    }
     return (
       <div className={styles.container_library}>
-        <SignOut
-          turnOffHighlight={this.turnOffHighlight.bind(this)}
-        />
-        <div className={styles.bookContent}>{this.props.bookContent}</div>
+        <ViewPreference />
+        <SignOut turnOffHighlight={this.turnOffHighlight.bind(this) } history={this.props.history}/>
+        <div className={styles.bookContent} style={preferenceStyle}>{this.props.bookContent}</div>
       </div>
     )
   }
@@ -104,8 +109,8 @@ class Book_content extends React.Component {
 function mapStateToProps (state) {
   return {
     userUID: state.userUID,
-    userName: state.userName,
-    bookContent: state.bookContent
+    bookContent: state.bookContent,
+    viewPreference: state.viewPreference
   }
 }
 

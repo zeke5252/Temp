@@ -1,9 +1,8 @@
 import React from 'react'
 import styles from '../sass/main.scss'
 import { connect } from 'react-redux'
-import { createHashHistory } from 'history'
-import { updateUID, updateDisplayName, createFirebaseData } from '../actions/'
-const history = createHashHistory()
+import { updateUID, updateDisplayName} from '../actions/'
+
 
 class Sign_in extends React.Component {
   constructor (props) {
@@ -16,8 +15,8 @@ class Sign_in extends React.Component {
       mode: 'signIn'
     }
     this.onModeSwitch = this.onModeSwitch.bind(this)
-    this.signUpHandler = this.signUpHandler.bind(this, this.props.dispatch)
-    this.signInHandler = this.signInHandler.bind(this, this.props.dispatch)
+    this.signUpHandler = this.signUpHandler.bind(this, this.props.dispatch, this.props.history)
+    this.signInHandler = this.signInHandler.bind(this, this.props.dispatch, this.props.history)
     this.onNameChange = this.onNameChange.bind(this)
     this.onIDChange = this.onIDChange.bind(this)
     this.onPWChange = this.onPWChange.bind(this)
@@ -35,7 +34,7 @@ class Sign_in extends React.Component {
     }
   }
 
-  signUpHandler (propsDispatch) {
+  signUpHandler (propsDispatch, history) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
@@ -45,15 +44,15 @@ class Sign_in extends React.Component {
         })
       })
       .then(res => {
-        console.log(
-          'Sign up done, the user data is=',
-          firebase.auth().currentUser
-        )
+        // console.log(
+        //   'Sign up done, the user data is=',
+        //   firebase.auth().currentUser
+        // )
         propsDispatch(updateUID(firebase.auth().currentUser.uid))
         propsDispatch(updateDisplayName(this.state.userName))
       })
       .then(res => {
-        history.push('/library')
+       history.push('/library')
       })
       .catch(
         error => {
@@ -65,20 +64,24 @@ class Sign_in extends React.Component {
       )
   }
 
-  signInHandler (propsDispatch) {
+  componentDidMount(){
+    // console.log('history=', this.props)
+  }
+
+  signInHandler (propsDispatch, history) {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
-        console.log('res=', res)
+        // console.log('res=', res)
         let user = firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
-            console.log('the user is signed in, the data is = ', user)
+            // console.log('the user is signed in, the data is = ', user)
             propsDispatch(updateUID(firebase.auth().currentUser.uid))
-            console.log(
-              'displayName= ',
-              firebase.auth().currentUser.displayName
-            )
+            // console.log(
+            //   'displayName= ',
+            //   firebase.auth().currentUser.displayName
+            // )
             propsDispatch(
               updateDisplayName(firebase.auth().currentUser.displayName)
             )
@@ -99,7 +102,7 @@ class Sign_in extends React.Component {
   }
 
   onNameChange () {
-    console.log('change=', this.state)
+    // console.log('change=', this.state)
     this.setState({
       userName: event.target.value
     })

@@ -2,19 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styles from '../sass/main.scss'
 import Search_history from './search_history'
-import { createHashHistory } from 'history'
 import Greetings from '../components/greeting'
 import SignOut from './sign_out'
-const history = createHashHistory()
 
 class New_content extends React.Component {
   constructor (props) {
     super(props)
-    this.saveBook = this.saveBook.bind(this)
     this.onContentChange = this.onContentChange.bind(this)
     this.resetContent = this.resetContent.bind(this)
-    this.cancelContent = this.cancelContent.bind(this)
-    this.saveBook = this.saveBook.bind(this);
+    this.cancelContent = this.cancelContent.bind(this, this.props.history)
+    this.saveBook = this.saveBook.bind(this, this.props.history);
     this.assignBookAttr = this.assignBookAttr.bind(this);
     this.state = { 
       content: '',
@@ -36,7 +33,7 @@ class New_content extends React.Component {
     })
   }
 
-  saveBook () {
+  saveBook (history) {
     let uid = this.props.userUID
     let db = firebase.firestore()
     let bookName = `${this.state.content.trim().split(' ')[0]} ${
@@ -52,7 +49,7 @@ class New_content extends React.Component {
       })
   }
 
-  cancelContent(){
+  cancelContent(history){
     history.push('/library')
   }
 
@@ -71,7 +68,7 @@ class New_content extends React.Component {
   render () {
     return (
       <div className={styles.container_library}>
-      <SignOut />
+      <SignOut history={this.props.history}/>
       <div className={styles.library_left_container}>
         <div className={styles.library_left_top}>
         <Greetings userName={this.props.userName} />

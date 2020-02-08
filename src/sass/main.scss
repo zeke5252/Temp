@@ -82,6 +82,92 @@
   position: relative;
   justify-content: space-between;
 
+  .viewContainer{
+    font-size: $size-normal;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 4rem;
+    min-width: 30rem;
+    position: absolute;
+    left: 6%;
+    top: 2%;
+    background-color: $color-panel-light;
+    border: 1px $color-grey-dark solid;
+    box-shadow: .2rem .2rem .5rem rgba($color: #000000, $alpha: .2);
+    z-index: 10000;
+    .view_item{
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      input {
+        margin: 0 .4rem 0 0;
+        &:not(:first-child){
+          margin: 0 .4rem 0 1.9rem;
+        }
+      }
+
+      .view_item_size{
+        display: flex;
+        align-items: center;
+      }
+
+      .view_item_A_big{
+        font-size: $size-medium;
+        &::after{
+          content:'|';
+          bottom: .2rem;
+          position: relative;
+          font-size: $size-small;
+          vertical-align: middle;
+          margin: 0 1.5rem;
+        }
+      }
+
+      .view_item_A_small{
+        font-size: $size-normal;
+      }
+
+      .view_item_bg{
+        display: flex;
+        align-items: center;
+        input{
+          width: 1.6rem;
+          height: 1.6rem;
+          border-radius: .6rem;
+          margin-right: 1rem;
+          border: 1px solid $color-grey-dark;
+        }
+        .view_item_bg_color_grey{
+          width: 1.6rem;
+          height: 1.6rem;
+          border-radius: .6rem;
+          background-color: #eeeeee;
+          border: 1px solid $color-grey-dark;
+        }
+        .view_item_bg_color_yellow{
+          width: 1.6rem;
+          height: 1.6rem;
+          border-radius: .6rem;
+          background-color:#f6efdc;
+          border: 1px solid $color-grey-dark;
+        }
+        .view_item_bg_color_peach{
+                    width: 1.6rem;
+          height: 1.6rem;
+          border-radius: .6rem;
+          background-color: #edd1b0;
+          border: 1px solid $color-grey-dark;
+        }
+      }
+
+
+    }
+    .view_item_title{
+      width: 20%;
+      min-width: 12rem;
+    }
+  }
+
   .library_right_container {
     display: block;
     width: 25%;

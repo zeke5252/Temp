@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './sass/main.scss'
 import Sign_in from './components/sign_in'
 import New_content from './components/new_content'
@@ -14,15 +14,14 @@ class App extends React.Component {
   constructor (props) {
     super(props)
   }
-
   render () {
     return (
       <div>
         <Switch>
-          <Route path={'/'} component={() => <Sign_in />} exact />
-          <Route path={'/' + 'library'} component={() => <Library />} />
-          <Route path={'/' + 'new_content'} component={() => <New_content />} />
-          <Route path={'/' + 'book_content'} component={() => <Book_content />} />
+          <Route path={'/'} component={Sign_in} exact />
+          <Route path={'/' + 'library'} component={Library} />
+          <Route path={'/' + 'new_content'} component={New_content} />
+          <Route path={'/' + 'book_content'} component={Book_content} />
         </Switch>
       </div>
     )
@@ -32,9 +31,9 @@ class App extends React.Component {
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <HashRouter>
+      <Router>
         <App />
-      </HashRouter>
+      </Router>
     </PersistGate>
   </Provider>,
   document.getElementById('root')

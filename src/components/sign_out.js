@@ -1,6 +1,4 @@
 import React from 'react'
-import { createHashHistory } from 'history'
-const history = createHashHistory()
 import styles from '../sass/main.scss'
 import { connect } from 'react-redux'
 import { cleanStoreData } from '../actions/'
@@ -8,12 +6,11 @@ import { cleanStoreData } from '../actions/'
 class SignOut extends React.Component {
   constructor (props) {
     super(props)
-    this.signOut = this.signOut.bind(this, this.props.dispatch)
+    this.signOut = this.signOut.bind(this, this.props.dispatch, this.props.history)
   }
-  signOut (propsDispatch) {
-    
-    this.props.turnOffHighlight ? this.props.turnOffHighlight() : 
-    
+  signOut (propsDispatch, history) {
+    this.props.turnOffHighlight ? this.props.turnOffHighlight() : {}
+
     firebase
       .auth()
       .signOut()

@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import styles from '../sass/main.scss'
 import SignOut from './sign_out'
 import Greetings from '../components/greeting'
-import { createHashHistory } from 'history'
-const history = createHashHistory()
 
 // get name from redux
 
@@ -22,10 +20,8 @@ class Library extends React.Component {
     }
   }
 
- 
-
   addNewContent () {
-    history.push('/New_content')
+    this.props.history.push('/New_content')
   }
 
   componentDidMount () {
@@ -60,7 +56,7 @@ class Library extends React.Component {
     // Tell user to add some thing by clicking the button above
     return (
       <div className={styles.container_library}>
-        <SignOut />
+        <SignOut history={this.props.history}/>
         <div className={styles.library_left_container}>
           <div className={styles.library_left_top}>
             <Greetings userName={this.props.userName} />
@@ -84,6 +80,7 @@ class Library extends React.Component {
                   color={this.state.colors[index]}
                   key={index}
                   id={index}
+                  history={this.props.history}
                   content={this.state.bookContent[index]}
                 />
               ))
