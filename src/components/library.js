@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import styles from '../sass/main.scss'
 import SignOut from './sign_out'
 import Greetings from '../components/greeting'
+import { savePrefToRedux } from '../actions/'
 
 // get name from redux
 
@@ -47,6 +48,14 @@ class Library extends React.Component {
           bookContent: tempBookContent,
           isLoading: false
         })
+      })
+      db.collection('users')
+      .doc(`${uid}`).get()
+      .then(res => {
+        // Set preference to store
+       if(res.data()){
+        this.props.dispatch(savePrefToRedux(res.data().preference))
+       }
       })
   }
 
@@ -99,6 +108,7 @@ function mapStateToProps (state) {
   return {
     userUID: state.userUID,
     userName: state.userName,
+    viewPreference: state.viewPreference
   }
 }
 export default connect(mapStateToProps)(Library)
@@ -109,7 +119,5 @@ export default connect(mapStateToProps)(Library)
 //      Switch the dropdown list, re-arrange the order of the words. ( Redux )
 //      toggle the all/Favorite to filter out the words ( Redux )
 // Grab the view settings ( Redux )
-// Render book content on the screen.
-// Select one word, send request to api, get data, store the data ( Redux & firebase )
 // Select a phrase, send request to api, get data.
 // Change view settings, press save, ( Redux & fires ) close settings panel, render the change on the screen

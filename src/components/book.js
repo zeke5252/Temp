@@ -33,7 +33,6 @@ class Book extends React.Component {
 function mapStateToProps (state) {
   return {
     userUID: state.userUID,
-    userName: state.userName,
     bookContent: state.bookContent
   }
 }

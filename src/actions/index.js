@@ -12,13 +12,6 @@ const updateDisplayName = function (name) {
   })
 }
 
-const createViewPreference = function (settings) {
-  return ({
-    type: 'CREATE_VIEW_PREFERENCE',
-    payload: settings
-  })
-}
-
 const addTempContent = function (bookContent) {
   return ({
     type: 'ADD_TEMP_CONTENT',
@@ -32,9 +25,9 @@ const cleanStoreData = function () {
   })
 }
 
-const saveViewPreference = function (preference) {
+const savePrefToRedux = function (preference) {
   return({
-    type: 'SAVE_VIEW_PREFERENCE',
+    type: 'SAVE_PREF_TO_REDUX',
     payload: preference
   })
 }
@@ -67,4 +60,4 @@ const changeViewLineHeight = function (value) {
   })
 }
 
-export { updateUID, updateDisplayName, createViewPreference, addTempContent, cleanStoreData, saveViewPreference, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight }
+export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight }

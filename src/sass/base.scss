@@ -24,6 +24,7 @@ body {
     color: $color-grey-dark;
     button {
         border-radius: 10rem;
+        cursor: pointer;
         &:hover{
             transform: translateY(-.35rem);
             transition: all .2s ;

@@ -17,36 +17,71 @@ class ViewPreference extends React.Component {
   }
 
   changeViewFontSize(calc) {
-    let num = this.props.font_size;
+    let value = this.props.font_size;
     if (calc === "+") {
-      num < 25 ? (num += 1) : num;
+      value < 25 ? (value += 1) : value;
     }
     if (calc === "-") {
-      num > 17 ? (num -= 1) : num;
+      value > 17 ? (value -= 1) : value;
     }
-    this.props.dispatch(changeViewFontSize(num));
+    this.props.dispatch(changeViewFontSize(value));
+    let uid = this.props.userUID;
+    let db = firebase.firestore();
+    db.collection("users")
+      .doc(`${uid}`)
+      .update({
+        "preference.font_size": value
+      });
   }
 
   onFontTypeChange() {
-    this.props.dispatch(changeViewFontType(event.target.value));
+    // 如果我先更新redux，再更新firestore，這樣資料永遠會慢一步更新，釐清這件事為什麼，這跟非同步的連結在哪
+    let value = event.target.value;
+    this.props.dispatch(changeViewFontType(value));
+    let uid = this.props.userUID;
+    let db = firebase.firestore();
+    db.collection("users")
+      .doc(`${uid}`)
+      .update({
+        "preference.font_type": value
+      })
+      .then(res => {
+        console.log("all saved");
+      });
   }
 
   onBgChange() {
-    this.props.dispatch(changeViewBG(event.target.value));
+    let value = event.target.value;
+    this.props.dispatch(changeViewBG(value));
+    let uid = this.props.userUID;
+    let db = firebase.firestore();
+    db.collection("users")
+      .doc(`${uid}`)
+      .update({
+        "preference.background_color": value
+      });
   }
 
   onLineHeightChange() {
-    console.log(event.target.value);
-    this.props.dispatch(changeViewLineHeight(event.target.value));
-  }
+    changeViewBG;
 
-  componentDidMount() {
-    console.log("after pref mount = ", this.props);
+    let value = event.target.value;
+    this.props.dispatch(changeViewLineHeight(value));
+    let uid = this.props.userUID;
+    let db = firebase.firestore();
+    db.collection("users")
+      .doc(`${uid}`)
+      .update({
+        "preference.line_height": value
+      });
   }
 
   render() {
     return (
-      <div className={styles.viewContainer}>
+      <div
+        className={styles.viewContainer}
+        style={{ display: this.props.isVisible }}
+      >
         <div className={styles.view_item}>
           <span className={styles.view_item_title}>Font size:</span>
           <div className={styles.view_item_size}>
@@ -143,9 +178,9 @@ class ViewPreference extends React.Component {
                 name="lineHeight"
                 value={2}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height === '2'}
+                checked={this.props.line_height == 2}
               />
-            }{" "}
+            }
             Short
             {
               <input
@@ -153,9 +188,9 @@ class ViewPreference extends React.Component {
                 name="lineHeight"
                 value={2.5}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height === '2.5'}
+                checked={this.props.line_height == 2.5}
               />
-            }{" "}
+            }
             Normal
             {
               <input
@@ -163,9 +198,9 @@ class ViewPreference extends React.Component {
                 name="lineHeight"
                 value={3}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height === '3'}
+                checked={this.props.line_height == 3}
               />
-            }{" "}
+            }
             Tall
           </div>
         </div>
@@ -176,10 +211,12 @@ class ViewPreference extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    userUID: state.userUID,
     font_type: state.viewPreference.font_type,
     font_size: state.viewPreference.font_size,
     background_color: state.viewPreference.background_color,
-    line_height: state.viewPreference.line_height
+    line_height: state.viewPreference.line_height,
+    viewPreference: state.viewPreference
   };
 }
 
