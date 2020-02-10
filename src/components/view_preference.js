@@ -151,9 +151,9 @@ class ViewPreference extends React.Component {
               <input
                 type="radio"
                 name="bgColor"
-                value={"#edd1b0"}
+                value={"#f6efdc"}
                 onChange={this.onBgChange}
-                checked={this.props.background_color === "#edd1b0"}
+                checked={this.props.background_color === "#f6efdc"}
               />
             }
             <span className={styles.view_item_bg_color_yellow}></span>
@@ -161,9 +161,9 @@ class ViewPreference extends React.Component {
               <input
                 type="radio"
                 name="bgColor"
-                value={"#f6efdc"}
+                value={"#edd1b0"}
                 onChange={this.onBgChange}
-                checked={this.props.background_color === "#f6efdc"}
+                checked={this.props.background_color === "#edd1b0"}
               />
             }
             <span className={styles.view_item_bg_color_peach}></span>

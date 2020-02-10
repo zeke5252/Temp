@@ -1,7 +1,22 @@
 @import "./variables.scss";
 @import "./base.scss";
 @import "./animation.scss";
+::-webkit-scrollbar {
+  width: 1rem;
+  background: $color-grey-light; 
+}
 
+::-webkit-scrollbar-track {
+  border-radius: 2rem;
+}
+::-webkit-scrollbar-thumb {
+  background: $color-grey-medium; 
+  border-radius: 2rem;
+  border: 1px solid $color-grey-light;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: lighten($color: $color-grey-medium, $amount: 8); 
+}
 .container_init {
   display: block;
   width: 100%;
@@ -90,6 +105,28 @@
     height: 100%;
     z-index: 10000;
     background-color: rgba($color: #000000, $alpha: 0);
+  }
+
+  .popupSearchContainer {
+    width: 30%;
+    max-width: 40rem;
+    font-size: $size-s-detail;
+    font-weight: 500;
+    display: flex;
+    line-height: 1.6;
+    flex-direction: column;
+    padding: 1.8rem 2.8rem 2.4rem 2.8rem;
+    position: absolute;
+    border-radius: 4rem;
+    left: 50%;
+    top: 50%;
+    background-color: #FFFECC;
+    border: 1px $color-grey-dark solid;
+    box-shadow: 0.2rem 0.2rem .6rem rgba($color: #000000, $alpha: 0.2);
+    z-index: 20000;
+    .popupSearchWord{
+      font-weight: 900;
+    }
   }
 
   .viewContainer {
@@ -182,26 +219,28 @@
     min-width: 35rem;
   }
   .library_left_container {
-    width: 70%;
+    width: 75%;
     position: relative;
+    padding: 0 2%;
 
     .library_greeting {
       font-size: $size-large;
       color: $color-primary;
       font-weight: 400;
-      margin: 4% auto 4% 4%;
-      line-height: 1.2 * $size-large;
     }
 
     .library_yourName {
       color: $color-orange;
       margin-left: 0.5rem;
       margin-right: 1rem;
+      font-weight: 800;
     }
   }
 
   .library_left_top {
+    height:15%;
     display: flex;
+    align-items: center;
     justify-content: space-between;
   }
 
@@ -209,7 +248,7 @@
     width: 5rem;
     height: 5rem;
     padding: 0;
-    margin: 4% 0 0 5%;
+    margin: 0 0 0 5%;
     border: none;
   }
 
@@ -218,7 +257,7 @@
     justify-content: flex-end;
     height: 5rem;
     padding: 0;
-    margin: 4% 0 0 5%;
+    margin: 0 0rem 0 5%;
   }
 
   .saveBtn {
@@ -258,25 +297,28 @@
 
   .library_book_container {
     width: 100%;
-    margin-left: 4%;
     display: flex;
     flex-wrap: wrap;
     .loading {
+      position: relative;
+      top:20rem;
       display: block;
-      width: 8rem;
+      width: 6rem;
       height: 6rem;
       margin: 0 auto;
+      border-radius: 20rem;
+      object-fit: cover;
     }
   }
   .library_new_content_container {
     width: 100%;
-    height: 80%;
-    margin-left: 4%;
-    background-color: white;
-    font-size: $size-normal;
+    height: 100vh;
+    margin: 0;
+    background-color: $color-grey-light;
+    font-size: $size-content;
     color: $color-grey-dark;
-    padding: 2%;
-    line-height: 3rem;
+    padding: 4rem;
+    line-height: 4rem;
     border: none;
   }
 }
@@ -287,13 +329,17 @@
   background-color: white;
   width: 15.4rem;
   height: 20.8rem;
-  margin-right: 1%;
+  margin-right: 1.2rem;
   margin-bottom: 1%;
-  padding: 2%;
+  padding: 1.5rem;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.1);
+  &:hover {
+    box-shadow: 4px 4px 20px rgba($color: #000000, $alpha: 0.3);
+  }
+
   .book_cover_color {
     width: 4%;
     height: 100%;
@@ -306,7 +352,7 @@
   .book_title {
     color: $color-grey-dark;
     font-size: $size-normal;
-    font-weight: 800;
+    font-weight: 700;
   }
   .book_page_container {
     margin: 0 auto;
@@ -346,15 +392,16 @@
       }
       .s_word {
         font-size: $size-medium;
-        font-weight: 900;
+        font-weight: 800;
         color: $color-primary;
       }
       .s_phonetic {
-        font-size: $size-s-detail;
+        font-size: $size-small;
         font-weight: 600;
         color: $color-orange;
+        margin-top: .5rem;
         margin-bottom: 0.5rem;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
       }
       .s_origin {
         font-size: $size-s-detail;
@@ -393,7 +440,7 @@
   .search_title {
     color: $color-primary;
     font-size: $size-normal;
-    letter-spacing: 0.4rem;
+    letter-spacing: 0.3rem;
     margin: 14% auto 2% auto;
     &::before {
       content: "-  ";

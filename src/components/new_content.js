@@ -78,7 +78,7 @@ class New_content extends React.Component {
             <button className={styles.saveBtn} onClick={this.saveBook}>Save</button>
           </div>
         </div>
-        <textarea className={styles.library_new_content_container} onChange={this.onContentChange} value={this.state.content}/>
+        <textarea className={styles.library_new_content_container} onChange={this.onContentChange} value={this.state.content} autoFocus/>
       </div>
       <div className={styles.library_right_container}>
         <Search_history />
