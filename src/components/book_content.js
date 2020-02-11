@@ -15,10 +15,12 @@ class Book_content extends React.Component {
       transGoogleAPI:
         "https://translation.googleapis.com/language/translate/v2",
       apiKeyGoogle: "AIzaSyBr4QB1H8JxbgRnSOLvCH2g3rCN691RwqM",
-      highlightMode: true,
       isVisible: "none",
+      isPopupVisible: "none",
       highlightText: "",
       showContent: "word",
+      searchContent: "partial",
+      contentPosition: "cursor",
       resDetails: {
         meaning: {
           noun: [
@@ -27,9 +29,18 @@ class Book_content extends React.Component {
             }
           ]
         }
-      }
+      },
+      posX: 0,
+      posY: 0
     };
     this.turnOffSettings = this.turnOffSettings.bind(this);
+  }
+
+  showAllContent() {
+    this.setState({
+      searchContent: "all",
+      contentPosition: "center",
+    });
   }
 
   showSettings() {
@@ -44,17 +55,34 @@ class Book_content extends React.Component {
     });
   }
 
-  turnOffHighlight() {
+  turnOffPopup() {
     this.setState({
-      highlightMode: false
+      isPopupVisible: "none",
+      searchContent: "partial",
+      contentPosition: "cursor"
+    });
+  }
+
+  getCursorPos() {
+    let posx = 0;
+    let posy = 0;
+    if (event.pageX || event.pageY) {
+      posx = event.pageX;
+      posy = event.pageY;
+    } else if (event.clientX || event.clientY) {
+      posx = event.clientX;
+      posy = event.clientY;
+    }
+    this.setState({
+      posX: posx,
+      posY: posy
     });
   }
 
   highlightHandler(data) {
-    if (this.state.highlightMode) {
       document.onmouseup = () => {
+        this.getCursorPos();
         // Get the hightlight text
-        console.log('target=', event.target)
         let highlightText = window
           .getSelection()
           .toString()
@@ -65,12 +93,17 @@ class Book_content extends React.Component {
           });
           let uid = this.props.userUID;
           let db = firebase.firestore();
-          fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`)
+          fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`, {
+            headers: {
+              "Accept": "application/json"
+            }
+          })
             .then(res => res.json())
             .then(res => {
               this.setState({
                 showContent: "word",
-                resDetails: res[0]
+                resDetails: res[0],
+                isPopupVisible: "block"
               });
               db.collection("users")
                 .doc(`${uid}`)
@@ -78,7 +111,8 @@ class Book_content extends React.Component {
                 .doc(`${highlightText}`)
                 .set(res[0]);
               return db.collection("users").get();
-            });
+            })
+            .catch(error=>console.log(error));
         } else if (
           highlightText.split(" ").length > 1 &&
           highlightText !== ""
@@ -91,24 +125,21 @@ class Book_content extends React.Component {
             .then(res => {
               this.setState({
                 showContent: "phrase",
-                resDetails: res.data.translations[0].translatedText
+                resDetails: res.data.translations[0].translatedText,
+                isPopupVisible: "block"
               });
               console.log("Google translate result=", res);
             });
         }
       };
-    } else {
-      // TBD
-      document.onmouseup = () => {};
-    }
-  }
+    } 
 
   componentDidMount() {
     this.highlightHandler(this.state);
   }
 
   componentWillUnmount() {
-    this.highlightHandler(this.state);
+    document.onmouseup = null;
   }
 
   render() {
@@ -127,11 +158,9 @@ class Book_content extends React.Component {
           <Back history={this.props.history} />
           <Settings
             showSettings={this.showSettings.bind(this)}
-            turnOffHighlight={this.turnOffHighlight.bind(this)}
           />
         </div>
         <SignOut
-          turnOffHighlight={this.turnOffHighlight.bind(this)}
           history={this.props.history}
         />
         <div
@@ -143,7 +172,18 @@ class Book_content extends React.Component {
           highlightText={this.state.highlightText}
           showContent={this.state.showContent}
           resDetails={this.state.resDetails}
+          isPopupVisible={this.state.isPopupVisible}
+          posX={this.state.posX}
+          posY={this.state.posY}
+          searchContent={this.state.searchContent}
+          contentPosition={this.state.contentPosition}
+          showAllContent={this.showAllContent.bind(this)}
         />
+        <div
+          className={styles.turnOffPopup}
+          style={{ display: this.state.isPopupVisible }}
+          onClick={this.turnOffPopup.bind(this)}
+        ></div>
         <div className={styles.bookContent} style={preferenceStyle}>
           {this.props.bookContent}
         </div>

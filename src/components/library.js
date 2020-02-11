@@ -118,6 +118,3 @@ export default connect(mapStateToProps)(Library)
 //      loop through the search history, render words on search panel. ( firebase & Redux )
 //      Switch the dropdown list, re-arrange the order of the words. ( Redux )
 //      toggle the all/Favorite to filter out the words ( Redux )
-// Grab the view settings ( Redux )
-// Select a phrase, send request to api, get data.
-// Change view settings, press save, ( Redux & fires ) close settings panel, render the change on the screen

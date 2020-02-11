@@ -9,7 +9,6 @@ class SignOut extends React.Component {
     this.signOut = this.signOut.bind(this, this.props.dispatch, this.props.history)
   }
   signOut (propsDispatch, history) {
-    this.props.turnOffHighlight ? this.props.turnOffHighlight() : {}
 
     firebase
       .auth()
