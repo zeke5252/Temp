@@ -3,19 +3,19 @@
 @import "./animation.scss";
 ::-webkit-scrollbar {
   width: 1rem;
-  background: $color-grey-light; 
+  background: $color-grey-light;
 }
 
 ::-webkit-scrollbar-track {
   border-radius: 2rem;
 }
 ::-webkit-scrollbar-thumb {
-  background: $color-grey-medium; 
+  background: $color-grey-medium;
   border-radius: 2rem;
   border: 1px solid $color-grey-light;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: lighten($color: $color-grey-medium, $amount: 8); 
+  background: lighten($color: $color-grey-medium, $amount: 8);
 }
 .container_init {
   display: block;
@@ -91,13 +91,13 @@
 .container_library {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: $color-grey-light;
   border: 0.8rem solid white;
   position: relative;
   justify-content: space-between;
 
-  .turnOffSettings{
+  .turnOffSettings {
     position: absolute;
     left: 0;
     top: 0;
@@ -122,38 +122,38 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -100%);
-    background-color: #FFFECC;
+    background-color: #fffecc;
     border: 1px $color-grey-dark solid;
-    box-shadow: 0.2rem 0.2rem .6rem rgba($color: #000000, $alpha: 0.2);
+    box-shadow: 0.2rem 0.2rem 0.6rem rgba($color: #000000, $alpha: 0.2);
+    overflow: auto;
     z-index: 20000;
-    .popupSearchWord{
+    .popupSearchWord {
       font-weight: 900;
     }
     .s_word {
       font-size: 1.8rem;
       font-weight: 700;
-      margin: 1.4rem auto .2rem -.8rem;
+      margin: 1.4rem auto 0.2rem -0.8rem;
     }
     .s_speech {
       font-size: $size-normal;
       font-weight: 700;
-      padding: .5rem 0;
-      &::before{
-        content:'-';
+      padding: 0.5rem 0;
+      &::before {
+        content: "-";
         font-weight: 800;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
       }
     }
-
   }
 
-  .turnOffPopup{
+  .turnOffPopup {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
+    z-index: 5000;
     background-color: rgba($color: #000000, $alpha: 0);
   }
   .viewContainer {
@@ -249,6 +249,15 @@
     width: 75%;
     position: relative;
     padding: 0 2%;
+    display: flex;
+    flex-flow: column;
+
+    .library_left_top {
+      height: 15%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
     .library_greeting {
       font-size: $size-large;
@@ -264,12 +273,7 @@
     }
   }
 
-  .library_left_top {
-    height:15%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+
 
   .addBtn {
     width: 5rem;
@@ -328,7 +332,7 @@
     flex-wrap: wrap;
     .loading {
       position: relative;
-      top:20rem;
+      top: 20rem;
       display: block;
       width: 6rem;
       height: 6rem;
@@ -350,44 +354,74 @@
   }
 }
 
-.book_cover {
-  display: flex;
-  border: 1px $color-primary solid;
-  background-color: white;
+.book_container {
+  position: relative;
+  display: block;
   width: 15.4rem;
   height: 20.8rem;
-  margin-right: 1.2rem;
-  margin-bottom: 1%;
-  padding: 1.5rem;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.1);
+  margin-right: 1.4rem;
+  margin-bottom: 1.4rem;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+  border-radius: .3rem 0 0 .3rem;
   &:hover {
     box-shadow: 4px 4px 20px rgba($color: #000000, $alpha: 0.3);
+    transform: translateX(-5px) rotate3d(0, 0, 1, 5deg);
+  }
+  transition: all 0.1s;
+
+  .deleteBtn {
+    cursor: pointer;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 4rem;
+    background-color: white;
+    z-index: 15000;
+    position: absolute;
+    right: -.4rem;
+    top: -1.4rem;
+    display: flex;
+    align-items: center;
+    color: $color-grey-dark;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 900;
+    border: 1px solid $color-grey-dark;
   }
 
-  .book_cover_color {
-    width: 4%;
+  .book_cover {
+    display: flex;
+    border: 1px $color-primary solid;
+    background-color: white;
+    width: 100%;
     height: 100%;
-    background-color: $color-primary;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 2000;
-  }
-  .book_title {
-    color: $color-grey-dark;
-    font-size: $size-normal;
-    font-weight: 700;
-  }
-  .book_page_container {
-    margin: 0 auto;
-    color: $color-primary;
-    letter-spacing: 1px;
-    .book_page {
-      color: $color-orange;
-      font-weight: 900;
+
+    padding: 1.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+
+    .book_cover_color {
+      width: 4%;
+      height: 100%;
+      background-color: $color-primary;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 2000;
+    }
+    .book_title {
+      color: $color-grey-dark;
+      font-size: $size-normal;
+      font-weight: 700;
+    }
+    .book_page_container {
+      margin: 0 auto;
+      color: $color-primary;
+      letter-spacing: 1px;
+      .book_page {
+        color: $color-orange;
+        font-weight: 900;
+      }
     }
   }
 }
@@ -426,7 +460,7 @@
         font-size: $size-small;
         font-weight: 600;
         color: $color-orange;
-        margin-top: .5rem;
+        margin-top: 0.5rem;
         margin-bottom: 0.5rem;
         letter-spacing: 3px;
       }
@@ -467,7 +501,7 @@
   .search_title {
     color: $color-primary;
     font-size: $size-normal;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.2rem;
     margin: 14% auto 2% auto;
     &::before {
       content: "-  ";
@@ -514,14 +548,15 @@
 .btns_leftTop {
   display: flex;
   width: 12rem;
-  height: 3rem;
-  position: absolute;
+  height: 4rem;
+  position: fixed;
   left: 0%;
   top: 0%;
   padding-right: 1rem;
-  padding-bottom: .6rem;
+  padding-bottom: 0rem;
   background-color: white;
   border-radius: 0 0 10rem 0;
+  z-index: 10000;
 
   .back {
     background-color: white;
@@ -541,7 +576,7 @@
 
   .settings {
     background-color: white;
-    width: 50%;
+    width: 40%;
     height: 100%;
     border: none;
     z-index: 10000;
@@ -558,13 +593,14 @@
 }
 
 .signout {
-  position: absolute;
+  position: fixed;
   right: 0%;
   top: 0%;
   font-size: $size-small;
   padding: 0.3rem 1rem 1rem 2rem;
   background-color: white;
   border-radius: 0 0 0 10rem;
+  height: 4rem;
   border: none;
   z-index: 10000;
   &:hover {

@@ -176,9 +176,9 @@ class ViewPreference extends React.Component {
               <input
                 type="radio"
                 name="lineHeight"
-                value={2}
+                value={1.5}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height == 2}
+                checked={this.props.line_height == 1.5}
               />
             }
             Short
@@ -186,9 +186,9 @@ class ViewPreference extends React.Component {
               <input
                 type="radio"
                 name="lineHeight"
-                value={2.5}
+                value={2}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height == 2.5}
+                checked={this.props.line_height == 2}
               />
             }
             Normal
@@ -196,9 +196,9 @@ class ViewPreference extends React.Component {
               <input
                 type="radio"
                 name="lineHeight"
-                value={3}
+                value={2.5}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height == 3}
+                checked={this.props.line_height == 2.5}
               />
             }
             Tall

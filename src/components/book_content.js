@@ -40,6 +40,7 @@ class Book_content extends React.Component {
     this.setState({
       searchContent: "all",
       contentPosition: "center",
+      backgroundColor:"rgba(0,0,0,.2)"
     });
   }
 
@@ -59,20 +60,14 @@ class Book_content extends React.Component {
     this.setState({
       isPopupVisible: "none",
       searchContent: "partial",
-      contentPosition: "cursor"
+      contentPosition: "cursor",
+      backgroundColor: "rgba(0,0,0,0)"
     });
   }
 
   getCursorPos() {
-    let posx = 0;
-    let posy = 0;
-    if (event.pageX || event.pageY) {
-      posx = event.pageX;
-      posy = event.pageY;
-    } else if (event.clientX || event.clientY) {
-      posx = event.clientX;
-      posy = event.clientY;
-    }
+    let  posx = event.pageX;
+    let  posy = event.pageY;
     this.setState({
       posX: posx,
       posY: posy
@@ -80,59 +75,56 @@ class Book_content extends React.Component {
   }
 
   highlightHandler(data) {
-      document.onmouseup = () => {
-        this.getCursorPos();
-        // Get the hightlight text
-        let highlightText = window
-          .getSelection()
-          .toString()
-          .trim();
-        if (highlightText.split(" ").length === 1 && highlightText !== "") {
-          this.setState({
-            highlightText: highlightText
-          });
-          let uid = this.props.userUID;
-          let db = firebase.firestore();
-          fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`, {
-            headers: {
-              "Accept": "application/json"
-            }
-          })
-            .then(res => res.json())
-            .then(res => {
-              this.setState({
-                showContent: "word",
-                resDetails: res[0],
-                isPopupVisible: "block"
-              });
-              db.collection("users")
-                .doc(`${uid}`)
-                .collection("Search_history")
-                .doc(`${highlightText}`)
-                .set(res[0]);
-              return db.collection("users").get();
-            })
-            .catch(error=>console.log(error));
-        } else if (
-          highlightText.split(" ").length > 1 &&
-          highlightText !== ""
-        ) {
-          // Use Google translate api
-          fetch(
-            `${this.state.transGoogleAPI}?key=${this.state.apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
-          )
-            .then(res => res.json())
-            .then(res => {
-              this.setState({
-                showContent: "phrase",
-                resDetails: res.data.translations[0].translatedText,
-                isPopupVisible: "block"
-              });
-              console.log("Google translate result=", res);
+    document.onmouseup = () => {
+      this.getCursorPos();
+      // Get the hightlight text
+      let highlightText = window
+        .getSelection()
+        .toString()
+        .trim();
+      if (highlightText.split(" ").length === 1 && highlightText !== "") {
+        this.setState({
+          highlightText: highlightText
+        });
+        let uid = this.props.userUID;
+        let db = firebase.firestore();
+        fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`, {
+          headers: {
+            Accept: "application/json"
+          }
+        })
+          .then(res => res.json())
+          .then(res => {
+            this.setState({
+              showContent: "word",
+              resDetails: res[0],
+              isPopupVisible: "block"
             });
-        }
-      };
-    } 
+            db.collection("users")
+              .doc(`${uid}`)
+              .collection("Search_history")
+              .doc(`${highlightText}`)
+              .set(res[0]);
+            return db.collection("users").get();
+          })
+          .catch(error => console.log(error));
+      } else if (highlightText.split(" ").length > 1 && highlightText !== "") {
+        // Use Google translate api
+        fetch(
+          `${this.state.transGoogleAPI}?key=${this.state.apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
+        )
+          .then(res => res.json())
+          .then(res => {
+            this.setState({
+              showContent: "phrase",
+              resDetails: res.data.translations[0].translatedText,
+              isPopupVisible: "block"
+            });
+            console.log("Google translate result=", res);
+          });
+      }
+    };
+  }
 
   componentDidMount() {
     this.highlightHandler(this.state);
@@ -148,7 +140,7 @@ class Book_content extends React.Component {
       fontSize: this.props.viewPreference.font_size, // 17, 19, 21, 23, 25
       fontFamily: this.props.viewPreference.font_type, // 'Lora', serif  ;  'Bitter', serif  ;  'Muli', sans-serif;
       backgroundColor: this.props.viewPreference.background_color, // #edd1b0, #f6efdc
-      lineHeight: this.props.viewPreference.line_height, // 2 ; 2.5 ; 3
+      lineHeight: this.props.viewPreference.line_height, // 1.5 ; 2 ; 2.5
       whiteSpace: "pre-line"
     };
     return (
@@ -156,13 +148,9 @@ class Book_content extends React.Component {
         <ViewPreference isVisible={this.state.isVisible} />
         <div className={styles.btns_leftTop}>
           <Back history={this.props.history} />
-          <Settings
-            showSettings={this.showSettings.bind(this)}
-          />
+          <Settings showSettings={this.showSettings.bind(this)} />
         </div>
-        <SignOut
-          history={this.props.history}
-        />
+        <SignOut history={this.props.history} />
         <div
           className={styles.turnOffSettings}
           style={{ display: this.state.isVisible }}
@@ -181,7 +169,7 @@ class Book_content extends React.Component {
         />
         <div
           className={styles.turnOffPopup}
-          style={{ display: this.state.isPopupVisible }}
+          style={{ display: this.state.isPopupVisible, backgroundColor: this.state.backgroundColor }}
           onClick={this.turnOffPopup.bind(this)}
         ></div>
         <div className={styles.bookContent} style={preferenceStyle}>

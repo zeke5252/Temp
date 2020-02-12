@@ -18,17 +18,22 @@ class PopupSearch extends React.Component {
     if (showContent === "word") {
       // declare all
       let data = this.props.resDetails;
-      // layer 2
-      // none
-      // [{definition:...},{definition...}]
-      // 吐陣列就是用map, data.meaning[index].map((obj,i)=>{return(<div>{obj.definition}</div>)})(代表第一組詞性，值為陣列) 不需要title,title取每個值首位的definition用
       let renderLayer2 = Object.keys(data.meaning).map((catogory, index) => {
         return (
-          // 下面是一組詞性，詞性裡可能會數種不同的解釋，幾種合起來就是陣列
           <div key={index}>
             <span className={styles.s_speech}>{catogory}</span>
-            {data.meaning[catogory].map((obj, i) => {
-              return <div key={i}>⋅ {obj.definition}</div>;
+            {data.meaning[catogory].map((detailObj, i) => {
+              return (
+                <div key={i}>
+                  .{Object.keys(detailObj).map((eachDetailObjName, i) => {
+                    return <div key={i}>{eachDetailObjName}
+                    <div>{typeof Object.values(detailObj)[i] === "string" ? Object.values(detailObj)[i] : Object.values(detailObj)[i].map((synonym,i)=>{
+                      return <span key={i}>{synonym}</span>
+                    })}</div>
+                    </div>;
+                  })}
+                </div>
+              );
             })}
           </div>
         );
@@ -60,7 +65,6 @@ class PopupSearch extends React.Component {
       ));
 
       return (
-        // 不要從firestore上去做處理跟判斷，全部抓下來，再從local去分析
         <div
           className={styles.popupSearchContainer}
           style={
@@ -72,9 +76,9 @@ class PopupSearch extends React.Component {
                 }
               : {
                   display: this.props.isPopupVisible,
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)'
+                  left: "50%",
+                  top: "50%",
+                  transform: "translate(-50%, -50%)"
                 }
           }
           onClick={this.showAllContent}
