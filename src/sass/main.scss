@@ -431,30 +431,36 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  line-height: 2.1rem;
   background-color: white;
+  font-size: 1.3rem;
+  font-weight: 500;
+
   ul {
     margin-top: 1rem;
 
     li {
-      padding: 0% 7% 0 10%;
       list-style: none;
+      padding: 5% 7% 0 10%;
+
       .s_container {
         position: relative;
       }
       .s_times {
         position: absolute;
         right: 0;
-        top: 0.5rem;
+        top: 0rem;
         color: white;
         background-color: $color-orange;
         font-size: $size-small;
-        padding: 0.4rem 1rem;
-        border-radius: 10rem;
+        padding: 0.2rem .8rem;
+        border-radius: 5rem;
       }
       .s_word {
-        font-size: $size-medium;
+        font-size: 2rem;
         font-weight: 800;
         color: $color-primary;
+        margin-left: -1rem;
       }
       .s_phonetic {
         font-size: $size-small;
@@ -479,7 +485,14 @@
         }
       }
       .s_block {
-        margin-bottom: 1rem;
+        display: inline-block;
+        border-radius: 2rem;
+        font-size: 1rem;
+        padding: 0rem .4rem;
+        font-weight: 700;
+        margin-top: 1rem;
+        margin-bottom: .4rem;
+        background-color: $color-grey-light;
       }
       .s_definition {
         font-size: $size-s-detail;
@@ -491,11 +504,24 @@
         margin-bottom: 0rem;
       }
       .s_synonyms {
-        margin-bottom: 0.5rem;
-        font-size: $size-s-detail;
+        font-size: 1.2rem;
         color: $color-secondary;
+        line-height: 0rem;
         font-style: italic;
+        font-weight: 400;
+
       }
+      .s_speech {
+        display: inline-block;
+        font-size: $size-small;
+        font-weight: 800;
+        margin-left: -1.5rem;
+        margin-top: .5rem;
+        &::before {
+          content: "-";
+          font-weight: 800;
+          margin-right: 0.5rem;
+        }}
     }
   }
   .search_title {
