@@ -17,14 +17,12 @@ class App extends React.Component {
   }
   render () {
     return (
-      <div>
         <Switch>
           <Route path={'/'} component={Sign_in} exact />
           <Route path={'/' + 'library'} component={Library} />
           <Route path={'/' + 'new_content'} component={New_content} />
           <Route path={'/' + 'book_content'} component={Book_content} />
         </Switch>
-      </div>
     )
   }
 }

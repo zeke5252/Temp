@@ -13,15 +13,19 @@
 }
 
 html {
+    height: 100%;
     font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
+
 }
 
 body {
+
     box-sizing: border-box;
     padding: 0rem;
     font-weight: 600;
     line-height: 1.7;
     color: $color-grey-dark;
+    height: 100%;
     button {
         border-radius: 10rem;
         cursor: pointer;

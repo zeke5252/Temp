@@ -1,69 +1,49 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
+import Word from "./word"
 import {} from "../actions/";
+
+// 從firebase上抓下來的需要重排。(可置後)
+// 先載入簡單版 然後執行showAllContent在切換成完整版
+// 把我的最愛拿
 
 class PopupSearch extends React.Component {
   constructor(props) {
     super(props);
     this.showPopup = this.showPopup.bind(this);
-    this.showAllContent = this.showAllContent.bind(this);
+    this.state = {
+      allWords: [],
+      styleParent: {
+        s_container: styles.s_container,
+        s_times: styles.s_times,
+        s_word: styles.s_word,
+        s_phonetic: styles.s_phonetic,
+        s_detail: styles.s_detail,
+        s_meaning: styles.s_meaning,
+        s_block: styles.s_block,
+        s_definition: styles.s_definition,
+        s_synonyms: styles.s_synonyms,
+        s_speech: styles.s_speech
+      }
+    };
   }
-
-  showAllContent() {
-    this.props.showAllContent();
-  }
-
   showPopup(showContent) {
     if (showContent === "word") {
-      // declare all
-      let data = this.props.resDetails;
-      let renderLayer2 = Object.keys(data.meaning).map((catogory, index) => {
-        return (
-          <div key={index}>
-            <span className={styles.s_speech}>{catogory}</span>
-            {data.meaning[catogory].map((detailObj, i) => {
-              return (
-                <div key={i}>
-                  .{Object.keys(detailObj).map((eachDetailObjName, i) => {
-                    return <div key={i}>{eachDetailObjName}
-                    <div>{typeof Object.values(detailObj)[i] === "string" ? Object.values(detailObj)[i] : Object.values(detailObj)[i].map((synonym,i)=>{
-                      return <span key={i}>{synonym}</span>
-                    })}</div>
-                    </div>;
-                  })}
-                </div>
-              );
-            })}
-          </div>
-        );
-      });
-      // Full content
-      let renderFull = Object.keys(data).map((catogory, index1) => (
-        <div key={index1}>
-          <div className={styles.s_word}>{catogory}</div>
-          <div>
-            {typeof Object.values(data)[index1] === "string" ? (
-              Object.values(data)[index1]
-            ) : (
-              <div>{renderLayer2}</div>
-            )}
-          </div>
-        </div>
-      ));
-      // Partial content
-      let renderPartial = Object.keys(data).map((catogory, index1) => (
-        <div key={index1}>
-          <div>
-            {typeof Object.values(data)[index1] === "string" ? (
-              ""
-            ) : (
-              <div>{renderLayer2}</div>
-            )}
-          </div>
-        </div>
-      ));
 
+      // Full content ( 後方帶參數進去顯示full )
+      let renderFull = <Word 
+      resDetails={this.props.resDetails}
+      styleParent={this.state.styleParent}
+      isFull= {true}
+      isReverse={false}
+      />;
+      // Partial content ( 後方帶參數進去顯示partial )
+      let renderPartial = <Word 
+      resDetails={this.props.resDetails}
+      styleParent={this.state.styleParent}
+      isFull= {false}
+      />
       return (
         <div
           className={styles.popupSearchContainer}
@@ -72,16 +52,17 @@ class PopupSearch extends React.Component {
               ? {
                   display: this.props.isPopupVisible,
                   left: this.props.posX,
-                  top: this.props.posY
+                  top: this.props.posY,
                 }
               : {
                   display: this.props.isPopupVisible,
                   left: "50%",
                   top: "50%",
-                  transform: "translate(-50%, -50%)"
+                  transform: "translate(-50%, -50%)",
+                  width: this.props.width
                 }
           }
-          onClick={this.showAllContent}
+          onClick={this.props.showAllContent}
         >
           {this.props.searchContent === "partial" ? renderPartial : renderFull}
         </div>
@@ -94,7 +75,7 @@ class PopupSearch extends React.Component {
           style={{
             display: this.props.isPopupVisible,
             left: this.props.posX,
-            top: this.props.posY
+            top: this.props.posY,
           }}
         >
           <p>{this.props.resDetails}</p>

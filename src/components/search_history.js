@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
-import Word_real from "./word";
+import Word from "./word";
 
 // Import Word class. (done)
 // Get data from firestore. (done)
@@ -24,7 +24,7 @@ class Search_history extends React.Component {
         s_times: styles.s_times,
         s_word: styles.s_word,
         s_phonetic: styles.s_phonetic,
-        s_origin: styles.s_origin,
+        s_detail: styles.s_detail,
         s_meaning: styles.s_meaning,
         s_block: styles.s_block,
         s_definition: styles.s_definition,
@@ -55,21 +55,6 @@ class Search_history extends React.Component {
       .catch(function(error) {
         console.log("Error getting document:", error);
       });
-
-    // db.collection("users")
-    //   .doc(`${uid}`)
-    //   .collection("Search_history")
-    //   .doc("Sunday")
-    //   .get()
-    //   .then(word => {
-    //     console.log(word.id, "=", word.data());
-    //     this.setState({
-    //       resDetails: word.data()
-    //     });
-    //   })
-    //   .catch(function(error) {
-    //     console.log("Error getting document:", error);
-    //   });
   }
 
   render() {
@@ -103,9 +88,11 @@ class Search_history extends React.Component {
           {this.state.allWords.map((word, i) => {
             return (
               <li key={i}>
-                <Word_real
+                <Word
                   resDetails={word}
                   styleParent={this.state.styleParent}
+                  isFull={true}
+                  isReverse={true}
                 />
               </li>
             );

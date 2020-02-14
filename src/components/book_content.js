@@ -31,16 +31,19 @@ class Book_content extends React.Component {
         }
       },
       posX: 0,
-      posY: 0
+      posY: 0,
+      width: "25%",
+      tempRes: {}
     };
     this.turnOffSettings = this.turnOffSettings.bind(this);
   }
 
   showAllContent() {
     this.setState({
-      searchContent: "all",
+      searchContent: "full",
       contentPosition: "center",
-      backgroundColor:"rgba(0,0,0,.2)"
+      backgroundColor: "rgba(0,0,0,.2)",
+      width: "60%"
     });
   }
 
@@ -61,13 +64,14 @@ class Book_content extends React.Component {
       isPopupVisible: "none",
       searchContent: "partial",
       contentPosition: "cursor",
-      backgroundColor: "rgba(0,0,0,0)"
+      backgroundColor: "rgba(0,0,0,0)",
+      width: "25%"
     });
   }
 
   getCursorPos() {
-    let  posx = event.pageX;
-    let  posy = event.pageY;
+    let posx = event.pageX;
+    let posy = event.pageY;
     this.setState({
       posX: posx,
       posY: posy
@@ -88,23 +92,55 @@ class Book_content extends React.Component {
         });
         let uid = this.props.userUID;
         let db = firebase.firestore();
-        fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`, {
-          headers: {
-            Accept: "application/json"
-          }
-        })
+
+        fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`)
+          // 抓到API回傳的資料，沒有times
           .then(res => res.json())
           .then(res => {
+            // 設成state,state就沒有times
             this.setState({
               showContent: "word",
               resDetails: res[0],
-              isPopupVisible: "block"
+              isPopupVisible: "block",
+              tempRes: res
             });
-            db.collection("users")
+            // 如果firestore上沒有該筆關鍵字，就新增times欄位，然後放上firestore。
+            // 如果有，就僅更新times
+            let docRef = db
+              .collection("users")
               .doc(`${uid}`)
               .collection("Search_history")
               .doc(`${highlightText}`)
-              .set(res[0]);
+              .get();
+            return docRef;
+          })
+          .then(docRef => {
+            if (docRef.data()) {
+              // Existed
+              let newDocRef = db
+                .collection("users")
+                .doc(`${uid}`)
+                .collection("Search_history")
+                .doc(`${highlightText}`)
+                .update({
+                  times: firebase.firestore.FieldValue.increment(1)
+                });
+            } else {
+              // Not existed
+              console.log(this.state.tempRes);
+              let newRes = Object.assign(
+                {},
+                this.state.tempRes,
+                (this.state.tempRes[0].times = 1)
+              );
+              console.log(newRes);
+              let newDocRef = db
+                .collection("users")
+                .doc(`${uid}`)
+                .collection("Search_history")
+                .doc(`${highlightText}`)
+                .set(newRes[0]);
+            }
             return db.collection("users").get();
           })
           .catch(error => console.log(error));
@@ -144,7 +180,10 @@ class Book_content extends React.Component {
       whiteSpace: "pre-line"
     };
     return (
-      <div className={styles.container_library}>
+      <div
+        className={styles.container_book}
+        style={{ backgroundColor: this.props.viewPreference.background_color }}
+      >
         <ViewPreference isVisible={this.state.isVisible} />
         <div className={styles.btns_leftTop}>
           <Back history={this.props.history} />
@@ -166,10 +205,14 @@ class Book_content extends React.Component {
           searchContent={this.state.searchContent}
           contentPosition={this.state.contentPosition}
           showAllContent={this.showAllContent.bind(this)}
+          width={this.state.width}
         />
         <div
           className={styles.turnOffPopup}
-          style={{ display: this.state.isPopupVisible, backgroundColor: this.state.backgroundColor }}
+          style={{
+            display: this.state.isPopupVisible,
+            backgroundColor: this.state.backgroundColor
+          }}
           onClick={this.turnOffPopup.bind(this)}
         ></div>
         <div className={styles.bookContent} style={preferenceStyle}>
