@@ -60,4 +60,11 @@ const changeViewLineHeight = function (value) {
   })
 }
 
-export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight }
+const changeDictionary = function (value) {
+  return({
+    type: 'CHANGE_DICTIONARY',
+    payload: value
+  })
+}
+
+export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight, changeDictionary }

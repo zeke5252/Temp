@@ -69,7 +69,7 @@ class New_content extends React.Component {
     return (
       <div className={styles.container_library}>
       <SignOut history={this.props.history}/>
-      <div className={styles.library_left_container}>
+      <div className={styles.library_new_content}>
         <div className={styles.library_left_top}>
         <Greetings userName={this.props.userName} />
           <div className={styles.groupBtn}>
@@ -79,9 +79,6 @@ class New_content extends React.Component {
           </div>
         </div>
         <textarea className={styles.library_new_content_container} onChange={this.onContentChange} value={this.state.content} autoFocus/>
-      </div>
-      <div className={styles.library_right_container}>
-        <Search_history />
       </div>
     </div>
     )

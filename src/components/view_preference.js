@@ -5,7 +5,8 @@ import {
   changeViewFontType,
   changeViewBG,
   changeViewFontSize,
-  changeViewLineHeight
+  changeViewLineHeight,
+  changeDictionary
 } from "../actions/";
 
 class ViewPreference extends React.Component {
@@ -14,6 +15,7 @@ class ViewPreference extends React.Component {
     this.onFontTypeChange = this.onFontTypeChange.bind(this);
     this.onBgChange = this.onBgChange.bind(this);
     this.onLineHeightChange = this.onLineHeightChange.bind(this);
+    this.onDictionaryChange = this.onDictionaryChange.bind(this);
   }
 
   changeViewFontSize(calc) {
@@ -73,6 +75,19 @@ class ViewPreference extends React.Component {
       .doc(`${uid}`)
       .update({
         "preference.line_height": value
+      });
+  }
+
+  onDictionaryChange(){
+    let value = event.target.value;
+    console.log('the value=', value)
+    this.props.dispatch(changeDictionary(value));
+    let uid = this.props.userUID;
+    let db = firebase.firestore();
+    db.collection("users")
+      .doc(`${uid}`)
+      .update({
+        "preference.dictionary": value
       });
   }
 
@@ -204,6 +219,33 @@ class ViewPreference extends React.Component {
             Tall
           </div>
         </div>
+        <div className={styles.view_item}>
+          <span className={styles.view_item_title}>dictionary:</span>
+          <div className={styles.view_item_size}>
+          <div>
+            {
+              <input
+                type="radio"
+                name="dictionary"
+                value="English"
+                onChange={this.onDictionaryChange}
+                checked={this.props.dictionary === 'English'}
+              />
+            }
+            English
+            {
+              <input
+                type="radio"
+                name="dictionary"
+                value="Chinese"
+                onChange={this.onDictionaryChange}
+                checked={this.props.dictionary === 'Chinese'}
+              />
+            }
+            Chinese
+          </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -216,6 +258,7 @@ function mapStateToProps(state) {
     font_size: state.viewPreference.font_size,
     background_color: state.viewPreference.background_color,
     line_height: state.viewPreference.line_height,
+    dictionary: state.viewPreference.dictionary,
     viewPreference: state.viewPreference
   };
 }

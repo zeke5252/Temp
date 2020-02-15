@@ -68,13 +68,21 @@ class Library extends React.Component {
           isLoading: false
         });
       });
+      // 在這裡把使用者在firebase上的資料抓下來，然後特別針對preference，把它設進redux裡
+
     db.collection("users")
       .doc(`${uid}`)
       .get()
       .then(res => {
         // Set preference to store
+        // 如果這個user的資料存在的話，就把資料抓下來，然後把資料裡的preference設進redux
+        console.log('首次進入圖書館，然後此時從firestore上抓下來該使用者的資料是...',res.data() )
         if (res.data()) {
           this.props.dispatch(savePrefToRedux(res.data().preference));
+        } else {
+          db.collection("users")
+          .doc(`${uid}`)
+          .set({preference:this.props.viewPreference})
         }
       });
   }

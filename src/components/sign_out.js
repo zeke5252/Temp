@@ -15,7 +15,8 @@ class SignOut extends React.Component {
       .signOut()
       .then(function () {
         // Clean all store data
-        propsDispatch(cleanStoreData())
+        propsDispatch(cleanStoreData());
+        localStorage.clear(); 
         alert('Sign-out successful.')
         history.push('/')
       })

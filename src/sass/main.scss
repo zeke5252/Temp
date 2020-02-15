@@ -39,7 +39,7 @@
     align-items: center;
     position: absolute;
     left: 50%;
-    top: 45%;
+    top: 43%;
     transform: translate(-50%, -50%);
     animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
@@ -59,10 +59,15 @@
       min-width: 20rem;
       max-width: 22rem;
       height: 4.4rem;
-      margin-top: 4.4rem;
+      margin-top: 3rem;
       border: none;
       background-color: $color-primary;
       color: white;
+    }
+
+    .fb_btn{
+      background-color: #587ecf;
+      margin-top: 1rem;
     }
 
     .message {
@@ -85,7 +90,7 @@
       color: $color-primary;
     }
     .sign_switch {
-      margin-top: 1.2rem;
+      margin-top: 1.8rem;
       text-decoration: underline;
       color: $color-grey-dark;
     }
@@ -94,6 +99,7 @@
 
 .container_library {
   display: flex;
+  height: 100%;
   background-color: $color-grey-light;
   border: 0.8rem solid white;
   position: relative;
@@ -103,9 +109,42 @@
     width: 30%;
     min-width: 25rem;
   }
+
+  .library_new_content {
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+    height: auto;
+    padding: 0 2%;
+    display: flex;
+    flex-flow: column;
+
+
+    .library_left_top {
+      margin: 5rem 0 5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .library_greeting {
+      font-size: $size-large;
+      color: $color-primary;
+      font-weight: 400;
+    }
+
+    .library_yourName {
+      color: $color-orange;
+      margin-left: 0.5rem;
+      margin-right: 1rem;
+      font-weight: 800;
+    }
+  }
+
   .library_left_container {
     width: 70%;
     position: relative;
+    height: auto;
     padding: 0 2%;
     display: flex;
     flex-flow: column;
@@ -141,40 +180,44 @@
 
   .groupBtn {
     display: flex;
-    justify-content: flex-end;
-    height: 5rem;
+    align-items: center;
     padding: 0;
-    margin: 0 0rem 0 5%;
   }
 
   .saveBtn {
-    display: inline-block;
-    height: $height-button;
-    padding: 0.5rem 5rem;
-    margin: 4% 0 0 10%;
+    display: flex;
+    height: 4.2rem;
+    margin-left: 1rem;
+    padding: 0 3rem;
+    letter-spacing: .1rem;
+    font-weight: 700;
     border: none;
     background-color: $color-orange;
     color: white;
+    align-items: center;
+    justify-content: center;
+
   }
 
   .resetBtn {
     display: inline-block;
-    height: $height-button;
+    height: 4.2rem;
     padding: 0.5rem 1.6rem;
-    margin: 4% 0 0 5%;
-    border: none;
-    background-color: $color-primary;
-    color: white;
+    border: 1px solid $color-primary;
+    background-color: transparent;
+    color: $color-primary;
+    margin-left: .8rem;
+    font-weight: 500;
   }
 
   .cancelBtn {
     display: inline-block;
-    height: $height-button;
+    height: 4.2rem;
     padding: 0.5rem 1.6rem;
-    margin: 4% 0 0 5%;
-    border: none;
-    background-color: $color-primary;
-    color: white;
+    border: 1px solid $color-primary;
+    background-color: transparent;
+    color: $color-primary;
+    font-weight: 500;
   }
 
   .addImg {
@@ -198,13 +241,16 @@
   }
   .library_new_content_container {
     width: 100%;
-    margin: 0;
-    background-color: $color-grey-light;
+    margin-top: -2rem;
+    height: 70%;
+    background-color: white;
     font-size: $size-content;
     color: $color-grey-dark;
     padding: 4rem;
     line-height: 4rem;
     border: none;
+    border-radius: 1rem;
+    box-shadow: .7rem .7rem 2rem rgba(0, 0, 0, 0.07);
   }
 }
 
@@ -282,15 +328,29 @@
 
 .search_container {
   display: flex;
+  height: 100%;
   flex-direction: column;
   line-height: 2.1rem;
   background-color: white;
   font-size: 1.3rem;
   font-weight: 500;
+  position: relative;
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 20rem;
+    object-fit: cover;
+  }
 
   ul {
     margin-top: 2rem;
-
+    overflow: auto;
     li {
       list-style: none;
       padding: 5% 7% 0 10%;
@@ -523,6 +583,7 @@
     width: 20%;
     min-width: 35rem;
     font-size: $size-normal;
+    overflow: auto;
     font-weight: 500;
     display: flex;
     line-height: 1.6;

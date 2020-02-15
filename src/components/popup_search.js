@@ -59,7 +59,8 @@ class PopupSearch extends React.Component {
                   left: "50%",
                   top: "50%",
                   transform: "translate(-50%, -50%)",
-                  width: this.props.width
+                  width: this.props.width,
+                  overFlow:this.props.overFlow
                 }
           }
           onClick={this.props.showAllContent}

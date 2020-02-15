@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
+import  FacebookBtn  from "../facebookSetup"
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -60,6 +61,8 @@ class Sign_in extends React.Component {
       })
       .then(res => {
         propsDispatch(updateUID(firebase.auth().currentUser.uid));
+      })
+      .then(res => {
         propsDispatch(updateDisplayName(this.state.userName));
       })
       .then(res => {
@@ -150,6 +153,7 @@ class Sign_in extends React.Component {
             <button onClick={this.signInHandler}>
               Sign in
             </button>
+            <FacebookBtn />
             <span className={styles.sign_switch} onClick={this.onModeSwitch}>
               Create an account
             </span>

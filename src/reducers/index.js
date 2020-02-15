@@ -5,7 +5,8 @@ const initState = {
     background_color: '#eeeeee',
     font_size: 19,
     font_type: `"Muli", sans-serif`,
-    line_height: 2
+    line_height: 2,
+    dictionary: "English"
   },
   bookContent: ''
 }
@@ -38,6 +39,11 @@ function reducer (state = initState, action) {
       let tempObj4 = Object.assign({}, JSON.parse(JSON.stringify(state)))
       tempObj4.viewPreference.line_height = action.payload
       return tempObj4
+    case 'CHANGE_DICTIONARY':
+      let tempObj5 = Object.assign({}, JSON.parse(JSON.stringify(state)))
+      tempObj5.viewPreference.dictionary = action.payload
+      return tempObj5
+
     default:
       return state
   }

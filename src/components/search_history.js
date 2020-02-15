@@ -31,11 +31,15 @@ class Search_history extends React.Component {
         s_example: styles.s_example,
         s_synonyms: styles.s_synonyms,
         s_speech: styles.s_speech
-      }
+      },
+      isLoading: false
     };
   }
 
   componentDidMount() {
+    this.setState({
+      isLoading: true
+    })
     let uid = this.props.userUID;
     let db = firebase.firestore();
     let tempWordArr = [];
@@ -48,7 +52,8 @@ class Search_history extends React.Component {
         res.forEach(eachWord => {
           tempWordArr.push(eachWord.data());
           this.setState({
-            allWords: tempWordArr
+            allWords: tempWordArr,
+            isLoading: false
           });
         })
       )
@@ -85,18 +90,25 @@ class Search_history extends React.Component {
           <span> Favorite </span>
         </div>
         <ul>
-          {this.state.allWords.map((word, i) => {
-            return (
-              <li key={i}>
-                <Word
-                  resDetails={word}
-                  styleParent={this.state.styleParent}
-                  isFull={true}
-                  isReverse={true}
-                />
-              </li>
-            );
-          })}
+          {this.state.isLoading ? (
+            <img
+              className={styles.loading}
+              src={require("../images/loading2.gif")}
+            />
+          ) : (
+            this.state.allWords.map((word, i) => {
+              return (
+                <li key={i}>
+                  <Word
+                    resDetails={word}
+                    styleParent={this.state.styleParent}
+                    isFull={true}
+                    isReverse={true}
+                  />
+                </li>
+              );
+            })
+          )}
         </ul>
       </div>
     );
