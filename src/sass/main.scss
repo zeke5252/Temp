@@ -1,24 +1,21 @@
-
 @import "./variables.scss";
 @import "./animation.scss";
 @import "./base.scss";
 
-
 ::-webkit-scrollbar {
   width: 1rem;
-  background: $color-grey-light;
 }
 
 ::-webkit-scrollbar-track {
   border-radius: 2rem;
 }
 ::-webkit-scrollbar-thumb {
-  background: $color-grey-medium;
+  background-color: rgba($color: #000000, $alpha: 0.3);
   border-radius: 2rem;
-  border: 1px solid $color-grey-light;
+  border: 1px solid transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: lighten($color: $color-grey-medium, $amount: 8);
+  background: rgba($color: #000000, $alpha: 0.5);
 }
 
 .container_init {
@@ -65,7 +62,7 @@
       color: white;
     }
 
-    .fb_btn{
+    .fb_btn {
       background-color: #587ecf;
       margin-top: 1rem;
     }
@@ -118,7 +115,6 @@
     padding: 0 2%;
     display: flex;
     flex-flow: column;
-
 
     .library_left_top {
       margin: 5rem 0 5rem 0;
@@ -189,14 +185,13 @@
     height: 4.2rem;
     margin-left: 1rem;
     padding: 0 3rem;
-    letter-spacing: .1rem;
+    letter-spacing: 0.1rem;
     font-weight: 700;
     border: none;
     background-color: $color-orange;
     color: white;
     align-items: center;
     justify-content: center;
-
   }
 
   .resetBtn {
@@ -206,7 +201,7 @@
     border: 1px solid $color-primary;
     background-color: transparent;
     color: $color-primary;
-    margin-left: .8rem;
+    margin-left: 0.8rem;
     font-weight: 500;
   }
 
@@ -250,7 +245,7 @@
     line-height: 4rem;
     border: none;
     border-radius: 1rem;
-    box-shadow: .7rem .7rem 2rem rgba(0, 0, 0, 0.07);
+    box-shadow: 0.7rem 0.7rem 2rem rgba(0, 0, 0, 0.07);
   }
 }
 
@@ -454,11 +449,10 @@
     width: 70%;
     min-width: 20rem;
     background-color: $color-grey-light;
-    border-radius: 10rem;
+    border-radius: .5rem;
     border-width: 0;
     height: $height-select;
     margin: 3% auto;
-    padding: 1.2rem;
     color: $color-primary;
     font-weight: 500;
     font-size: $size-normal;
@@ -534,7 +528,7 @@
     background-color: white;
     border-radius: 0 0 10rem 0;
     z-index: 10000;
-  
+
     .back {
       background-color: white;
       width: 50%;
@@ -550,14 +544,14 @@
         box-shadow: 0px 0px 0px rgba($color: #000000, $alpha: 0.3);
       }
     }
-  
+
     .settings {
       background-color: white;
       width: 40%;
       height: 100%;
       border: none;
       z-index: 10000;
-  
+
       .settings_img {
         width: 1.6rem;
         height: 1.6rem;
@@ -583,14 +577,13 @@
     width: 20%;
     min-width: 35rem;
     font-size: $size-normal;
-    overflow: auto;
     font-weight: 500;
     display: flex;
     line-height: 1.6;
     flex-direction: column;
-    padding: 2rem 2.5rem 3.2rem 3.5rem;
+    padding: 1.5rem 2rem 2.5rem 2rem;
     position: fixed;
-    border-radius: 4rem;
+    border-radius: 2rem;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -100%);
@@ -598,6 +591,11 @@
     border: 1px $color-grey-dark solid;
     box-shadow: 0.2rem 0.2rem 0.6rem rgba($color: #000000, $alpha: 0.2);
     z-index: 20000;
+    .holdScroll{
+      overflow: auto;
+      padding: 0rem 2rem 1rem 2rem;
+      height: 100%;
+    }
     .s_container {
       position: relative;
     }
@@ -644,8 +642,8 @@
     .s_block {
       display: inline-block;
       border-radius: 2rem;
-      font-size: .8rem;
-      padding: .1rem 0.5rem;
+      font-size: 0.8rem;
+      padding: 0.1rem 0.5rem;
       font-weight: 700;
       margin-top: 1.2rem;
       margin-bottom: 0.5rem;
@@ -774,4 +772,26 @@
       min-width: 12rem;
     }
   }
+}
+
+.minimal {
+  background-image: linear-gradient(45deg, transparent 50%, $color-grey-dark 50%),
+    linear-gradient(135deg, $color-grey-dark 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) .75em;
+  background-size: 5px 5px, 5px 5px, 1px 1em;
+  background-repeat: no-repeat;
+}
+
+.minimal:focus {
+  background-image: linear-gradient(45deg, $color-secondary 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, $color-secondary 50%),
+    linear-gradient(to top, #ccc, #ccc);
+  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em,
+    calc(100% - 2.5em) .75em;
+  background-size: 5px 5px, 5px 5px, 1px 1em;
+  background-repeat: no-repeat;
+  border-color: $color-secondary;
+  outline: 0;
 }

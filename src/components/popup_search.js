@@ -30,7 +30,6 @@ class PopupSearch extends React.Component {
   }
   showPopup(showContent) {
     if (showContent === "word") {
-
       // Full content ( 後方帶參數進去顯示full )
       let renderFull = <Word 
       resDetails={this.props.resDetails}
@@ -60,12 +59,12 @@ class PopupSearch extends React.Component {
                   top: "50%",
                   transform: "translate(-50%, -50%)",
                   width: this.props.width,
-                  overFlow:this.props.overFlow
+                  height:'60%'
                 }
           }
           onClick={this.props.showAllContent}
         >
-          {this.props.searchContent === "partial" ? renderPartial : renderFull}
+          <div className={styles.holdScroll}>{this.props.searchContent === "partial" ? renderPartial : renderFull}</div>
         </div>
       );
     }

@@ -11,8 +11,14 @@ import Word from "./word";
 // Use {expressions} and array to render components.
 // Add remove word function
 // Select By time to re-sort results
-// Add my favorite function
 // Review inifinite scroll.
+
+
+// Use state to re render data
+// where: add condition
+// orderBy: order
+// limit: partially display
+
 
 class Search_history extends React.Component {
   constructor(props) {
@@ -32,21 +38,33 @@ class Search_history extends React.Component {
         s_synonyms: styles.s_synonyms,
         s_speech: styles.s_speech
       },
-      isLoading: false
+      isLoading: false,
+      sortBy: "times"
     };
+    this.sortHandler=this.sortHandler.bind(this)
+    this.renderWords=this.renderWords.bind(this)
   }
 
-  componentDidMount() {
-    this.setState({
-      isLoading: true
+  sortHandler(){
+    this.setState(function (preState){
+      return{
+        sortBy: event.target.value
+      }
     })
+    this.renderWords();
+  }
+
+  renderWords(){
+    console.log(this.state.sortBy)
     let uid = this.props.userUID;
     let db = firebase.firestore();
     let tempWordArr = [];
-    console.log("uid=", uid);
-    db.collection("users")
-      .doc(`${uid}`)
-      .collection("Search_history")
+console.log('re render')
+    let historyRef = db.collection("users")
+    .doc(`${uid}`)
+    .collection("Search_history")
+
+    historyRef.orderBy(this.state.sortBy, "desc")
       .get()
       .then(res =>
         res.forEach(eachWord => {
@@ -61,14 +79,20 @@ class Search_history extends React.Component {
         console.log("Error getting document:", error);
       });
   }
+  
+
+  componentDidMount() {
+    this.renderWords()
+    
+  }
 
   render() {
     return (
       <div className={styles.search_container}>
         <span className={styles.search_title}>Search history</span>
-        <select>
-          <option>by frequency</option>
-          <option>by time</option>
+        <select className={styles.minimal} onChange={this.sortHandler}>
+          <option value="times" >by frequency</option>
+          <option  value="name">by alphabetic</option>
         </select>
         <div className={styles.search_radio_container}>
           <input

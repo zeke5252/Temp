@@ -73,6 +73,11 @@ class Book_content extends React.Component {
   getCursorPos() {
     let posx = event.pageX;
     let posy = event.pageY;
+    if(posx<200){posx=200}
+    if(posy<200){posy=200}
+    if(window.innerWidth-window.innerWidth*0.15<posx){
+      posx=window.innerWidth-window.innerWidth*0.15
+    }
     this.setState({
       posX: posx,
       posY: posy
@@ -80,6 +85,7 @@ class Book_content extends React.Component {
   }
 
   highlightHandler(data) {
+    let Chinese = require('chinese-s2t')
     document.onmouseup = () => {
       this.getCursorPos();
       // Get the hightlight text
@@ -161,12 +167,12 @@ class Book_content extends React.Component {
           )
             .then(res => res.json())
             .then(res => {
+
               this.setState({
                 showContent: "phrase",
-                resDetails: res.data.translations[0].translatedText,
+                resDetails: Chinese.s2t(res.data.translations[0].translatedText),
                 isPopupVisible: "block"
               });
-              console.log("Google translate result=", res);
             });
         }
       } else if (
@@ -181,7 +187,7 @@ class Book_content extends React.Component {
           .then(res => {
             this.setState({
               showContent: "phrase",
-              resDetails: res.data.translations[0].translatedText,
+              resDetails: Chinese.s2t(res.data.translations[0].translatedText),
               isPopupVisible: "block"
             });
             console.log("Google translate result=", res);
