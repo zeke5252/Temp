@@ -3,22 +3,12 @@ import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import Word from "./word";
 
-// Import Word class. (done)
-// Get data from firestore. (done)
-// Compare style object in search_history with that in popup_search. (done)
-// Syncronize the amount of classes. (done)
-// Prepare a style object, pass to word component. (done)
-// Use {expressions} and array to render components.
 // Add remove word function
-// Select By time to re-sort results
 // Review inifinite scroll.
-
 
 // Use state to re render data
 // where: add condition
-// orderBy: order
 // limit: partially display
-
 
 class Search_history extends React.Component {
   constructor(props) {
@@ -38,52 +28,110 @@ class Search_history extends React.Component {
         s_synonyms: styles.s_synonyms,
         s_speech: styles.s_speech
       },
+      allIDs: [],
       isLoading: false,
-      sortBy: "times"
+      sortBy: "times",
+      isFull: true,
+      isVisible: true
     };
-    this.sortHandler=this.sortHandler.bind(this)
-    this.renderWords=this.renderWords.bind(this)
+    this.sortHandler = this.sortHandler.bind(this);
+    this.renderWords = this.renderWords.bind(this);
+    this.contentHandler = this.contentHandler.bind(this);
   }
 
-  sortHandler(){
-    this.setState(function (preState){
-      return{
+  // 刪除此地
+  // 刪除firestore
+
+  deleteWord(id) {
+    console.log(id);
+    let tempWords = this.state.allWords;
+    let tempWord = tempWords[id];
+    console.log('tempWord=', tempWord.word, 'ID=' ,this.state.allIDs[id] )
+    tempWords.splice(id, 1);
+    this.setState({
+      books: tempWords
+    });
+
+    console.log(tempWord.word)
+    let uid = this.props.userUID;
+    let db = firebase.firestore();
+    db.collection("users")
+      .doc(`${uid}`)
+      .collection("Search_history")
+      .doc(this.state.allIDs[id])
+      .delete()
+      .then(alert("The word has been deleted!"))
+      .catch(error => console.log("Error removing document", error));
+  }
+
+  contentHandler() {
+    let booleanValue = event.target.value === "true" ? true : false;
+    this.setState({
+      isFull: booleanValue
+    });
+  }
+
+  sortHandler() {
+    this.setState(
+      {
         sortBy: event.target.value
-      }
-    })
-    this.renderWords();
+      },
+      () => this.renderWords()
+    );
   }
-
-  renderWords(){
-    console.log(this.state.sortBy)
+  renderWords() {
     let uid = this.props.userUID;
     let db = firebase.firestore();
     let tempWordArr = [];
-console.log('re render')
-    let historyRef = db.collection("users")
-    .doc(`${uid}`)
-    .collection("Search_history")
+    let tempWordArrIDs = [];
+    let historyRef = db
+      .collection("users")
+      .doc(`${uid}`)
+      .collection("Search_history");
 
-    historyRef.orderBy(this.state.sortBy, "desc")
-      .get()
-      .then(res =>
-        res.forEach(eachWord => {
-          tempWordArr.push(eachWord.data());
-          this.setState({
-            allWords: tempWordArr,
-            isLoading: false
-          });
-        })
-      )
-      .catch(function(error) {
-        console.log("Error getting document:", error);
-      });
+    if (this.state.sortBy === "times") {
+      console.log("run=", "times");
+      historyRef
+        .orderBy(this.state.sortBy, "desc")
+        .get()
+        .then(res =>
+          res.forEach(eachWord => {
+            tempWordArrIDs.push(eachWord.id);
+            tempWordArr.push(eachWord.data());
+            this.setState({
+              allWords: tempWordArr,
+              isLoading: false,
+              allIDs:tempWordArrIDs
+            });
+          })
+        )
+        .catch(function(error) {
+          console.log("Error getting document:", error);
+        });
+    }
+    if (this.state.sortBy === "") {
+      console.log("run=", "alphabetic");
+      historyRef
+        .get()
+        .then(res =>
+          res.forEach(eachWord => {
+            tempWordArrIDs.push(eachWord.id);
+            tempWordArr.push(eachWord.data());
+            this.setState({
+              allWords: tempWordArr,
+              isLoading: false,
+              allIDs:tempWordArrIDs
+            });
+          })
+        )
+        .catch(function(error) {
+          console.log("Error getting document:", error);
+        });
+    }
   }
-  
 
   componentDidMount() {
-    this.renderWords()
-    
+    this.renderWords();
   }
 
   render() {
@@ -91,27 +139,29 @@ console.log('re render')
       <div className={styles.search_container}>
         <span className={styles.search_title}>Search history</span>
         <select className={styles.minimal} onChange={this.sortHandler}>
-          <option value="times" >by frequency</option>
-          <option  value="name">by alphabetic</option>
+          <option value="times">by frequency</option>
+          <option value="">by alphabetic</option>
         </select>
         <div className={styles.search_radio_container}>
           <input
             type="radio"
-            name=""
-            value=""
-            id=""
+            name="content"
+            value={true}
             className={styles.search_radio}
+            checked={this.state.isFull === true}
+            onChange={this.contentHandler}
           ></input>
-          <span> All </span>
+          <span> Full </span>
           <span className={styles.search_radio_divider}> | </span>
           <input
             type="radio"
-            name=""
-            value=""
-            id=""
+            name="content"
+            value={false}
             className={styles.search_radio}
+            checked={this.state.isFull === false}
+            onChange={this.contentHandler}
           ></input>
-          <span> Favorite </span>
+          <span> Partial </span>
         </div>
         <ul>
           {this.state.isLoading ? (
@@ -123,10 +173,17 @@ console.log('re render')
             this.state.allWords.map((word, i) => {
               return (
                 <li key={i}>
+                  <div
+                    className={styles.deleteBtn}
+                    style={{ display: this.state.isVisible }}
+                    onClick={this.deleteWord.bind(this, i)}
+                  >
+                    ✕
+                  </div>
                   <Word
                     resDetails={word}
                     styleParent={this.state.styleParent}
-                    isFull={true}
+                    isFull={this.state.isFull}
                     isReverse={true}
                   />
                 </li>

@@ -11,7 +11,7 @@ class Book_content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dictionaryGoogleAPI: "http://googledictionaryapi.eu-gb.mybluemix.net/",
+      dictionaryGoogleAPI: "https://googledictionaryapi.eu-gb.mybluemix.net/",
       transGoogleAPI:
         "https://translation.googleapis.com/language/translate/v2",
       apiKeyGoogle: "AIzaSyBr4QB1H8JxbgRnSOLvCH2g3rCN691RwqM",
@@ -33,10 +33,19 @@ class Book_content extends React.Component {
       posX: 0,
       posY: 0,
       width: "25%",
-      tempRes: {}
+      tempRes: {},
     };
     this.turnOffSettings = this.turnOffSettings.bind(this);
   }
+
+  // 創立一個state紀錄捲動高度
+  // 把捲動高度存到firestore上
+  // 進到頁面先從firestore上讀取捲動高度
+  // 然後把state依據捲動高度更新
+  // 按下back與登出鍵的同時都要記錄捲動高度
+
+
+  
 
   showAllContent() {
     this.setState({
@@ -49,6 +58,13 @@ class Book_content extends React.Component {
   }
 
   showSettings() {
+    // let scrollTop = window.pageYOffset || document.documentElement.scrollTop; // 目前游標位置
+        // let offsetTop = document.documentElement.offsetTop; // 內容總高度
+    // let scrollHeight = document.documentElement.scrollHeight; // 內容總高度
+    // let innerHeight = window.innerHeight // 螢幕可視高度
+    // let thumbHeight = innerHeight*(innerHeight / scrollHeight) // 捲軸操控條高度
+    // let scrollableArea = innerHeight-thumbHeight// 捲軸可拖曳的高度
+
     this.setState({
       isVisible: "block"
     });
@@ -82,6 +98,7 @@ class Book_content extends React.Component {
       posX: posx,
       posY: posy
     });
+    console.log(posx,posy)
   }
 
   highlightHandler(data) {
@@ -93,11 +110,6 @@ class Book_content extends React.Component {
         .getSelection()
         .toString()
         .trim();
-      // 假設是英文
-      // 用空白字元分出來的陣列長只有一，同時不為空值 查字典
-      // 用空白字元分出來的陣列長超過一，同時不為空值 翻譯文章
-      // 假設是中文
-      // 不為空值 翻譯文章
       if (this.props.viewPreference.dictionary === "English") {
         if (highlightText.split(" ").length === 1 && highlightText !== "") {
           this.setState({
@@ -197,11 +209,11 @@ class Book_content extends React.Component {
   }
 
   componentDidMount() {
-    this.highlightHandler(this.state);
+    this.highlightHandler(this.state);    
   }
 
   componentWillUnmount() {
-    document.onmouseup = null;
+    // document.onmouseup = null;
   }
 
   render() {
@@ -250,7 +262,7 @@ class Book_content extends React.Component {
           }}
           onClick={this.turnOffPopup.bind(this)}
         ></div>
-        <div className={styles.bookContent} style={preferenceStyle}>
+        <div className={styles.bookContent} style={preferenceStyle} >
           {this.props.bookContent}
         </div>
       </div>

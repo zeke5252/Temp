@@ -76,7 +76,7 @@ class Library extends React.Component {
       .then(res => {
         // Set preference to store
         // 如果這個user的資料存在的話，就把資料抓下來，然後把資料裡的preference設進redux
-        console.log('首次進入圖書館，然後此時從firestore上抓下來該使用者的資料是...',res.data() )
+        // console.log('首次進入圖書館，然後此時從firestore上抓下來該使用者的資料是...',res.data() )
         if (res.data()) {
           this.props.dispatch(savePrefToRedux(res.data().preference));
         } else {
