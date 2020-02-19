@@ -50,8 +50,9 @@ class PopupSearch extends React.Component {
             this.props.contentPosition === "cursor"
               ? {
                   display: this.props.isPopupVisible,
-                  left: this.props.posX,
-                  top: this.props.posY,
+                  left: "50%",
+                  top: "2rem",
+                  transform:"translate(-50%, 0)"
                 }
               : {
                   display: this.props.isPopupVisible,

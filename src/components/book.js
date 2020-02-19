@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from '../sass/main.scss'
-import { addTempContent } from '../actions/'
+import { addTempContent, addTempTitle } from '../actions/'
+
 import { connect } from 'react-redux'
 
 class Book extends React.Component {
@@ -16,6 +17,7 @@ class Book extends React.Component {
 
   openBook(propsDispatch){
     propsDispatch(addTempContent(this.props.content))
+    propsDispatch(addTempTitle(this.props.title))
     this.props.history.push('/Book_content')
   }
 
@@ -40,7 +42,7 @@ class Book extends React.Component {
         <div className={styles.deleteBtn} style={{display:this.state.isVisible}} onClick={this.props.deleteBook.bind(this, this.props.id)}>✕</div>
         <div className={styles.book_cover} onClick={this.openBook}>  
           <span className={styles.book_cover_color} style={theColor}></span>
-          <span className={styles.book_title}>{this.props.title}</span>
+          <span className={styles.book_title}>{this.props.titleCover}</span>
           <div className={styles.book_page_container}>
             <span className={styles.book_page}>36 </span> / 100
           </div>
@@ -53,7 +55,8 @@ class Book extends React.Component {
 function mapStateToProps (state) {
   return {
     userUID: state.userUID,
-    bookContent: state.bookContent
+    bookContent: state.bookContent,
+    bookTitle: state.bookTitle,
   }
 }
 export default connect(mapStateToProps)(Book)

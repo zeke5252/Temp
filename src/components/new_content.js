@@ -9,11 +9,13 @@ class New_content extends React.Component {
   constructor (props) {
     super(props)
     this.onContentChange = this.onContentChange.bind(this)
+    this.onTitleChange = this.onTitleChange.bind(this)
     this.resetContent = this.resetContent.bind(this)
     this.cancelContent = this.cancelContent.bind(this, this.props.history)
     this.saveBook = this.saveBook.bind(this, this.props.history);
     this.assignBookAttr = this.assignBookAttr.bind(this);
     this.state = { 
+      title: '',
       content: '',
       coverColor:'',
       createdTime:''
@@ -36,13 +38,13 @@ class New_content extends React.Component {
   saveBook (history) {
     let uid = this.props.userUID
     let db = firebase.firestore()
-    let bookName = `${this.state.content.trim().split(' ')[0]} ${
-      this.state.content.trim().split(' ')[1]
-    } ${this.state.content.trim().split(' ')[2]}...`
+    // let bookName = `${this.state.title.trim().split(' ')[0]} ${
+    //   this.state.title.trim().split(' ')[1]
+    // } ${this.state.title.trim().split(' ')[2]}...`
     db.collection('users')
       .doc(`${uid}`)
       .collection('Library')
-      .doc(`${bookName}`)
+      .doc(`${this.state.title}`)
       .set(this.state).then(()=>{
         alert('Save to your library successfully!');
         history.push('./library')
@@ -65,6 +67,12 @@ class New_content extends React.Component {
     })
   }
 
+  onTitleChange () {
+    this.setState({
+      title: event.target.value
+    })
+  }
+
   render () {
     return (
       <div className={styles.container_library}>
@@ -78,7 +86,8 @@ class New_content extends React.Component {
             <button className={styles.saveBtn} onClick={this.saveBook}>Save</button>
           </div>
         </div>
-        <textarea className={styles.library_new_content_container} onChange={this.onContentChange} value={this.state.content} autoFocus/>
+        <input type="text" className={styles.library_new_title} onChange={this.onTitleChange} value={this.state.title} autoFocus/>
+        <textarea className={styles.library_new_content_container} onChange={this.onContentChange} value={this.state.content} />
       </div>
     </div>
     )

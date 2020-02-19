@@ -12,6 +12,13 @@ const updateDisplayName = function (name) {
   })
 }
 
+const addTempTitle = function (bookTitle) {
+  return ({
+    type: 'ADD_TEMP_TITLE',
+    payload: bookTitle
+  })
+}
+
 const addTempContent = function (bookContent) {
   return ({
     type: 'ADD_TEMP_CONTENT',
@@ -67,4 +74,4 @@ const changeDictionary = function (value) {
   })
 }
 
-export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight, changeDictionary }
+export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight, changeDictionary, addTempTitle }

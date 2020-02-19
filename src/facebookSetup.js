@@ -6,49 +6,26 @@ import { updateUID, updateDisplayName } from "./actions/";
 class FacebookBtn extends React.Component {
   constructor(props) {
     super(props);
-    this.fbLoginHandler=this.fbLoginHandler.bind(this)
+    this.fbLoginHandler=this.fbLoginHandler.bind(this, this.props.history)
   }
 
-  fbLoginHandler(){
-
-    // firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
-    //   .then(res => {
-    //     console.log("sign up name at line 42 =", this.state.userName);
-    //     firebase.auth().currentUser.updateProfile({
-    //       displayName: this.state.userName
-    //     });
-    //   })
-    //   .then(res => {
-    //     propsDispatch(updateUID(firebase.auth().currentUser.uid));
-    //   })
-    //   .then(res => {
-    //     propsDispatch(updateDisplayName(this.state.userName));
-    //   })
-    //   .then(res => {
-    //     history.push("/library");
-    //   })
-    //   .catch(
-    //     error => {
-    //       this.setState({
-    //         errorMsg: error.message
-    //       });
-    //     }
-    //     // Add warning message here
-    //   );
-
+  fbLoginHandler(history){
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function(result) {
+
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
+        console.log(result);
         // ...
-        console.log('props=', this.props);
-        console.log('token=', token)
-        console.log('user=', user)
+        //history.push("/library");
       }).catch(function(error) {
+        console.error(`這個錯誤是 ${error.code}`);
+        console.error(`這個錯誤是 ${error.message}`);
+        console.error(`這個錯誤是 ${error.email}`);
+        console.error(`這個錯誤是 ${error.credential}`);
+
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;

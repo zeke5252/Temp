@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
-import  FacebookBtn  from "../facebookSetup"
+import FacebookBtn from "../facebookSetup";
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -30,16 +30,21 @@ class Sign_in extends React.Component {
     this.onPWChange = this.onPWChange.bind(this);
   }
 
+  componentDidMount() {
+    var user = firebase.auth().currentUser;
+    if(user){
+      this.props.history.push("/library");
+    }
+  }
   onModeSwitch(text) {
     if (this.state.mode === "signIn") {
-
       this.setState({
         mode: "signUp",
         userID: "",
         userPW: "",
         userName: ""
       });
-    } else {
+    } else if (this.state.mode === "signUp") {
       this.setState({
         mode: "signIn",
         userID: "",
@@ -50,6 +55,10 @@ class Sign_in extends React.Component {
   }
 
   signUpHandler(propsDispatch, history) {
+    // 註冊
+    // 把名稱更新
+    // 把uid, name存入redux
+    // 跳到library
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
@@ -63,6 +72,7 @@ class Sign_in extends React.Component {
         propsDispatch(updateUID(firebase.auth().currentUser.uid));
       })
       .then(res => {
+        console.log("signup!");
         propsDispatch(updateDisplayName(this.state.userName));
       })
       .then(res => {
@@ -77,27 +87,30 @@ class Sign_in extends React.Component {
         // Add warning message here
       );
   }
-
-  componentDidMount() {
-    // console.log('history=', this.props)
-  }
-
+  // 註冊
+  // 把名稱更新
+  // 把uid, name存入redux
+  // 跳到library
   signInHandler(propsDispatch, history) {
+    // 登入
+    // 如果這個使用者存在
+    // 把名稱更新
+    // 把uid, name存入redux
+    // 跳到library
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
-        let user = firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            propsDispatch(updateUID(firebase.auth().currentUser.uid));
-            propsDispatch(
-              updateDisplayName(firebase.auth().currentUser.displayName)
-            );
-            history.push("/library");
-          } else {
-            console.log("No one signed in");
-          }
-        });
+        var user = firebase.auth().currentUser;
+        if (user) {
+          propsDispatch(updateUID(firebase.auth().currentUser.uid));
+          propsDispatch(
+            updateDisplayName(firebase.auth().currentUser.displayName)
+          );
+          history.push("/library");
+        } else {
+          console.log("No one signed in");
+        }
       })
       .catch(
         error => {
@@ -150,18 +163,19 @@ class Sign_in extends React.Component {
               placeholder="Your password"
               autoComplete="new-password"
             ></input>
-            <button onClick={this.signInHandler}>
-              Sign in
-            </button>
-            <FacebookBtn />
-            <span className={styles.sign_switch} onClick={this.onModeSwitch}>
+            <button onClick={this.signInHandler}>Sign in</button>
+            <FacebookBtn history={this.props.history}/>
+            <span
+              className={styles.sign_switch}
+              onClick={this.onModeSwitch.bind(this, "signUp")}
+            >
               Create an account
             </span>
             <span className={styles.message}>{this.state.errorMsg}</span>
           </div>
         </div>
       );
-    } else {
+    } else if (this.state.mode === "signUp") {
       return (
         <div className={styles.container_init}>
           <div className={styles.sign_in_container}>
@@ -187,13 +201,10 @@ class Sign_in extends React.Component {
               placeholder="Your password"
               autoComplete="new-password"
             ></input>
-            <button onClick={this.signUpHandler}>
-              Sign up
-            </button>
+            <button onClick={this.signUpHandler}>Sign up</button>
             <span
               className={styles.sign_switch}
-              onClick={this.onModeSwitch}
-              text="signIn"
+              onClick={this.onModeSwitch.bind(this, "signIn")}
             >
               Sign in with the existing account
             </span>

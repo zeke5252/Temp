@@ -220,7 +220,7 @@ class ViewPreference extends React.Component {
           </div>
         </div>
         <div className={styles.view_item}>
-          <span className={styles.view_item_title}>dictionary:</span>
+          <span className={styles.view_item_title}>Dictionary:</span>
           <div className={styles.view_item_size}>
           <div>
             {
