@@ -45,12 +45,6 @@ class Library extends React.Component {
   }
 
   componentDidMount() {
-    // firebase已經幫我們整理好怎麼排了，
-    // 我應該要從每一個排好的資料的裡去抓時間出來，
-    // 一遇到不一樣的就往下一個陣列裝。
-    // 首先map這個陣列，剛開始先創立一個新的日期陣列，取出第一個元素放進去，
-    // 再來如果第二個元素的createdTime值與第一個一樣，那也把它放入這個日期陣列
-    // 
     let uid = this.props.userUID;
     let db = firebase.firestore();
     db.collection("users")
@@ -62,16 +56,45 @@ class Library extends React.Component {
         let tempBooks = [];
         let tempColors = [];
         let tempBookContent = [];
-        let tempBookCreatedTime = [];
-        let booksAll = []
+        // let tempBookCreatedTime = [];
+        let booksAll = [];
         library.forEach(book => {
-          booksAll.push(book.data())
+          booksAll.push(book.data());
           tempColors.push(book.data().coverColor);
           tempBooks.push(book.id);
           tempBookContent.push(book.data().content);
-          tempBookCreatedTime.push(book.data().createdTime);
+          // tempBookCreatedTime.push(book.data().createdTime);
         });
-        console.log('所有書籍資料為', booksAll)
+        // console.log("所有書籍資料為", booksAll);
+
+        // var temp = new Date(booksAll[0].createdTime);
+        // let n = [
+        //       temp.getFullYear(),
+        //       temp.getMonth() + 1,
+        //       temp.getDate()
+        //     ];
+        //         let newAll = booksAll.map((book, index) => {
+        //           var temp = new Date(book.createdTime);
+        //           let n = temp.getFullYear().toString()+ (temp.getMonth() + 1).toString() + temp.getDate().toString();
+        //           book.createdTime = n;
+        //           return book;
+        //         });
+
+        // var result = newAll.filter(function(element, index, arr){
+        //     return arr.indexOf(element.createdTime) === index;
+        // });
+        //           console.log('result=',result) ;
+
+        // for (let i = 0; i < booksAll.length; i++) {
+        //   let tempTime = new Date(booksAll[i].createdTime);
+        //   let displayTime = [
+        //     tempTime.getFullYear(),
+        //     tempTime.getMonth() + 1,
+        //     tempTime.getDate()
+        //   ];
+
+        //   console.log(dateGroup);
+        // }
         this.setState({
           books: tempBooks,
           colors: tempColors,
@@ -103,7 +126,32 @@ class Library extends React.Component {
     // Tell user to add some thing by clicking the button above
     return (
       <div className={styles.container_library}>
-        <SignOut history={this.props.history} />
+        <header className={styles.header_library}>
+          <div className={styles.logo_container}>
+            <img
+              className={styles.logo_small}
+              src={require("../images/logo_small.png")}
+            />
+            <span className={styles.logo_wording}>Read you</span>
+          </div>
+          <div className={styles.logo_topRight}>
+            <div className={styles.tutorial}>
+              <img
+                className={styles.tutorial_img}
+                src={require("../images/tutorial.png")}
+              />
+              <span className={styles.tutorial_wording}>Tutorial</span>
+            </div>
+            <div className={styles.contact}>
+              <img
+                className={styles.contact_img}
+                src={require("../images/contact.png")}
+              />
+              <span className={styles.contact_wording}>Contact me</span>
+            </div>
+            <SignOut history={this.props.history} />
+          </div>
+        </header>
         <div className={styles.library_left_container}>
           <div className={styles.library_left_top}>
             <Greetings userName={this.props.userName} />
@@ -122,35 +170,34 @@ class Library extends React.Component {
               />
             ) : (
               this.state.books.map((booktitle, index) => (
-                  <Book
-                    titleCover={
-                      booktitle.trim().split(" ")[0] +
-                      " " +
-                      booktitle.trim().split(" ")[1] +
-                      " " +
-                      booktitle.trim().split(" ")[2] +
-                      " " +
-                      booktitle.trim().split(" ")[3] +
-                      " " +
-                      booktitle.trim().split(" ")[4] +
-                      "..."
-                    }
-                    title={booktitle}
-                    color={this.state.colors[index]}
-                    key={index}
-                    id={index}
-                    history={this.props.history}
-                    content={this.state.bookContent[index]}
-                    deleteBook={this.deleteBook.bind(this)}
-                  />
+                <Book
+                  titleCover={
+                    booktitle.trim().split(" ")[0] +
+                    " " +
+                    booktitle.trim().split(" ")[1] +
+                    " " +
+                    booktitle.trim().split(" ")[2] +
+                    " " +
+                    booktitle.trim().split(" ")[3] +
+                    " " +
+                    booktitle.trim().split(" ")[4] +
+                    "..."
+                  }
+                  title={booktitle}
+                  color={this.state.colors[index]}
+                  key={index}
+                  id={index}
+                  history={this.props.history}
+                  content={this.state.bookContent[index]}
+                  deleteBook={this.deleteBook.bind(this)}
+                />
               ))
             )}
           </div>
         </div>
         <div className={styles.library_right_container}>
           <Search_history />
-        </div>
-        <footer className={styles.footer}></footer>
+        </div>{" "}
       </div>
     );
   }

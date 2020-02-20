@@ -18,6 +18,8 @@ class Search_history extends React.Component {
       styleParent: {
         s_container: styles.s_container,
         s_times: styles.s_times,
+        s_times_hot: styles.s_times_hot,
+        s_times_init: styles.s_times_init,
         s_word: styles.s_word,
         s_phonetic: styles.s_phonetic,
         s_detail: styles.s_detail,
@@ -26,7 +28,7 @@ class Search_history extends React.Component {
         s_definition: styles.s_definition,
         s_example: styles.s_example,
         s_synonyms: styles.s_synonyms,
-        s_speech: styles.s_speech
+        s_speech: styles.s_speech,
       },
       allIDs: [],
       isLoading: false,

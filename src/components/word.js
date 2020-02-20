@@ -41,18 +41,29 @@ class Word extends React.Component {
           className={
             /\s/.test(Object.values(data)[index1])
               ? ""
-              : Object.values(data)[index1].toString().includes("/")
-              ? this.props.styleParent.s_phonetic 
+              : Object.values(data)
+                  [index1].toString()
+                  .includes("/")
+              ? this.props.styleParent.s_phonetic
               : this.props.styleParent.s_word
           }
         >
-          {typeof Object.values(data)[index1] === "string" 
-          ? (
+          {typeof Object.values(data)[index1] === "string" ? (
             // patient, kk pronounciation, middleEnglish from
-            Object.values(data)[index1]) 
-          : typeof Object.values(data)[index1] === "number"
-          ? <div className={this.props.styleParent.s_times}>{data.times}</div>
-          : (
+            Object.values(data)[index1]
+          ) : typeof Object.values(data)[index1] === "number" ? (
+            <div
+              className={
+                data.times >= 10
+                  ? this.props.styleParent.s_times_hot
+                  : data.times > 1 && data.times < 10
+                  ? this.props.styleParent.s_times
+                  : this.props.styleParent.s_times_init
+              }
+            >
+              {data.times}
+            </div>
+          ) : (
             <div>
               {Object.keys(data.meaning).map((catogory, index) => {
                 return (

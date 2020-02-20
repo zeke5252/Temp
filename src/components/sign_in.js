@@ -2,7 +2,6 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
-import FacebookBtn from "../facebookSetup";
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -28,11 +27,40 @@ class Sign_in extends React.Component {
     this.onNameChange = this.onNameChange.bind(this);
     this.onIDChange = this.onIDChange.bind(this);
     this.onPWChange = this.onPWChange.bind(this);
+    this.fbLoginHandler = this.fbLoginHandler.bind(
+      this,
+      this.props.dispatch,
+      this.props.history
+    );
+  }
+
+  fbLoginHandler(propsDispatch, history) {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(function(result) {
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        // var token = result.credential.accessToken;
+        propsDispatch(updateUID(firebase.auth().currentUser.uid));
+        propsDispatch(updateDisplayName(firebase.auth().currentUser.displayName));
+      }).then(res=>{
+        history.push("/library");}
+      )
+      .then()
+      .catch(function(error) {
+        console.error(`Facebook error.${error.message}`);
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+      });
   }
 
   componentDidMount() {
     var user = firebase.auth().currentUser;
-    if(user){
+    if (user) {
       this.props.history.push("/library");
     }
   }
@@ -55,10 +83,6 @@ class Sign_in extends React.Component {
   }
 
   signUpHandler(propsDispatch, history) {
-    // 註冊
-    // 把名稱更新
-    // 把uid, name存入redux
-    // 跳到library
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
@@ -164,7 +188,9 @@ class Sign_in extends React.Component {
               autoComplete="new-password"
             ></input>
             <button onClick={this.signInHandler}>Sign in</button>
-            <FacebookBtn history={this.props.history}/>
+            <button className={styles.fb_btn} onClick={this.fbLoginHandler}>
+              Facebook login
+            </button>
             <span
               className={styles.sign_switch}
               onClick={this.onModeSwitch.bind(this, "signUp")}

@@ -76,7 +76,6 @@ class New_content extends React.Component {
   render () {
     return (
       <div className={styles.container_library}>
-      <SignOut history={this.props.history}/>
       <div className={styles.library_new_content}>
         <div className={styles.library_left_top}>
         <Greetings userName={this.props.userName} />

@@ -1,5 +1,4 @@
 import React from "react";
-import SignOut from "./sign_out";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
 import ViewPreference from "../components/view_preference";
@@ -256,7 +255,6 @@ class Book_content extends React.Component {
           <Back history={this.props.history} />
           <Settings showSettings={this.showSettings.bind(this)} />
         </div>
-        <SignOut history={this.props.history} />
         <div
           className={styles.turnOffSettings}
           style={{ display: this.state.isVisible }}
