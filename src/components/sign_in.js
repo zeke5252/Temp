@@ -43,10 +43,13 @@ class Sign_in extends React.Component {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         // var token = result.credential.accessToken;
         propsDispatch(updateUID(firebase.auth().currentUser.uid));
-        propsDispatch(updateDisplayName(firebase.auth().currentUser.displayName));
-      }).then(res=>{
-        history.push("/library");}
-      )
+        propsDispatch(
+          updateDisplayName(firebase.auth().currentUser.displayName)
+        );
+      })
+      .then(res => {
+        history.push("/library");
+      })
       .then()
       .catch(function(error) {
         console.error(`Facebook error.${error.message}`);
@@ -166,79 +169,85 @@ class Sign_in extends React.Component {
   }
 
   render() {
-    if (this.state.mode === "signIn") {
-      return (
-        <div className={styles.container_init}>
-          <div className={styles.sign_in_container}>
-            <img
-              src={require("../images/logo_signin.png")}
-              className={styles.logo_signin}
-            />
-            <span className={styles.sign_in_title}>Sign in</span>
-            <input
-              type="text"
-              onChange={this.onIDChange}
-              placeholder="Your e-mail"
-              autoComplete="off"
-            ></input>
-            <input
-              type="password"
-              onChange={this.onPWChange}
-              placeholder="Your password"
-              autoComplete="new-password"
-            ></input>
-            <button onClick={this.signInHandler}>Sign in</button>
-            <button className={styles.fb_btn} onClick={this.fbLoginHandler}>
-              Facebook login
-            </button>
-            <span
-              className={styles.sign_switch}
-              onClick={this.onModeSwitch.bind(this, "signUp")}
-            >
-              Create an account
+    return (
+      <div className={styles.container_init}>
+        <div className={styles.container_sign_in}>
+          {this.state.mode === "signIn" ? (
+            <div className={styles.sign_in_container_left}>
+              <img
+                src={require("../images/logo_animation.gif")}
+                className={styles.logo_signin}
+              />
+              <span className={styles.sign_in_slogan}>
+                Search easy. Read easy.
+              </span>
+              <span className={styles.sign_in_title}>Sign in</span>
+              <input
+                type="text"
+                onChange={this.onIDChange}
+                placeholder="Your e-mail"
+                autoComplete="off"
+              ></input>
+              <input
+                type="password"
+                onChange={this.onPWChange}
+                placeholder="Your password"
+                autoComplete="new-password"
+              ></input>
+              <button onClick={this.signInHandler}>Sign in</button>
+              <button className={styles.fb_btn} onClick={this.fbLoginHandler}>
+                Facebook login
+              </button>
+              <span
+                className={styles.sign_switch}
+                onClick={this.onModeSwitch.bind(this, "signUp")}
+              >
+                Create an account
+              </span>
+              <span className={styles.message}>{this.state.errorMsg}</span>
+            </div>
+          ) : (
+            <div className={styles.sign_in_container_left}>
+              <img
+                src={require("../images/logo_signin.png")}
+                className={styles.logo_signin}
+              />
+              <span className={styles.sign_in_title}>Sign up</span>
+              <input
+                type="text"
+                onChange={this.onNameChange}
+                placeholder="Your name"
+                autoComplete="off"
+              ></input>
+              <input
+                type="text"
+                onChange={this.onIDChange}
+                placeholder="Your e-mail"
+              ></input>
+              <input
+                type="password"
+                onChange={this.onPWChange}
+                placeholder="Your password"
+                autoComplete="new-password"
+              ></input>
+              <button onClick={this.signUpHandler}>Sign up</button>
+              <span
+                className={styles.sign_switch}
+                onClick={this.onModeSwitch.bind(this, "signIn")}
+              >
+                Sign in with the existing account
+              </span>
+              <span className={styles.message}>{this.state.errorMsg}</span>
+            </div>
+          )}
+          <div className={styles.sign_in_container_right}>
+            <span className={styles.sign_in_slang}>
+            “There is reading, and there is reading. Reading as a means to an end, for information, to cultivate oneself; reading as an end in itself, a process, a compulsion.” 
             </span>
-            <span className={styles.message}>{this.state.errorMsg}</span>
           </div>
         </div>
-      );
-    } else if (this.state.mode === "signUp") {
-      return (
-        <div className={styles.container_init}>
-          <div className={styles.sign_in_container}>
-            <img
-              src={require("../images/logo_signin.png")}
-              className={styles.logo_signin}
-            />
-            <span className={styles.sign_in_title}>Sign up</span>
-            <input
-              type="text"
-              onChange={this.onNameChange}
-              placeholder="Your name"
-              autoComplete="off"
-            ></input>
-            <input
-              type="text"
-              onChange={this.onIDChange}
-              placeholder="Your e-mail"
-            ></input>
-            <input
-              type="password"
-              onChange={this.onPWChange}
-              placeholder="Your password"
-              autoComplete="new-password"
-            ></input>
-            <button onClick={this.signUpHandler}>Sign up</button>
-            <span
-              className={styles.sign_switch}
-              onClick={this.onModeSwitch.bind(this, "signIn")}
-            >
-              Sign in with the existing account
-            </span>
-            <span className={styles.message}>{this.state.errorMsg}</span>
-          </div>
-        </div>
-      );
-    }
+      </div>
+    );
   }
 }
 

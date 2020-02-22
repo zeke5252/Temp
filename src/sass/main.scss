@@ -29,16 +29,59 @@
   background-size: cover;
   position: relative;
 
-  .sign_in_container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .container_sign_in{
     position: absolute;
     left: 50%;
-    top: 43%;
+    top:45%;
+    width:60%;
+    height: auto;
+    display: flex;
     transform: translate(-50%, -50%);
+  }
+
+  .sign_in_container_right{
+    display: inline-block;
+    width: 75%;
+    height: 100%;
+    padding-left: 8%;
+    margin-top: -1.5rem;
+    .sign_in_slang{
+      font-size: 2.5rem;
+      font-weight: 100;
+      vertical-align: middle;;
+      color: $color-primary;
+    }
+  }
+
+  .sign_in_container_left {
+    width: 25%;
+    min-width: 27rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: left;
     animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    position: relative;
+    &::after{
+      content:'';
+      width: 1px;
+      height:85%;
+      background-color: rgba($color: $color-primary, $alpha: .4);
+      position: absolute;
+      top: 0;
+      right: 0;
+      -moz-transform: skew(-7deg);
+      -webkit-transform: skew(-7deg);
+      transform: skew(-7deg);
+    }
+
+
+  .sign_in_slogan{
+    font-size: 2rem;
+    color: $color-primary;
+    font-weight: 400;
+  }
+
 
     input {
       width: 30%;
@@ -63,7 +106,7 @@
     }
 
     .fb_btn {
-      background-color: #587ecf;
+      background-color: #00A0B0;
       margin-top: 1rem;
     }
 
@@ -74,16 +117,15 @@
     }
 
     .logo_signin {
-      width: 6.2rem;
+      width: 21rem;
       height: auto;
       margin-bottom: 1rem;
-      animation: spinner 2s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     .sign_in_title {
-      font-size: 3.4rem;
+      font-size: 1.6rem;
       font-weight: 400;
-      margin-bottom: 2rem;
+      margin-top: 8%;
       color: $color-primary;
     }
     .sign_switch {
@@ -91,7 +133,11 @@
       text-decoration: underline;
       color: $color-grey-dark;
     }
+
+
   }
+
+
 }
 
 .container_library {
