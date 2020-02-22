@@ -24,7 +24,8 @@ class PopupSearch extends React.Component {
         s_block: styles.s_block,
         s_definition: styles.s_definition,
         s_synonyms: styles.s_synonyms,
-        s_speech: styles.s_speech
+        s_speech: styles.s_speech,
+        s_origin: styles.s_origin
       }
     };
   }
@@ -75,8 +76,9 @@ class PopupSearch extends React.Component {
           className={styles.popupSearchContainer}
           style={{
             display: this.props.isPopupVisible,
-            left: this.props.posX,
-            top: this.props.posY,
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
           }}
         >
           <p>{this.props.resDetails}</p>

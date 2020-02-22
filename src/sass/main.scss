@@ -10,12 +10,12 @@
   border-radius: 2rem;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba($color: #000000, $alpha: 0.3);
+  background-color: rgba($color: #000000, $alpha: 0.1);
   border-radius: 2rem;
   border: 1px solid transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba($color: #000000, $alpha: 0.5);
+  background: rgba($color: #000000, $alpha: 0.6);
 }
 
 .container_init {
@@ -106,6 +106,33 @@
   background-repeat: no-repeat;
   background-size: cover;
 
+  .library_date_container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+
+    .today {
+      width: 100%;
+      height: auto;
+      font-size: 1rem;
+      color: rgba($color: $color-green, $alpha: 1);
+      letter-spacing: .5rem;
+      margin-bottom: 1%;
+      font-weight: 600;
+    }
+
+    .date {
+      width: 100%;
+      height: auto;
+      font-size: 1rem;
+      color: rgba($color: $color-grey-dark, $alpha: 0.5);
+      letter-spacing: .5rem;
+      margin: 1.5% 0;
+      margin-bottom: 1%;
+    }
+  }
+
   .library_right_container {
     width: 30%;
     min-width: 25rem;
@@ -176,9 +203,26 @@
     width: 70%;
     position: relative;
     height: auto;
-    padding: 5rem 2% 0 2%;
+    padding: 5rem 1rem 0 2%;
     display: flex;
     flex-flow: column;
+
+    .search_panel_switch {
+      position: absolute;
+      width: 2.2rem;
+      height: 4.4rem;
+      background-color: white;
+      border: none;
+      right: 0;
+      top: 50%;
+      border-radius: 4rem 0 0 4rem;
+      font-size: $size-large;
+      color: $color-grey-dark;
+      padding-right: 0.3rem;
+      text-align: right;
+      align-self: center;
+      font-weight: 300;
+    }
 
     .library_left_top {
       margin: 5rem 0 5rem 0;
@@ -186,8 +230,8 @@
       align-items: center;
       justify-content: space-between;
       .addBtn {
-        width: 4.4rem;
-        height: 4.4rem;
+        width: 4.2rem;
+        height: 4.2rem;
         padding: 0;
         margin: 0 0 0 5%;
         border: none;
@@ -205,7 +249,7 @@
       color: $color-orange;
       margin-left: 0.5rem;
       margin-right: 1rem;
-      font-weight: 800;
+      font-weight: 600;
     }
   }
 
@@ -251,13 +295,14 @@
   }
 
   .addImg {
-    width: 4.4rem;
-    height: 4.4rem;
+    width: 4.2rem;
+    height: 4.2rem;
   }
 
   .library_book_container {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     overflow: auto;
     height: 100%;
     padding-top: 1.2rem;
@@ -266,11 +311,12 @@
       position: relative;
       top: 35%;
       display: block;
-      width: 5.4rem;
-      height: 5.4rem;
+      width: 5rem;
+      height: 5rem;
       margin: 0 auto;
       border-radius: 20rem;
       object-fit: cover;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -278,9 +324,9 @@
 .book_container {
   position: relative;
   display: block;
-  width: 15.4rem;
-  height: 20.8rem;
-  margin-right: 1.4rem;
+  width: 15rem;
+  height: 19rem;
+  margin-right: 1.2rem;
   margin-bottom: 1.4rem;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
   border-radius: 0.3rem 0 0 0.3rem;
@@ -311,29 +357,41 @@
 
   .book_cover {
     display: flex;
-    border: 1px $color-primary solid;
+    border: 1px rgba($color: #000000, $alpha: 0.6) solid;
     background-color: white;
     width: 100%;
     height: 100%;
-
-    padding: 1.5rem;
+    border-radius: 0.4rem 0 0 0.4rem;
+    padding: 2.6rem;
+    padding-top: 2rem;
+    padding-bottom: 0.8rem;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    overflow: hidden;
 
     .book_cover_color {
-      width: 4%;
-      height: 100%;
+      width: 3%;
+      height: 110%;
       background-color: $color-primary;
       position: absolute;
       left: 0px;
       top: 0px;
       z-index: 2000;
+      &::before {
+        content: "";
+        display: block;
+        width: 2px;
+        height: 100%;
+        background-color: rgba($color: white, $alpha: 0.2);
+        margin-left: 0px;
+      }
     }
     .book_title {
       color: $color-grey-dark;
-      font-size: $size-normal;
-      font-weight: 700;
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 2.6rem;
     }
     .book_page_container {
       margin: 0 auto;
@@ -348,9 +406,15 @@
 }
 
 @keyframes jump {
-  0%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
-  40%  {transform: translate3d(0,0%,0) scale3d(.9,1.1,1);}
-  100% {transform: translate3d(0,20%,0) scale3d(1,.9,1);}
+  0% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  40% {
+    transform: translate3d(0, 0%, 0) scale3d(0.9, 1.1, 1);
+  }
+  100% {
+    transform: translate3d(0, 20%, 0) scale3d(1, 0.9, 1);
+  }
 }
 
 .search_container {
@@ -366,14 +430,15 @@
 
   .loading {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    width: 6rem;
-    height: 6rem;
+    width: 5rem;
+    height: 5rem;
     border-radius: 20rem;
     object-fit: cover;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
 
   ul {
@@ -417,7 +482,7 @@
         padding: 0.1rem 0.8rem;
         border-radius: 5rem;
         font-weight: 600;
-        &_hot{
+        &_hot {
           position: absolute;
           right: 2rem;
           top: 0rem;
@@ -427,9 +492,9 @@
           font-weight: 600;
           background-color: $color-red;
           color: white;
-          animation: jump .5s linear alternate infinite;
+          animation: jump 0.5s linear alternate infinite;
         }
-        &_init{
+        &_init {
           position: absolute;
           right: 2rem;
           top: 0rem;
@@ -440,8 +505,17 @@
           background-color: $color-grey-light;
           color: $color-grey-dark;
         }
-
-
+      }
+      div {
+        color: $color-grey-dark;
+        line-height: 2.4rem;
+        font-size: 1.5rem;
+      }
+      .s_origin {
+        font-size: $size-small;
+        color: rgba($color: #000000, $alpha: 0.4);
+        line-height: 1.9rem;
+        margin-bottom: .8rem;
       }
       .s_word {
         display: block;
@@ -461,6 +535,7 @@
       .s_detail {
         font-size: $size-s-detail;
         color: $color-grey-dark;
+        margin-top: 0.5rem;
         margin-bottom: 0rem;
         font-weight: 500;
       }
@@ -514,8 +589,8 @@
   }
   .search_title {
     color: $color-primary;
-    font-size: $size-normal;
-    letter-spacing: 0.1rem;
+    font-size: $size-small;
+    letter-spacing: .5rem;
     font-weight: 400;
     margin: 4.2% auto 2% auto;
     &::before {
@@ -650,49 +725,63 @@
     display: flex;
     line-height: 1.6;
     flex-direction: column;
-    padding: 1.5rem 2rem 2.5rem 2rem;
+    padding: 1.5rem 2rem 2rem 2rem;
     position: fixed;
-    border-radius: 2rem;
+    border-radius: 1.5rem;
     background-color: #fffecc;
     border: 1px $color-grey-dark solid;
     box-shadow: 0.2rem 0.2rem 0.6rem rgba($color: #000000, $alpha: 0.2);
     z-index: 20000;
+
     .holdScroll {
       overflow: auto;
       padding: 0rem 2rem 1rem 2rem;
       height: 100%;
+      color: $color-grey-dark;
     }
     .s_container {
       position: relative;
     }
+
+    div {
+      color: $color-grey-dark;
+      line-height: 2.4rem;
+      font-size: 1.7rem;
+    }
+    .s_origin {
+      font-size: $size-small;
+      color: rgba($color: #000000, $alpha: 0.4);
+      line-height: 1.9rem;
+    }
     .s_times {
       display: none;
-      position: absolute;
-      right: 0;
-      top: 0rem;
-      color: white;
-      background-color: $color-orange;
-      font-size: $size-small;
-      padding: 0.2rem 0.8rem;
-      border-radius: 5rem;
+      &_hot {
+        display: none;
+      }
+      &_init {
+        display: none;
+      }
     }
     .s_word {
-      font-size: $size-normal;
-      font-weight: 800;
+      display: block;
+      font-size: 2.3rem;
+      font-weight: 700;
       color: $color-grey-dark;
-      margin-left: -1rem;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
     }
     .s_phonetic {
-      font-size: $size-small;
+      font-size: 1.4rem;
       font-weight: 600;
       color: $color-orange;
-      margin-top: 0.5rem;
+      margin-top: 0rem;
       margin-bottom: 0.5rem;
-      letter-spacing: 3px;
+      letter-spacing: 1px;
     }
     .s_detail {
       font-size: $size-s-detail;
       color: $color-grey-dark;
+      margin-top: 0.5rem;
       margin-bottom: 0rem;
       font-weight: 500;
     }
@@ -707,15 +796,12 @@
     }
     .s_block {
       display: inline-block;
-      border-radius: 2rem;
-      font-size: 1rem;
-      padding: 0.3rem 0.8rem;
-      font-weight: 700;
-      margin-top: 1.2rem;
-      margin-bottom: 0.5rem;
-      margin-left: -0.6rem;
-      border: 1px solid $color-grey-dark;
-      background-color: transparent;
+      font-size: 1.4rem;
+      padding: 0.1rem 0.8rem;
+      font-weight: 400;
+      margin-top: 1.1rem;
+      margin-left: -0.8rem;
+      margin-bottom: 0.6rem;
     }
     .s_definition {
       font-size: $size-s-detail;
@@ -727,18 +813,17 @@
       margin-bottom: 0rem;
     }
     .s_synonyms {
-      font-size: 1.4rem;
-      color: $color-grey-dark;
+      font-size: 1.3rem;
+      color: $color-secondary;
       line-height: 0rem;
-      font-style: italic;
-      font-weight: 200;
+      font-weight: 500;
     }
     .s_speech {
       display: inline-block;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       font-weight: 800;
-      margin-left: -1.5rem;
-      margin-top: 0.5rem;
+      margin-left: -1.1rem;
+      margin-top: 1rem;
       &::before {
         content: "-";
         font-weight: 800;
@@ -884,15 +969,15 @@
   align-items: center;
   padding-left: 2.5%;
   z-index: 22000;
-  letter-spacing: .08rem;
+  letter-spacing: 0.08rem;
   .logo_topRight {
     display: flex;
     align-items: center;
-    .tutorial{
+    .tutorial {
       display: flex;
       align-items: center;
     }
-    .contact{
+    .contact {
       display: flex;
       align-items: center;
       margin-left: 2rem;
@@ -917,15 +1002,15 @@
       }
 
       .signout_img {
-        margin-top: .2rem;
+        margin-top: 0.2rem;
         width: 1.6rem;
       }
     }
   }
   .logo_small {
     display: inline-block;
-    width: 2rem;
-    height: 2.1rem;
+    width: 10rem;
+    height: auto;
   }
   .logo_container {
     display: flex;
@@ -935,15 +1020,16 @@
     display: inline-block;
     margin-left: 1rem;
     vertical-align: top;
-    color: white;
-    font-weight: 300;
-    font-size: $size-normal;
+    color: rgba(255, 255, 255, 0.719);
+    font-weight: 200;
+    font-size: $size-small;
+    
   }
   .contact_wording {
     display: inline-block;
     margin-left: 1rem;
     vertical-align: top;
-    color: white;
+    color: rgba(255, 255, 255, 0.705);
     font-weight: 300;
     font-size: $size-small;
   }
@@ -951,7 +1037,7 @@
     display: inline-block;
     margin-left: 1rem;
     vertical-align: top;
-    color: white;
+    color: rgba(255, 255, 255, 0.705);
     font-weight: 300;
     font-size: $size-small;
   }

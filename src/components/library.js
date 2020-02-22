@@ -7,34 +7,80 @@ import SignOut from "./sign_out";
 import Greetings from "../components/greeting";
 import { savePrefToRedux } from "../actions/";
 
-// get name from redux
-
 class Library extends React.Component {
   constructor(props) {
     super(props);
     this.addNewContent = this.addNewContent.bind(this);
     this.state = {
       isLoading: true,
-      books: [],
       colors: [],
-      bookContent: ""
+      bookContent: "",
+      newDateGroups: "",
+      today:""
     };
+    this.generateBooks = this.generateBooks.bind(this);
   }
 
-  deleteBook(id) {
-    let tempbooks = this.state.books;
-    let tempName = tempbooks[id];
-    console.log(tempName);
-    tempbooks.splice(id, 1);
+  generateBooks() {
+    return this.state.newDateGroups.map((date, index) => {
+      return (
+        <div key={index} className={styles.library_date_container}>
+          <span className={date[0]===this.state.today ? styles.today: styles.date}>{date[0]===this.state.today ? 'TODAY': date[0]}</span>
+          {date[1].map((book, index) => {
+            return (
+              <Book
+                key={index}
+                titleCover={
+                  book.title.trim().split(" ")[0] +
+                  " " +
+                  book.title.trim().split(" ")[1] +
+                  " " +
+                  book.title.trim().split(" ")[2] +
+                  " " +
+                  book.title.trim().split(" ")[3] +
+                  " " +
+                  book.title.trim().split(" ")[4] +
+                  "..."
+                }
+                date={date[0]}
+                title={book.title}
+                color={book.coverColor}
+                id={book.id}
+                position={index}
+                history={this.props.history}
+                content={book.content}
+                deleteBook={this.deleteBook.bind(this)}
+              />
+            );
+          })}
+        </div>
+      );
+    });
+  }
+
+  deleteBook(id, date, position) {
+    let tempDates = this.state.newDateGroups; 
+
+    tempDates.map(eachDate => {
+      if (eachDate[0] === date) {
+        eachDate[1].map(book => {
+          if (book.title === id) {
+            eachDate[1].splice(position, 1);
+          }
+        });
+      }
+      return eachDate;
+    });
+    console.log(tempDates);
     this.setState({
-      books: tempbooks
+      newDateGroups: tempDates
     });
     let uid = this.props.userUID;
     let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .collection("Library")
-      .doc(tempName)
+      .doc(id)
       .delete()
       .then(alert("The book has been deleted!"))
       .catch(error => console.log("Error removing document", error));
@@ -45,60 +91,52 @@ class Library extends React.Component {
   }
 
   componentDidMount() {
+    // 如果找不到UID，就返回註冊頁
     let uid = this.props.userUID;
     let db = firebase.firestore();
+
+    let getDate = new Date();
+    let today =
+      getDate.getFullYear() +
+      "/" +
+      (getDate.getMonth() + 1) +
+      "/" +
+      getDate.getDate();
+
     db.collection("users")
       .doc(`${uid}`)
       .collection("Library")
-      .orderBy("createdTime", "desc")
+      .orderBy("createdTime", "asc")
       .get()
       .then(library => {
-        let tempBooks = [];
-        let tempColors = [];
-        let tempBookContent = [];
-        // let tempBookCreatedTime = [];
         let booksAll = [];
         library.forEach(book => {
-          booksAll.push(book.data());
-          tempColors.push(book.data().coverColor);
-          tempBooks.push(book.id);
-          tempBookContent.push(book.data().content);
-          // tempBookCreatedTime.push(book.data().createdTime);
+          let tempData = book.data();
+          tempData.id = book.id;
+          booksAll.push(tempData);
         });
-        // console.log("所有書籍資料為", booksAll);
-
-        // var temp = new Date(booksAll[0].createdTime);
-        // let n = [
-        //       temp.getFullYear(),
-        //       temp.getMonth() + 1,
-        //       temp.getDate()
-        //     ];
-        //         let newAll = booksAll.map((book, index) => {
-        //           var temp = new Date(book.createdTime);
-        //           let n = temp.getFullYear().toString()+ (temp.getMonth() + 1).toString() + temp.getDate().toString();
-        //           book.createdTime = n;
-        //           return book;
-        //         });
-
-        // var result = newAll.filter(function(element, index, arr){
-        //     return arr.indexOf(element.createdTime) === index;
-        // });
-        //           console.log('result=',result) ;
-
-        // for (let i = 0; i < booksAll.length; i++) {
-        //   let tempTime = new Date(booksAll[i].createdTime);
-        //   let displayTime = [
-        //     tempTime.getFullYear(),
-        //     tempTime.getMonth() + 1,
-        //     tempTime.getDate()
-        //   ];
-
-        //   console.log(dateGroup);
-        // }
+        let dateAll = booksAll.map((book, index) => {
+          var temp = new Date(book.createdTime);
+          let n =
+            temp
+              .getFullYear()
+              .toString()
+              .concat("/") +
+            (temp.getMonth() + 1).toString().concat("/") +
+            temp.getDate().toString();
+          book.createdTime = n;
+          return book;
+        });
+        dateAll.reverse();
+        let groupBy = require("lodash.groupby");
+        let newDateGroups = Object.entries(
+          groupBy(dateAll, function(el) {
+            return el.createdTime;
+          })
+        );
         this.setState({
-          books: tempBooks,
-          colors: tempColors,
-          bookContent: tempBookContent,
+          today:today,
+          newDateGroups: newDateGroups,
           isLoading: false
         });
       });
@@ -132,7 +170,7 @@ class Library extends React.Component {
               className={styles.logo_small}
               src={require("../images/logo_small.png")}
             />
-            <span className={styles.logo_wording}>Read you</span>
+            <span className={styles.logo_wording}>Search easy. Read easy</span>
           </div>
           <div className={styles.logo_topRight}>
             <div className={styles.tutorial}>
@@ -153,6 +191,7 @@ class Library extends React.Component {
           </div>
         </header>
         <div className={styles.library_left_container}>
+          <div className={styles.search_panel_switch}>›</div>
           <div className={styles.library_left_top}>
             <Greetings userName={this.props.userName} />
             <button onClick={this.addNewContent} className={styles.addBtn}>
@@ -169,29 +208,7 @@ class Library extends React.Component {
                 src={require("../images/loading2.gif")}
               />
             ) : (
-              this.state.books.map((booktitle, index) => (
-                <Book
-                  titleCover={
-                    booktitle.trim().split(" ")[0] +
-                    " " +
-                    booktitle.trim().split(" ")[1] +
-                    " " +
-                    booktitle.trim().split(" ")[2] +
-                    " " +
-                    booktitle.trim().split(" ")[3] +
-                    " " +
-                    booktitle.trim().split(" ")[4] +
-                    "..."
-                  }
-                  title={booktitle}
-                  color={this.state.colors[index]}
-                  key={index}
-                  id={index}
-                  history={this.props.history}
-                  content={this.state.bookContent[index]}
-                  deleteBook={this.deleteBook.bind(this)}
-                />
-              ))
+              this.generateBooks()
             )}
           </div>
         </div>
@@ -211,8 +228,3 @@ function mapStateToProps(state) {
   };
 }
 export default connect(mapStateToProps)(Library);
-
-//      Organize the search result from the search api.
-//      loop through the search history, render words on search panel. ( firebase & Redux )
-//      Switch the dropdown list, re-arrange the order of the words. ( Redux )
-//      toggle the all/Favorite to filter out the words ( Redux )

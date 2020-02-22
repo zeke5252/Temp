@@ -30,8 +30,6 @@ class Word extends React.Component {
       data = this.props.resDetails;
     }
 
-    // 如果該元素是一個陣列，則跳過
-
     // Full content
     let renderFull = Object.keys(data).map((catogory, index1) => (
       <div key={index1}>
@@ -40,7 +38,7 @@ class Word extends React.Component {
         <div
           className={
             /\s/.test(Object.values(data)[index1])
-              ? ""
+              ? this.props.styleParent.s_origin
               : Object.values(data)
                   [index1].toString()
                   .includes("/")
@@ -54,9 +52,9 @@ class Word extends React.Component {
           ) : typeof Object.values(data)[index1] === "number" ? (
             <div
               className={
-                data.times >= 10
+                data.times >= 5
                   ? this.props.styleParent.s_times_hot
-                  : data.times > 1 && data.times < 10
+                  : data.times > 1 && data.times < 5
                   ? this.props.styleParent.s_times
                   : this.props.styleParent.s_times_init
               }

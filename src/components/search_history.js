@@ -29,9 +29,10 @@ class Search_history extends React.Component {
         s_example: styles.s_example,
         s_synonyms: styles.s_synonyms,
         s_speech: styles.s_speech,
+        s_origin: styles.s_origin,
       },
       allIDs: [],
-      isLoading: false,
+      isLoading: true,
       sortBy: "times",
       isFull: true,
       isVisible: true

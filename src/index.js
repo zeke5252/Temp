@@ -19,9 +19,9 @@ class App extends React.Component {
   componentDidMount(){
     let user = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        // console.log('signin!')
+        console.log('signin!')
       } else {
-        // console.log("No one signed in");
+        console.log("No one signed in");
       }
     });
   }

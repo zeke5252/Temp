@@ -39,7 +39,7 @@ class Book extends React.Component {
     }
     return (
       <div className={styles.book_container} onMouseOver={this.showDeleteBtn} onMouseOut={this.hideDeleteBtn}>
-        <div className={styles.deleteBtn} style={{display:this.state.isVisible}} onClick={this.props.deleteBook.bind(this, this.props.id)}>✕</div>
+        <div className={styles.deleteBtn} style={{display:this.state.isVisible}} onClick={this.props.deleteBook.bind(this, this.props.id, this.props.date, this.props.position)}>✕</div>
         <div className={styles.book_cover} onClick={this.openBook}>  
           <span className={styles.book_cover_color} style={theColor}></span>
           <span className={styles.book_title}>{this.props.titleCover}</span>
