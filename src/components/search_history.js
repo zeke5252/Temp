@@ -35,7 +35,7 @@ class Search_history extends React.Component {
       isLoading: true,
       sortBy: "times",
       isFull: true,
-      isVisible: true
+      isVisible: true,
     };
     this.sortHandler = this.sortHandler.bind(this);
     this.renderWords = this.renderWords.bind(this);
@@ -141,8 +141,10 @@ class Search_history extends React.Component {
 
   render() {
     return (
-      <div className={styles.search_container}>
-        <div className={styles.search_panel_switch}>></div>
+      <div className={styles.search_container} style={this.props.isSearchContainerVisible ? {display:'flex'}:{display:'none'}}>
+        <div className={styles.search_panel_switch} onClick={this.props.hideSearchContainer}>
+          >
+        </div>
         <span className={styles.search_title}>SEARCH HISTORY</span>
         <select className={styles.minimal} onChange={this.sortHandler}>
           <option value="times">by frequency</option>
@@ -176,15 +178,15 @@ class Search_history extends React.Component {
               src={require("../images/loading2.gif")}
             />
           ) : this.state.allWords.length === 0 ? (
-              <div className={styles.empty_history}>
-                <img
-                  src={require("../images/empty.png")}
-                  className={styles.empty_img}
-                ></img>
-                <span className={styles.empty_str}>
-                  The search history is empty.
-                </span>
-              </div>
+            <div className={styles.empty_history}>
+              <img
+                src={require("../images/empty.png")}
+                className={styles.empty_img}
+              ></img>
+              <span className={styles.empty_str}>
+                The search history is empty.
+              </span>
+            </div>
           ) : (
             this.state.allWords.map((word, i) => {
               return (

@@ -45,7 +45,7 @@
 
   .library_right_container {
     width: 30%;
-    @include respond(phone) {
+    @include respond(phone){
       width: 0%;
     }
   }
@@ -96,7 +96,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      @include respond(phone){
+      @include respond(phone) {
         margin: 2rem 0 0 0;
       }
     }
@@ -105,7 +105,7 @@
       font-size: $size-large;
       color: $color-primary;
       font-weight: 400;
-      @include respond(phone){
+      @include respond(phone) {
         line-height: 3rem;
         margin-bottom: 2rem;
       }
@@ -131,7 +131,7 @@
       padding: 5rem 1rem 0 4%;
     }
 
-        .search_panel_switch {
+    .search_panel_switch {
       position: absolute;
       width: 3.3rem;
       height: 6.6rem;
@@ -140,7 +140,7 @@
       top: 50%;
       border-radius: 4rem 0 0 4rem;
       font-size: 4rem;
-      color: rgba($color: $color-grey-dark, $alpha: .4);
+      color: rgba($color: $color-grey-dark, $alpha: 0.4);
       text-align: right;
       align-self: center;
       line-height: 3.2rem;
@@ -148,18 +148,19 @@
       display: none;
       z-index: 15000;
       cursor: pointer;
-      transform: scaleX(.4);
+      transform: scaleX(0.4);
       padding: 1rem 1rem;
       @include respond(phone) {
         display: block;
-      }}
+      }
+    }
 
     .library_left_top {
       margin: 5rem 0 2rem 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      @include respond(phone){
+      @include respond(phone) {
         margin: 2rem 0 0 0;
       }
       .addBtn {
@@ -176,7 +177,7 @@
       font-size: $size-large;
       color: $color-primary;
       font-weight: 400;
-      @include respond(phone){
+      @include respond(phone) {
         line-height: 3rem;
         margin-bottom: 2rem;
       }
@@ -290,7 +291,7 @@
     transform: translateX(-5px) rotate3d(0, 0, 1, 5deg);
   }
   transition: all 0.1s;
-  @include respond(tab-port){
+  @include respond(tab-port) {
     width: 15rem;
     height: 20rem;
   }
@@ -375,7 +376,6 @@
     transform: translate3d(0, 20%, 0) scale3d(1, 0.9, 1);
   }
 }
-
 
 .bookContent {
   display: block;

@@ -16,9 +16,24 @@ class Library extends React.Component {
       colors: [],
       bookContent: "",
       newDateGroups: "",
-      today: ""
+      today: "",
+      isSearchContainerVisible: true
     };
     this.generateBooks = this.generateBooks.bind(this);
+    this.hideSearchContainer = this.hideSearchContainer.bind(this);
+    this.showSearchContainer = this.showSearchContainer.bind(this);
+  }
+
+  showSearchContainer() {
+    this.setState({
+      isSearchContainerVisible: true
+    });
+  }
+
+  hideSearchContainer() {
+    this.setState({
+      isSearchContainerVisible: false
+    });
   }
 
   generateBooks() {
@@ -67,7 +82,10 @@ class Library extends React.Component {
     } else {
       return (
         <div className={styles.empty}>
-          <img src={require("../images/empty.png")} className={styles.empty_img}></img> 
+          <img
+            src={require("../images/empty.png")}
+            className={styles.empty_img}
+          ></img>
           <span className={styles.empty_str}>The library is empty.</span>
         </div>
       );
@@ -207,7 +225,12 @@ class Library extends React.Component {
           </div>
         </header>
         <div className={styles.library_left_container}>
-          <div className={styles.search_panel_switch}>{'<'}</div>
+          <div
+            className={styles.search_panel_switch}
+            onClick={this.showSearchContainer}
+          >
+            {"<"}
+          </div>
           <div className={styles.library_left_top}>
             <Greetings userName={this.props.userName} />
             <button onClick={this.addNewContent} className={styles.addBtn}>
@@ -229,7 +252,10 @@ class Library extends React.Component {
           </div>
         </div>
         <div className={styles.library_right_container}>
-          <Search_history />
+          <Search_history
+            isSearchContainerVisible={this.state.isSearchContainerVisible}
+            hideSearchContainer={this.hideSearchContainer}
+          />
         </div>{" "}
       </div>
     );
