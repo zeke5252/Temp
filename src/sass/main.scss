@@ -1,174 +1,8 @@
 @import "./variables.scss";
 @import "./animation.scss";
 @import "./base.scss";
-
-::-webkit-scrollbar {
-  width: 1rem;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 2rem;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba($color: #000000, $alpha: 0.1);
-  border-radius: 2rem;
-  border: 1px solid transparent;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba($color: #000000, $alpha: 0.6);
-}
-
-.container_init {
-  display: block;
-  width: 100%;
-  height: 100vh;
-  background-image: url("../images/bg_signin.jpg");
-  background-position: bottom;
-  background-color: $color-grey-light;
-  border: 0.8rem solid white;
-  background-size: cover;
-  position: relative;
-
-  .container_sign_in {
-    position: absolute;
-    left: 50%;
-    top: 45%;
-    width: 60%;
-    height: auto;
-    display: flex;
-    transform: translate(-50%, -50%);
-    @include respond(tab-land){
-      width: 80%;
-    }
-    @include respond(phone){
-      width: 100%;
-    }
-  }
-
-  .sign_in_container_right {
-    display: inline-block;
-    width: 75%;
-    height: 100%;
-    padding-left: 8%;
-    margin-top: -1.5rem;
-    @include respond(phone){
-      display: none;
-    }
-
-    .sign_in_slang {
-      font-size: 3.5rem;
-      font-weight: 300;
-      vertical-align: middle;
-      color: $color-primary;
-      font-style: italic;
-      @include respond(tab-land){
-        font-size: 2.5rem;
-      }
-      @include respond(tab-port){
-        font-size: 2rem;
-      }
-    }
-    .sign_in_slang_author {
-      display: block;
-      text-align: right;
-      font-size: 2rem;
-      font-weight: 500;
-      color: $color-primary;
-      letter-spacing: 1px;
-      color: $color-orange;
-      @include respond(tab-port){
-        font-size: 1.4rem;
-      }
-    }
-  }
-
-  .sign_in_container_left {
-    width: 25%;
-    min-width: 27rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: left;
-    animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-    position: relative;
-    &::after {
-      content: "";
-      width: 1px;
-      height: 85%;
-      background-color: rgba($color: $color-primary, $alpha: 0.4);
-      position: absolute;
-      top: 0;
-      right: 0;
-      -moz-transform: skew(-7deg);
-      -webkit-transform: skew(-7deg);
-      transform: skew(-7deg);
-      @include respond(phone){
-        width: 0
-      }
-    }
-    @include respond(phone){
-      width: 100%;
-      align-items: center;
-    }
-
-    .sign_in_slogan {
-      font-size: 2rem;
-      color: $color-primary;
-      font-weight: 400;
-    }
-
-    input {
-      width: 30%;
-      min-width: 20rem;
-      max-width: 22rem;
-      border-radius: 0.5rem;
-      height: $height-input;
-      margin-top: 1rem;
-      padding: 1rem;
-      border: 1px solid $color-grey-light;
-    }
-
-    button {
-      width: 30%;
-      min-width: 20rem;
-      max-width: 22rem;
-      height: 4.4rem;
-      margin-top: 3rem;
-      border: none;
-      background-color: $color-primary;
-      color: white;
-    }
-
-    .fb_btn {
-      background-color: #00a0b0;
-      margin-top: 1rem;
-    }
-
-    .message {
-      margin-top: 1.6rem;
-      font-size: $size-small;
-      color: $color-orange;
-    }
-
-    .logo_signin {
-      width: 21rem;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-
-    .sign_in_title {
-      font-size: 1.6rem;
-      font-weight: 400;
-      margin-top: 8%;
-      color: $color-primary;
-    }
-    .sign_switch {
-      margin-top: 1.8rem;
-      text-decoration: underline;
-      color: $color-grey-dark;
-    }
-  }
-}
+@import "./sign_in.scss";
+@import "./search_history.scss";
 
 .container_library {
   display: flex;
@@ -211,9 +45,8 @@
 
   .library_right_container {
     width: 30%;
-    min-width: 25rem;
     @include respond(phone) {
-      display: none;
+      width: 0%;
     }
   }
 
@@ -263,12 +96,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      @include respond(phone){
+        margin: 2rem 0 0 0;
+      }
     }
 
     .library_greeting {
       font-size: $size-large;
       color: $color-primary;
       font-weight: 400;
+      @include respond(phone){
+        line-height: 3rem;
+        margin-bottom: 2rem;
+      }
     }
 
     .library_yourName {
@@ -288,38 +128,40 @@
     flex-flow: column;
     @include respond(phone) {
       width: 100%;
+      padding: 5rem 1rem 0 4%;
     }
 
-    .search_panel_switch {
+        .search_panel_switch {
       position: absolute;
       width: 3.3rem;
       height: 6.6rem;
-      background-color: white;
       border: none;
       right: 0;
       top: 50%;
       border-radius: 4rem 0 0 4rem;
       font-size: 4rem;
-      color: $color-grey-dark;
-      padding-right: 0.8rem;
+      color: rgba($color: $color-grey-dark, $alpha: .4);
       text-align: right;
       align-self: center;
-      line-height: 6rem;
-      font-weight: 200;
+      line-height: 3.2rem;
+      font-weight: 100;
       display: none;
       z-index: 15000;
       cursor: pointer;
-
+      transform: scaleX(.4);
+      padding: 1rem 1rem;
       @include respond(phone) {
         display: block;
-      }
-    }
+      }}
 
     .library_left_top {
       margin: 5rem 0 2rem 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      @include respond(phone){
+        margin: 2rem 0 0 0;
+      }
       .addBtn {
         width: 4.2rem;
         height: 4.2rem;
@@ -334,6 +176,10 @@
       font-size: $size-large;
       color: $color-primary;
       font-weight: 400;
+      @include respond(phone){
+        line-height: 3rem;
+        margin-bottom: 2rem;
+      }
     }
 
     .library_yourName {
@@ -433,8 +279,8 @@
 .book_container {
   position: relative;
   display: block;
-  width: 15rem;
-  height: 19rem;
+  width: 22rem;
+  height: 15rem;
   margin-right: 1.2rem;
   margin-bottom: 1.4rem;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
@@ -444,6 +290,10 @@
     transform: translateX(-5px) rotate3d(0, 0, 1, 5deg);
   }
   transition: all 0.1s;
+  @include respond(tab-port){
+    width: 15rem;
+    height: 20rem;
+  }
 
   .deleteBtn {
     cursor: pointer;
@@ -526,222 +376,6 @@
   }
 }
 
-.search_container {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  padding-top: 5rem;
-  line-height: 2.1rem;
-  background-color: white;
-  font-size: 1.3rem;
-  font-weight: 500;
-  position: relative;
-
-  .loading {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    width: 5rem;
-    height: 5rem;
-    border-radius: 20rem;
-    object-fit: cover;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
-
-  ul {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    overflow: auto;
-    li {
-      list-style: none;
-      padding: 0% 7% 5rem 10%;
-      position: relative;
-      div {
-        margin-top: -0.5rem;
-        margin-bottom: -0.5rem;
-      }
-      .deleteBtn {
-        cursor: pointer;
-        width: 2.2rem;
-        height: 2.2rem;
-        z-index: 15000;
-        position: absolute;
-        right: 2rem;
-        top: 0.1rem;
-        display: flex;
-        align-items: center;
-        color: $color-grey-medium;
-        justify-content: center;
-        font-size: 1rem;
-        font-weight: 900;
-      }
-      .s_container {
-        position: relative;
-      }
-      .s_times {
-        position: absolute;
-        right: 2rem;
-        top: 0rem;
-        color: $color-primary;
-        background-color: $color-yellow;
-        font-size: 1.2rem;
-        padding: 0.1rem 0.8rem;
-        border-radius: 5rem;
-        font-weight: 600;
-        &_hot {
-          position: absolute;
-          right: 2rem;
-          top: 0rem;
-          font-size: 1.2rem;
-          padding: 0.1rem 0.8rem;
-          border-radius: 5rem;
-          font-weight: 600;
-          background-color: $color-red;
-          color: white;
-          animation: jump 0.5s linear alternate infinite;
-        }
-        &_init {
-          position: absolute;
-          right: 2rem;
-          top: 0rem;
-          font-size: 1.2rem;
-          padding: 0.1rem 0.8rem;
-          border-radius: 5rem;
-          font-weight: 600;
-          background-color: $color-grey-light;
-          color: $color-grey-dark;
-        }
-      }
-      div {
-        color: $color-grey-dark;
-        line-height: 2.4rem;
-        font-size: 1.5rem;
-      }
-      .s_origin {
-        font-size: $size-small;
-        color: rgba($color: #000000, $alpha: 0.4);
-        line-height: 1.9rem;
-        margin-bottom: 0.8rem;
-      }
-      .s_word {
-        display: block;
-        font-size: 1.7rem;
-        font-weight: 800;
-        color: $color-primary;
-        margin-bottom: 1rem;
-      }
-      .s_phonetic {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: $color-orange;
-        margin-top: 0rem;
-        margin-bottom: 0.5rem;
-        letter-spacing: 1px;
-      }
-      .s_detail {
-        font-size: $size-s-detail;
-        color: $color-grey-dark;
-        margin-top: 0.5rem;
-        margin-bottom: 0rem;
-        font-weight: 500;
-      }
-      .s_meaning {
-        font-size: $size-normal;
-        color: $color-green;
-        margin-top: 0.5rem;
-        &::before {
-          content: "-";
-          margin-right: 1rem;
-        }
-      }
-      .s_block {
-        display: inline-block;
-        font-size: 1.3rem;
-        padding: 0.1rem 0.8rem;
-        font-weight: 700;
-        margin-top: 1.1rem;
-        margin-left: -0.8rem;
-        margin-bottom: 0.6rem;
-        text-underline-position: below;
-      }
-      .s_definition {
-        font-size: $size-s-detail;
-        color: $color-grey-dark;
-      }
-      .s_example {
-        font-size: $size-s-detail;
-        color: grey;
-        margin-bottom: 0rem;
-      }
-      .s_synonyms {
-        font-size: 1.2rem;
-        color: $color-secondary;
-        line-height: 0rem;
-        font-weight: 600;
-      }
-      .s_speech {
-        display: inline-block;
-        font-size: 1.5rem;
-        font-weight: 800;
-        margin-left: -1.1rem;
-        margin-top: 1rem;
-        &::before {
-          content: "-";
-          font-weight: 800;
-          margin-right: 0.5rem;
-        }
-      }
-    }
-  }
-  .search_title {
-    color: $color-primary;
-    font-size: $size-small;
-    letter-spacing: 0.3rem;
-    font-weight: 400;
-    height: 3rem;
-    margin: 2.2rem auto 1rem auto;
-    &::before {
-      content: "-  ";
-    }
-    &::after {
-      content: "  -";
-    }
-  }
-  select {
-    width: 80%;
-    min-width: 20rem;
-    background-color: $color-grey-light;
-    border-radius: 0.5rem;
-    border-width: 0;
-    height: $height-select;
-    margin: 0 auto;
-    color: $color-primary;
-    font-weight: 500;
-    font-size: $size-normal;
-  }
-  .search_radio_container {
-    font-size: $size-normal;
-    display: flex;
-    color: $color-primary;
-    align-items: center;
-    margin: 4% auto;
-    * {
-      margin-right: 1rem;
-    }
-    .search_radio {
-      width: 2rem;
-      height: 2rem;
-      background-color: $color-primary;
-    }
-    .search_radio_divider {
-      margin: 0 2rem 0 1rem;
-      font-size: $size-small;
-      color: $color-primary;
-    }
-  }
-}
 
 .bookContent {
   display: block;
@@ -1144,6 +778,9 @@
     color: rgba(255, 255, 255, 0.705);
     font-weight: 300;
     font-size: $size-small;
+    @include respond(phone) {
+      display: none;
+    }
   }
   .tutorial_wording {
     display: inline-block;
@@ -1152,6 +789,9 @@
     color: rgba(255, 255, 255, 0.705);
     font-weight: 300;
     font-size: $size-small;
+    @include respond(phone) {
+      display: none;
+    }
   }
 }
 

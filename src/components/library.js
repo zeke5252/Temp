@@ -207,7 +207,7 @@ class Library extends React.Component {
           </div>
         </header>
         <div className={styles.library_left_container}>
-          <div className={styles.search_panel_switch}>›</div>
+          <div className={styles.search_panel_switch}>{'<'}</div>
           <div className={styles.library_left_top}>
             <Greetings userName={this.props.userName} />
             <button onClick={this.addNewContent} className={styles.addBtn}>

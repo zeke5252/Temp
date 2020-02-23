@@ -142,6 +142,7 @@ class Search_history extends React.Component {
   render() {
     return (
       <div className={styles.search_container}>
+        <div className={styles.search_panel_switch}>></div>
         <span className={styles.search_title}>SEARCH HISTORY</span>
         <select className={styles.minimal} onChange={this.sortHandler}>
           <option value="times">by frequency</option>

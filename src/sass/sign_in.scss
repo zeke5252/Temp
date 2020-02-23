@@ -1,0 +1,155 @@
+@import "./variables.scss";
+@import "./animation.scss";
+@import "./base.scss";
+
+.container_init {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/bg_signin.jpg");
+    background-position: bottom;
+    background-color: $color-grey-light;
+    border: 0.8rem solid white;
+    background-size: cover;
+    position: relative;
+  
+    .container_sign_in {
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 60%;
+      height: auto;
+      display: flex;
+      transform: translate(-50%, -50%);
+      @include respond(tab-land){
+        width: 80%;
+      }
+      @include respond(phone){
+        width: 100%;
+      }
+    }
+  
+    .sign_in_container_right {
+      display: inline-block;
+      width: 75%;
+      height: 100%;
+      padding-left: 8%;
+      margin-top: -1.5rem;
+      @include respond(phone){
+        display: none;
+      }
+  
+      .sign_in_slang {
+        font-size: 3.5rem;
+        font-weight: 300;
+        vertical-align: middle;
+        color: $color-primary;
+        font-style: italic;
+        @include respond(tab-land){
+          font-size: 2.5rem;
+        }
+        @include respond(tab-port){
+          font-size: 2rem;
+        }
+      }
+      .sign_in_slang_author {
+        display: block;
+        text-align: right;
+        font-size: 2rem;
+        font-weight: 500;
+        color: $color-primary;
+        letter-spacing: 1px;
+        color: $color-orange;
+        @include respond(tab-port){
+          font-size: 1.4rem;
+        }
+      }
+    }
+  
+    .sign_in_container_left {
+      width: 25%;
+      min-width: 27rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: left;
+      animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+      position: relative;
+      &::after {
+        content: "";
+        width: 1px;
+        height: 85%;
+        background-color: rgba($color: $color-primary, $alpha: 0.4);
+        position: absolute;
+        top: 0;
+        right: 0;
+        -moz-transform: skew(-7deg);
+        -webkit-transform: skew(-7deg);
+        transform: skew(-7deg);
+        @include respond(phone){
+          width: 0
+        }
+      }
+      @include respond(phone){
+        width: 100%;
+        align-items: center;
+      }
+  
+      .sign_in_slogan {
+        font-size: 2rem;
+        color: $color-primary;
+        font-weight: 400;
+      }
+  
+      input {
+        width: 30%;
+        min-width: 20rem;
+        max-width: 22rem;
+        border-radius: 0.5rem;
+        height: $height-input;
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid $color-grey-light;
+      }
+  
+      button {
+        width: 30%;
+        min-width: 20rem;
+        max-width: 22rem;
+        height: 4.4rem;
+        margin-top: 3rem;
+        border: none;
+        background-color: $color-primary;
+        color: white;
+      }
+  
+      .fb_btn {
+        background-color: #00a0b0;
+        margin-top: 1rem;
+      }
+  
+      .message {
+        margin-top: 1.6rem;
+        font-size: $size-small;
+        color: $color-orange;
+      }
+  
+      .logo_signin {
+        width: 21rem;
+        height: auto;
+        margin-bottom: 1rem;
+      }
+  
+      .sign_in_title {
+        font-size: 1.6rem;
+        font-weight: 400;
+        margin-top: 8%;
+        color: $color-primary;
+      }
+      .sign_switch {
+        margin-top: 1.8rem;
+        text-decoration: underline;
+        color: $color-grey-dark;
+      }
+    }
+  }
