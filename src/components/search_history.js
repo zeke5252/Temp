@@ -29,7 +29,7 @@ class Search_history extends React.Component {
         s_example: styles.s_example,
         s_synonyms: styles.s_synonyms,
         s_speech: styles.s_speech,
-        s_origin: styles.s_origin,
+        s_origin: styles.s_origin
       },
       allIDs: [],
       isLoading: true,
@@ -49,13 +49,13 @@ class Search_history extends React.Component {
     console.log(id);
     let tempWords = this.state.allWords;
     let tempWord = tempWords[id];
-    console.log('tempWord=', tempWord.word, 'ID=' ,this.state.allIDs[id] )
+    console.log("tempWord=", tempWord.word, "ID=", this.state.allIDs[id]);
     tempWords.splice(id, 1);
     this.setState({
       books: tempWords
     });
 
-    console.log(tempWord.word)
+    console.log(tempWord.word);
     let uid = this.props.userUID;
     let db = firebase.firestore();
     db.collection("users")
@@ -97,17 +97,19 @@ class Search_history extends React.Component {
       historyRef
         .orderBy(this.state.sortBy, "desc")
         .get()
-        .then(res =>
-          res.forEach(eachWord => {
+        .then(res => {
+          this.setState({
+            isLoading: false
+          });
+          return res.forEach(eachWord => {
             tempWordArrIDs.push(eachWord.id);
             tempWordArr.push(eachWord.data());
             this.setState({
               allWords: tempWordArr,
-              isLoading: false,
-              allIDs:tempWordArrIDs
+              allIDs: tempWordArrIDs
             });
-          })
-        )
+          });
+        })
         .catch(function(error) {
           console.log("Error getting document:", error);
         });
@@ -123,7 +125,7 @@ class Search_history extends React.Component {
             this.setState({
               allWords: tempWordArr,
               isLoading: false,
-              allIDs:tempWordArrIDs
+              allIDs: tempWordArrIDs
             });
           })
         )
@@ -140,7 +142,7 @@ class Search_history extends React.Component {
   render() {
     return (
       <div className={styles.search_container}>
-        <span className={styles.search_title}>Search history</span>
+        <span className={styles.search_title}>SEARCH HISTORY</span>
         <select className={styles.minimal} onChange={this.sortHandler}>
           <option value="times">by frequency</option>
           <option value="">by alphabetic</option>
@@ -172,6 +174,16 @@ class Search_history extends React.Component {
               className={styles.loading}
               src={require("../images/loading2.gif")}
             />
+          ) : this.state.allWords.length === 0 ? (
+              <div className={styles.empty_history}>
+                <img
+                  src={require("../images/empty.png")}
+                  className={styles.empty_img}
+                ></img>
+                <span className={styles.empty_str}>
+                  The search history is empty.
+                </span>
+              </div>
           ) : (
             this.state.allWords.map((word, i) => {
               return (

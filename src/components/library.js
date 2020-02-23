@@ -16,50 +16,66 @@ class Library extends React.Component {
       colors: [],
       bookContent: "",
       newDateGroups: "",
-      today:""
+      today: ""
     };
     this.generateBooks = this.generateBooks.bind(this);
   }
 
   generateBooks() {
-    return this.state.newDateGroups.map((date, index) => {
+    console.log("date", this.state.newDateGroups);
+    if (this.state.newDateGroups.length) {
+      return this.state.newDateGroups.map((date, index) => {
+        return (
+          <div key={index} className={styles.library_date_container}>
+            <span
+              className={
+                date[0] === this.state.today ? styles.today : styles.date
+              }
+            >
+              {date[0] === this.state.today ? "TODAY" : date[0]}
+            </span>
+            {date[1].map((book, index) => {
+              return (
+                <Book
+                  key={index}
+                  titleCover={
+                    book.title.trim().split(" ")[0] +
+                    " " +
+                    book.title.trim().split(" ")[1] +
+                    " " +
+                    book.title.trim().split(" ")[2] +
+                    " " +
+                    book.title.trim().split(" ")[3] +
+                    " " +
+                    book.title.trim().split(" ")[4] +
+                    "..."
+                  }
+                  date={date[0]}
+                  title={book.title}
+                  color={book.coverColor}
+                  id={book.id}
+                  position={index}
+                  history={this.props.history}
+                  content={book.content}
+                  deleteBook={this.deleteBook.bind(this)}
+                />
+              );
+            })}
+          </div>
+        );
+      });
+    } else {
       return (
-        <div key={index} className={styles.library_date_container}>
-          <span className={date[0]===this.state.today ? styles.today: styles.date}>{date[0]===this.state.today ? 'TODAY': date[0]}</span>
-          {date[1].map((book, index) => {
-            return (
-              <Book
-                key={index}
-                titleCover={
-                  book.title.trim().split(" ")[0] +
-                  " " +
-                  book.title.trim().split(" ")[1] +
-                  " " +
-                  book.title.trim().split(" ")[2] +
-                  " " +
-                  book.title.trim().split(" ")[3] +
-                  " " +
-                  book.title.trim().split(" ")[4] +
-                  "..."
-                }
-                date={date[0]}
-                title={book.title}
-                color={book.coverColor}
-                id={book.id}
-                position={index}
-                history={this.props.history}
-                content={book.content}
-                deleteBook={this.deleteBook.bind(this)}
-              />
-            );
-          })}
+        <div className={styles.empty}>
+          <img src={require("../images/empty.png")} className={styles.empty_img}></img> 
+          <span className={styles.empty_str}>The library is empty.</span>
         </div>
       );
-    });
+    }
   }
 
   deleteBook(id, date, position) {
-    let tempDates = this.state.newDateGroups; 
+    let tempDates = this.state.newDateGroups;
 
     tempDates.map(eachDate => {
       if (eachDate[0] === date) {
@@ -135,7 +151,7 @@ class Library extends React.Component {
           })
         );
         this.setState({
-          today:today,
+          today: today,
           newDateGroups: newDateGroups,
           isLoading: false
         });

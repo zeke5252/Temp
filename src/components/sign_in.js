@@ -114,16 +114,7 @@ class Sign_in extends React.Component {
         // Add warning message here
       );
   }
-  // 註冊
-  // 把名稱更新
-  // 把uid, name存入redux
-  // 跳到library
   signInHandler(propsDispatch, history) {
-    // 登入
-    // 如果這個使用者存在
-    // 把名稱更新
-    // 把uid, name存入redux
-    // 跳到library
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
@@ -212,6 +203,9 @@ class Sign_in extends React.Component {
                 src={require("../images/logo_signin.png")}
                 className={styles.logo_signin}
               />
+              <span className={styles.sign_in_slogan}>
+                Search easy. Read easy.
+              </span>
               <span className={styles.sign_in_title}>Sign up</span>
               <input
                 type="text"
@@ -242,7 +236,12 @@ class Sign_in extends React.Component {
           )}
           <div className={styles.sign_in_container_right}>
             <span className={styles.sign_in_slang}>
-            “There is reading, and there is reading. Reading as a means to an end, for information, to cultivate oneself; reading as an end in itself, a process, a compulsion.” 
+              “There is reading, and there is reading. Reading as a means to an
+              end, for information, to cultivate oneself; reading as an end in
+              itself, a process, a compulsion.”
+            </span>
+            <span className={styles.sign_in_slang_author}>
+            — Sven Birkerts
             </span>
           </div>
         </div>
