@@ -17,7 +17,8 @@
       @include respond(phone) {
       position: fixed;
       right: .5rem;
-      top:5rem;
+      top:4rem;
+      padding-top: 1.4rem;
       z-index: 27000;
     }
     .search_panel_switch {
@@ -221,7 +222,6 @@
     }
     select {
       width: 80%;
-      min-width: 20rem;
       background-color: $color-grey-light;
       border-radius: 0.5rem;
       border-width: 0;
@@ -236,7 +236,7 @@
       display: flex;
       color: $color-primary;
       align-items: center;
-      margin: 4% auto;
+      margin: 1.8rem auto;
       * {
         margin-right: 1rem;
       }

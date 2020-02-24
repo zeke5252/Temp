@@ -44,7 +44,7 @@ class Book extends React.Component {
           <span className={styles.book_cover_color} style={theColor}></span>
           <span className={styles.book_title}>{this.props.titleCover}</span>
           <div className={styles.book_page_container}>
-            <span className={styles.book_page}>36 </span> / 100
+            <span className={styles.book_searchedWords}>{this.props.searchedWords} </span>
           </div>
         </div>
       </div>

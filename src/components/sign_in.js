@@ -90,7 +90,6 @@ class Sign_in extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
-        console.log("sign up name at line 42 =", this.state.userName);
         firebase.auth().currentUser.updateProfile({
           displayName: this.state.userName
         });
@@ -141,7 +140,6 @@ class Sign_in extends React.Component {
   }
 
   onNameChange() {
-    // console.log('change=', this.state)
     this.setState({
       userName: event.target.value
     });

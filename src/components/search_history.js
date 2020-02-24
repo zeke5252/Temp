@@ -3,13 +3,6 @@ import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import Word from "./word";
 
-// Add remove word function
-// Review inifinite scroll.
-
-// Use state to re render data
-// where: add condition
-// limit: partially display
-
 class Search_history extends React.Component {
   constructor(props) {
     super(props);
@@ -41,21 +34,14 @@ class Search_history extends React.Component {
     this.renderWords = this.renderWords.bind(this);
     this.contentHandler = this.contentHandler.bind(this);
   }
-
-  // 刪除此地
-  // 刪除firestore
-
   deleteWord(id) {
-    console.log(id);
     let tempWords = this.state.allWords;
     let tempWord = tempWords[id];
-    console.log("tempWord=", tempWord.word, "ID=", this.state.allIDs[id]);
     tempWords.splice(id, 1);
     this.setState({
       books: tempWords
     });
 
-    console.log(tempWord.word);
     let uid = this.props.userUID;
     let db = firebase.firestore();
     db.collection("users")
@@ -93,7 +79,6 @@ class Search_history extends React.Component {
       .collection("Search_history");
 
     if (this.state.sortBy === "times") {
-      console.log("run=", "times");
       historyRef
         .orderBy(this.state.sortBy, "desc")
         .get()
@@ -115,7 +100,6 @@ class Search_history extends React.Component {
         });
     }
     if (this.state.sortBy === "") {
-      console.log("run=", "alphabetic");
       historyRef
         .get()
         .then(res =>

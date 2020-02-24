@@ -80,7 +80,6 @@ class ViewPreference extends React.Component {
 
   onDictionaryChange(){
     let value = event.target.value;
-    console.log('the value=', value)
     this.props.dispatch(changeDictionary(value));
     let uid = this.props.userUID;
     let db = firebase.firestore();

@@ -16,12 +16,23 @@ class Library extends React.Component {
       colors: [],
       bookContent: "",
       newDateGroups: "",
+      searchedWords: 0,
       today: "",
-      isSearchContainerVisible: true
+      isSearchContainerVisible: false,
+      browserWidth: 100,
+      browserHeight: 100
     };
     this.generateBooks = this.generateBooks.bind(this);
     this.hideSearchContainer = this.hideSearchContainer.bind(this);
     this.showSearchContainer = this.showSearchContainer.bind(this);
+  }
+
+  updateDimensions() {
+    if (window.innerWidth > 600) {
+      this.setState({ isSearchContainerVisible: true });
+    } else {
+      this.setState({ isSearchContainerVisible: false });
+    }
   }
 
   showSearchContainer() {
@@ -37,7 +48,6 @@ class Library extends React.Component {
   }
 
   generateBooks() {
-    console.log("date", this.state.newDateGroups);
     if (this.state.newDateGroups.length) {
       return this.state.newDateGroups.map((date, index) => {
         return (
@@ -54,17 +64,20 @@ class Library extends React.Component {
                 <Book
                   key={index}
                   titleCover={
-                    book.title.trim().split(" ")[0] +
-                    " " +
-                    book.title.trim().split(" ")[1] +
-                    " " +
-                    book.title.trim().split(" ")[2] +
-                    " " +
-                    book.title.trim().split(" ")[3] +
-                    " " +
-                    book.title.trim().split(" ")[4] +
-                    "..."
+                    book.title.trim().split("").length < 5
+                      ? book.title
+                      : book.title.trim().split(" ")[0] +
+                        " " +
+                        book.title.trim().split(" ")[1] +
+                        " " +
+                        book.title.trim().split(" ")[2] +
+                        " " +
+                        book.title.trim().split(" ")[3] +
+                        " " +
+                        book.title.trim().split(" ")[4] +
+                        "..."
                   }
+                  searchedWords={book.searchedWords}
                   date={date[0]}
                   title={book.title}
                   color={book.coverColor}
@@ -105,7 +118,6 @@ class Library extends React.Component {
       }
       return eachDate;
     });
-    console.log(tempDates);
     this.setState({
       newDateGroups: tempDates
     });
@@ -125,7 +137,7 @@ class Library extends React.Component {
   }
 
   componentDidMount() {
-    // 如果找不到UID，就返回註冊頁
+    // If uid not exist, return to sign in page
     let uid = this.props.userUID;
     let db = firebase.firestore();
 
@@ -174,14 +186,12 @@ class Library extends React.Component {
           isLoading: false
         });
       });
-    // 在這裡把使用者在firebase上的資料抓下來，然後特別針對preference，把它設進redux裡
     db.collection("users")
       .doc(`${uid}`)
       .get()
       .then(res => {
         // Set preference to store
-        // 如果這個user的資料存在的話，就把資料抓下來，然後把資料裡的preference設進redux
-        // console.log('首次進入圖書館，然後此時從firestore上抓下來該使用者的資料是...',res.data() )
+        // If user exists, get data and set to redux
         if (res.data()) {
           this.props.dispatch(savePrefToRedux(res.data().preference));
         } else {
@@ -190,6 +200,12 @@ class Library extends React.Component {
             .set({ preference: this.props.viewPreference });
         }
       });
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
 
   render() {

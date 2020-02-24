@@ -36,12 +36,6 @@ class Book_content extends React.Component {
     this.handleUpEvent = this.handleUpEvent.bind(this)
   }
 
-  // 創立一個state紀錄捲動高度
-  // 把捲動高度存到firestore上
-  // 進到頁面先從firestore上讀取捲動高度
-  // 然後把state依據捲動高度更新
-  // 按下back與登出鍵的同時都要記錄捲動高度
-
   showAllContent() {
     this.setState({
       searchContent: "full",
@@ -101,6 +95,7 @@ class Book_content extends React.Component {
   // }
 
   handleUpEvent(){
+    event.preventDefault(); 
     let Chinese = require("chinese-s2t");
     // this.getCursorPos();
     // Get the hightlight text
@@ -149,13 +144,11 @@ class Book_content extends React.Component {
                 });
             } else {
               // Not existed
-              console.log(this.state.tempRes);
               let newRes = Object.assign(
                 {},
                 this.state.tempRes,
                 (this.state.tempRes[0].times = 1)
               );
-              console.log(newRes);
               let newDocRef = db
                 .collection("users")
                 .doc(`${uid}`)
@@ -163,6 +156,15 @@ class Book_content extends React.Component {
                 .doc(`${highlightText}`)
                 .set(newRes[0]);
             }
+            // SearchWords increment
+            db.collection("users")
+              .doc(`${uid}`)
+              .collection("Library")
+              .doc(`${this.props.bookTitle}`)
+              .update({
+                searchedWords: firebase.firestore.FieldValue.increment(1)
+              });
+
             return db.collection("users").get();
           })
           .catch(error => console.log("code in line 170,", error));
@@ -200,7 +202,7 @@ class Book_content extends React.Component {
             resDetails: Chinese.s2t(res.data.translations[0].translatedText),
             isPopupVisible: "block"
           });
-          console.log("Google translate result=", res);
+          // console.log("Google translate result=", res);
         });
     }
   }
