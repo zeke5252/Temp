@@ -9,7 +9,8 @@ const initState = {
     dictionary: "English"
   },
   bookContent: "",
-  bookTitle: ""
+  bookTitle: "",
+  bookNote: ""
 };
 
 function reducer(state = initState, action) {
@@ -22,6 +23,8 @@ function reducer(state = initState, action) {
       return Object.assign({}, state, { bookTitle: action.payload });
     case "ADD_TEMP_CONTENT":
       return Object.assign({}, state, { bookContent: action.payload });
+    case "ADD_TEMP_NOTE":
+      return Object.assign({}, state, { bookNote: action.payload });
     case "CLEAN_STORE_DATA":
       return Object.assign({}, state, initState);
     case "SAVE_PREF_TO_REDUX":

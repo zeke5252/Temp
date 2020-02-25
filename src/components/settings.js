@@ -12,9 +12,7 @@ class Settings extends React.Component {
     );
   }
   settingsHandler() {
-    // Not solved
     this.props.showSettings();
-    this.props.turnOffHighlight ? this.props.turnOffHighlight() : {};
   }
 
   render() {

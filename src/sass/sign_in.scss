@@ -42,6 +42,7 @@
       .sign_in_slang {
         font-size: 3.5rem;
         font-weight: 300;
+        line-height: 4.8rem;
         vertical-align: middle;
         color: $color-primary;
         font-style: italic;
@@ -49,7 +50,8 @@
           font-size: 2.5rem;
         }
         @include respond(tab-port){
-          font-size: 2rem;
+          font-size: 2.2rem;
+          line-height: 3.3rem;
         }
       }
       .sign_in_slang_author {

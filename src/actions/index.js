@@ -26,6 +26,13 @@ const addTempContent = function (bookContent) {
   })
 }
 
+const addTempNote = function (bookNote) {
+  return ({
+    type: 'ADD_TEMP_NOTE',
+    payload: bookNote
+  })
+}
+
 const cleanStoreData = function () {
   return ({
     type: 'CLEAN_STORE_DATA',
@@ -74,4 +81,4 @@ const changeDictionary = function (value) {
   })
 }
 
-export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight, changeDictionary, addTempTitle }
+export { updateUID, updateDisplayName, addTempContent, cleanStoreData, savePrefToRedux, changeViewFontType, changeViewBG, changeViewFontSize, changeViewLineHeight, changeDictionary, addTempTitle, addTempNote }

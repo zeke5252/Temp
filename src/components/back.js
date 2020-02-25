@@ -9,11 +9,6 @@ class Back extends React.Component {
   }
   backHandler (history) {
     history.push('./library')
-    // this.props.turnOffHighlight ? this.props.turnOffHighlight() : {}
-    //     history.push('./library')
-    //   .catch(function (error) {
-    //     console.log('An error happened')
-    //   })
   }
 
   render () {

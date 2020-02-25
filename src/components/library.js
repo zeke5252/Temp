@@ -85,6 +85,7 @@ class Library extends React.Component {
                   position={index}
                   history={this.props.history}
                   content={book.content}
+                  note={book.note}
                   deleteBook={this.deleteBook.bind(this)}
                 />
               );

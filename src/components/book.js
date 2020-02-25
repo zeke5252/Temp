@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '../sass/main.scss'
-import { addTempContent, addTempTitle } from '../actions/'
+import { addTempContent, addTempTitle, addTempNote } from '../actions/'
 
 import { connect } from 'react-redux'
 
@@ -18,6 +18,7 @@ class Book extends React.Component {
   openBook(propsDispatch){
     propsDispatch(addTempContent(this.props.content))
     propsDispatch(addTempTitle(this.props.title))
+    propsDispatch(addTempNote(this.props.note))
     this.props.history.push('/Book_content')
   }
 
@@ -57,6 +58,7 @@ function mapStateToProps (state) {
     userUID: state.userUID,
     bookContent: state.bookContent,
     bookTitle: state.bookTitle,
+    bookNote: state.bookNote,
   }
 }
 export default connect(mapStateToProps)(Book)

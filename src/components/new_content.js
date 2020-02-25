@@ -97,7 +97,8 @@ class New_content extends React.Component {
 
   resetContent(evn) {
     this.setState({
-      content: ""
+      content: "",
+      title:""
     });
   }
 
@@ -143,6 +144,7 @@ class New_content extends React.Component {
             className={styles.library_new_content_container}
             onChange={this.onContentChange}
             value={this.state.content}
+            autoComplete="off"
           />
         </div>
       </div>
