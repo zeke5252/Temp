@@ -37,7 +37,7 @@ export default class Greetings extends React.Component {
       <p className={styles.library_greeting}>
         Hi,
         <span className={styles.library_yourName}>{this.props.userName}</span>
-        what would you like to read today?
+        {!this.props.booksAll ? 'Add your file first': 'what would you like to read today?'}
       </p>
     )
   }

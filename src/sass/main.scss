@@ -343,6 +343,11 @@
   }
 }
 
+.book_container_out {
+  position: relative;
+  perspective: 1920px;
+}
+
 .book_container {
   position: relative;
   display: block;
@@ -352,11 +357,14 @@
   margin-bottom: 1.4rem;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
   border-radius: 0.3rem 0 0 0.3rem;
+  transform-origin: left center;
+  z-index: 100;
+
   &:hover {
-    box-shadow: 4px 4px 20px rgba($color: #000000, $alpha: 0.3);
-    transform: translateX(-5px) rotate3d(0, 0, 1, 5deg);
+    box-shadow: 8px 0 15px rgba($color: #000000, $alpha: 0.2);
+    transform: rotate3d(0, 1, 0, -17deg) ;
   }
-  transition: all 0.1s;
+  transition: all 0.2s;
   @include respond(tab-port) {
     width: 15rem;
     height: 20rem;
@@ -364,6 +372,30 @@
   @include respond(phone) {
     width: 12.4rem;
     height: 16rem;
+  }
+
+  &_bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 95%;
+    height: 15rem;
+    margin-right: 1.2rem;
+    margin-bottom: 1.4rem;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    border-radius: 0.3rem 0 0 0.3rem;
+    border: 1px solid rgba($color: #000000, $alpha: 0.1);
+    z-index: 1;
+    transition: all 0.2s;
+    @include respond(tab-port) {
+      width: 15rem;
+      height: 20rem;
+    }
+    @include respond(phone) {
+      width: 12.4rem;
+      height: 16rem;
+    }
   }
 
   .deleteBtn {
@@ -407,21 +439,13 @@
     }
 
     .book_cover_color {
-      width: 3%;
+      width: 2%;
       height: 110%;
       background-color: $color-primary;
       position: absolute;
       left: 0px;
       top: 0px;
       z-index: 2000;
-      &::before {
-        content: "";
-        display: block;
-        width: 2px;
-        height: 100%;
-        background-color: rgba($color: white, $alpha: 0.2);
-        margin-left: 0px;
-      }
     }
     .book_title {
       color: $color-grey-dark;

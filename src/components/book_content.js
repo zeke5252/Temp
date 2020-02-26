@@ -18,6 +18,7 @@ class Book_content extends React.Component {
       isVisible: "none",
       isPopupVisible: "none",
       isNoteVisible: "none",
+      isSearchBtnDisabled: ".3",
       isNoteTextAreaVisible: "none",
       isNoteTextVisible: "block",
       highlightText: "",
@@ -114,12 +115,12 @@ class Book_content extends React.Component {
       searchContent: "partial",
       contentPosition: "cursor",
       backgroundColor: "rgba(0,0,0,0)",
-      width: "auto"
+      width: "auto",
+      isSearchBtnDisabled:".3"
     });
   }
 
   handleUpEvent() {
-    event.preventDefault();
     let Chinese = require("chinese-s2t");
     // this.getCursorPos();
     // Get the hightlight text
@@ -130,7 +131,8 @@ class Book_content extends React.Component {
     if (this.props.viewPreference.dictionary === "English") {
       if (highlightText.split(" ").length === 1 && highlightText !== "") {
         this.setState({
-          highlightText: highlightText
+          highlightText: highlightText,
+          isSearchBtnDisabled: "1"
         });
         let uid = this.props.userUID;
         let db = firebase.firestore();
@@ -227,16 +229,16 @@ class Book_content extends React.Component {
   }
 
   highlightHandler(data) {
-    window.oncontextmenu = function(event) {
-      event.preventDefault();
-      return false;
-    };
 
-    // For mobile system
-    document.onpointercancel = () => {
-      // or pointerout
-      this.handleUpEvent();
-    };
+    document.ontouchend = () => {
+      let highlightText = window
+      .getSelection()
+      .toString();
+      if(highlightText !== ''){this.setState({
+        isSearchBtnDisabled:"1" 
+      })}
+    }
+
     // For desktop system
     document.onmouseup = () => {
       this.handleUpEvent();
@@ -343,6 +345,12 @@ class Book_content extends React.Component {
           }}
           onClick={this.turnOffPopup.bind(this)}
         ></div>
+        <div className={styles.mobileSearch} onClick={this.handleUpEvent} style={{opacity:this.state.isSearchBtnDisabled}}>
+          <img
+            src={require("../images/mobileSearch.png")}
+            className={styles.mobileSearch_img}
+          ></img>
+        </div>
         <div className={styles.bookTitle} style={preferenceStyleTitle}>
           {this.props.bookTitle}
         </div>

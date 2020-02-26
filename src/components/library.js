@@ -20,7 +20,8 @@ class Library extends React.Component {
       today: "",
       isSearchContainerVisible: false,
       browserWidth: 100,
-      browserHeight: 100
+      browserHeight: 100,
+      booksAll:0
     };
     this.generateBooks = this.generateBooks.bind(this);
     this.hideSearchContainer = this.hideSearchContainer.bind(this);
@@ -162,6 +163,9 @@ class Library extends React.Component {
           tempData.id = book.id;
           booksAll.push(tempData);
         });
+        this.setState({
+          booksAll:booksAll.length
+        })
         let dateAll = booksAll.map((book, index) => {
           var temp = new Date(book.createdTime);
           let n =
@@ -249,7 +253,7 @@ class Library extends React.Component {
             {"<"}
           </div>
           <div className={styles.library_left_top}>
-            <Greetings userName={this.props.userName} />
+            <Greetings userName={this.props.userName} booksAll={this.state.booksAll}/>
             <button onClick={this.addNewContent} className={styles.addBtn}>
               <img
                 src={require("../images/add.png")}

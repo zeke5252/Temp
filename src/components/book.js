@@ -39,6 +39,7 @@ class Book extends React.Component {
       backgroundColor:this.props.color
     }
     return (
+    <div className={styles.book_container_out}>
       <div className={styles.book_container} onMouseOver={this.showDeleteBtn} onMouseOut={this.hideDeleteBtn}>
         <div className={styles.deleteBtn} style={{display:this.state.isVisible}} onClick={this.props.deleteBook.bind(this, this.props.id, this.props.date, this.props.position)}>✕</div>
         <div className={styles.book_cover} onClick={this.openBook}>  
@@ -48,6 +49,8 @@ class Book extends React.Component {
             <span className={styles.book_searchedWords}>{this.props.searchedWords} </span>
           </div>
         </div>
+      </div>
+      <div className={styles.book_container_bg} ></div>
       </div>
     )
   }

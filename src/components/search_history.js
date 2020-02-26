@@ -28,7 +28,7 @@ class Search_history extends React.Component {
       isLoading: true,
       sortBy: "times",
       isFull: true,
-      isVisible: true,
+      isVisible: true
     };
     this.sortHandler = this.sortHandler.bind(this);
     this.renderWords = this.renderWords.bind(this);
@@ -99,7 +99,7 @@ class Search_history extends React.Component {
           console.log("Error getting document:", error);
         });
     }
-    if (this.state.sortBy === "") {
+    if (this.state.sortBy === "alphabetic") {
       historyRef
         .get()
         .then(res =>
@@ -125,14 +125,24 @@ class Search_history extends React.Component {
 
   render() {
     return (
-      <div className={styles.search_container} style={this.props.isSearchContainerVisible ? {display:'flex'}:{display:'none'}}>
-        <div className={styles.search_panel_switch} onClick={this.props.hideSearchContainer}>
+      <div
+        className={styles.search_container}
+        style={
+          this.props.isSearchContainerVisible
+            ? { display: "flex" }
+            : { display: "none" }
+        }
+      >
+        <div
+          className={styles.search_panel_switch}
+          onClick={this.props.hideSearchContainer}
+        >
           >
         </div>
         <span className={styles.search_title}>SEARCH HISTORY</span>
-        <select className={styles.minimal} onChange={this.sortHandler}>
+        <select className={styles.minimal} onChange={this.sortHandler} defaultValue="alphabetic">
           <option value="times">by frequency</option>
-          <option value="">by alphabetic</option>
+          <option value="alphabetic">by alphabetic</option>
         </select>
         <div className={styles.search_radio_container}>
           <input
