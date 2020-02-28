@@ -33,12 +33,13 @@
     display: none;
     position: fixed;
     left: 1rem;
-    bottom: 1rem;
+    bottom: 3rem;
     width: 5rem;
     height: 5rem;
     border-radius: 5rem;
     background-color: $color-primary;
-    @include respond(phone) {
+    cursor: pointer;
+    @include respond(tab-land) {
       display: block;
     }
     &_img {
@@ -86,6 +87,7 @@
       width: 100%;
       height: 100%;
       font-size: $size-normal;
+      white-space: pre-line;
     }
   }
   .btns_leftTop {
@@ -205,12 +207,30 @@
       width: 90%;
     }
 
+    .popup_more{
+      display: inline-block;
+      transform: rotate(90deg);
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      font-size: 3rem;
+      margin: -1.5rem auto;
+      opacity: .7;
+    }
+
+    .s_more_img{
+      width: 3rem;
+      height:auto;
+      margin: 0 auto;
+    }
+
     .holdScroll {
       overflow: auto;
       padding: 0rem 2rem 1rem 2rem;
       height: 100%;
       color: $color-grey-dark;
     }
+    
     .s_container {
       position: relative;
     }
@@ -377,25 +397,25 @@
           border: 1px solid $color-grey-dark;
         }
         .view_item_bg_color_grey {
-          width: 1.6rem;
-          height: 1.6rem;
+          width: 1.8rem;
+          height: 1.8rem;
           border-radius: 0.6rem;
           background-color: #eeeeee;
-          border: 1px solid $color-grey-dark;
+    box-shadow: 1px 1px .15rem rgba($color: #000000, $alpha: 0.5);
         }
         .view_item_bg_color_yellow {
-          width: 1.6rem;
-          height: 1.6rem;
+          width: 1.8rem;
+          height: 1.8rem;
           border-radius: 0.6rem;
           background-color: #f6efdc;
-          border: 1px solid $color-grey-dark;
+    box-shadow: 1px 1px .15rem rgba($color: #000000, $alpha: 0.5);
         }
         .view_item_bg_color_peach {
-          width: 1.6rem;
-          height: 1.6rem;
+          width: 1.8rem;
+          height: 1.8rem;
           border-radius: 0.6rem;
           background-color: #edd1b0;
-          border: 1px solid $color-grey-dark;
+    box-shadow: 1px 1px .15rem rgba($color: #000000, $alpha: 0.5);
         }
       }
     }

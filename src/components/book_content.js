@@ -18,7 +18,6 @@ class Book_content extends React.Component {
       isVisible: "none",
       isPopupVisible: "none",
       isNoteVisible: "none",
-      isSearchBtnDisabled: ".3",
       isNoteTextAreaVisible: "none",
       isNoteTextVisible: "block",
       highlightText: "",
@@ -29,14 +28,15 @@ class Book_content extends React.Component {
         meaning: {
           noun: [
             {
-              definition: "means..."
+              definition: "Loading..."
             }
           ]
         }
       },
       width: "auto",
       tempRes: {},
-      tempNote: this.props.bookNote
+      tempNote: this.props.bookNote,
+      isHintMoreVisible: "none"
     };
     this.turnOffSettings = this.turnOffSettings.bind(this);
     this.handleUpEvent = this.handleUpEvent.bind(this);
@@ -64,7 +64,8 @@ class Book_content extends React.Component {
       contentPosition: "center",
       backgroundColor: "rgba(0,0,0,.2)",
       overFlow: "auto",
-      width: "60%"
+      width: "60%",
+      isHintMoreVisible: "none"
     });
   }
 
@@ -110,19 +111,40 @@ class Book_content extends React.Component {
   }
 
   turnOffPopup() {
-    this.setState({
-      isPopupVisible: "none",
-      searchContent: "partial",
-      contentPosition: "cursor",
-      backgroundColor: "rgba(0,0,0,0)",
-      width: "auto",
-      isSearchBtnDisabled:".3"
-    });
+    if (this.state.showContent === "word") {
+      this.setState({
+        isPopupVisible: "none",
+        searchContent: "partial",
+        contentPosition: "cursor",
+        backgroundColor: "rgba(0,0,0,0)",
+        width: "auto",
+        isSearchBtnDisabled: ".3",
+        isHintMoreVisible: "none",
+        resDetails: {
+          meaning: {
+            noun: [
+              {
+                definition: "Loading..."
+              }
+            ]
+          }
+        }
+      });
+    } else {
+      this.setState({
+        isPopupVisible: "none",
+        searchContent: "partial",
+        contentPosition: "cursor",
+        backgroundColor: "rgba(0,0,0,0)",
+        isHintMoreVisible: "none",
+        width: "auto",
+        resDetails: "Loading..."
+      });
+    }
   }
 
   handleUpEvent() {
     let Chinese = require("chinese-s2t");
-    // this.getCursorPos();
     // Get the hightlight text
     let highlightText = window
       .getSelection()
@@ -132,7 +154,7 @@ class Book_content extends React.Component {
       if (highlightText.split(" ").length === 1 && highlightText !== "") {
         this.setState({
           highlightText: highlightText,
-          isSearchBtnDisabled: "1"
+          isPopupVisible: "block"
         });
         let uid = this.props.userUID;
         let db = firebase.firestore();
@@ -144,8 +166,8 @@ class Book_content extends React.Component {
             this.setState({
               showContent: "word",
               resDetails: res[0],
-              isPopupVisible: "block",
-              tempRes: res
+              tempRes: res,
+              isHintMoreVisible: "block"
             });
             // If the heighlighted word doesn't exist on firestore, add the 'times' column, and set to firestore
             // If it exists, update 'times' only.
@@ -193,7 +215,28 @@ class Book_content extends React.Component {
 
             return db.collection("users").get();
           })
-          .catch(error => console.log("code in line 170,", error));
+          .catch(error => {
+            if (this.state.showContent === "word") {
+              this.setState({
+                resDetails: {
+                  meaning: {
+                    noun: [
+                      {
+                        definition: "Loading... ⚠ Unstable signal"
+                      }
+                    ]
+                  }
+                }
+              });
+            } else {
+              this.setState({
+                resDetails:
+                  "Loading...  ⚠ Unstable signal"
+              });
+            }
+
+            console.log("code in line 170,", this.state.re);
+          });
       } else if (highlightText.split(" ").length > 1 && highlightText !== "") {
         // Use Google translate api
         fetch(
@@ -228,16 +271,11 @@ class Book_content extends React.Component {
     }
   }
 
-  highlightHandler(data) {
-
+  highlightHandler() {
     document.ontouchend = () => {
-      let highlightText = window
-      .getSelection()
-      .toString();
-      if(highlightText !== ''){this.setState({
-        isSearchBtnDisabled:"1" 
-      })}
-    }
+      let highlightText = window.getSelection().toString();
+      console.log("highlightText=", highlightText);
+    };
 
     // For desktop system
     document.onmouseup = () => {
@@ -246,7 +284,7 @@ class Book_content extends React.Component {
   }
 
   componentDidMount() {
-    this.highlightHandler(this.state);
+    this.highlightHandler();
   }
 
   componentWillUnmount() {
@@ -336,6 +374,7 @@ class Book_content extends React.Component {
           contentPosition={this.state.contentPosition}
           showAllContent={this.showAllContent.bind(this)}
           width={this.state.width}
+          isHintMoreVisible={this.state.isHintMoreVisible}
         />
         <div
           className={styles.turnOffPopup}
@@ -345,7 +384,7 @@ class Book_content extends React.Component {
           }}
           onClick={this.turnOffPopup.bind(this)}
         ></div>
-        <div className={styles.mobileSearch} onClick={this.handleUpEvent} style={{opacity:this.state.isSearchBtnDisabled}}>
+        <div className={styles.mobileSearch} onClick={this.handleUpEvent}>
           <img
             src={require("../images/mobileSearch.png")}
             className={styles.mobileSearch_img}

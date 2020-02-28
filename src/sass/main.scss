@@ -362,7 +362,7 @@
 
   &:hover {
     box-shadow: 8px 0 15px rgba($color: #000000, $alpha: 0.2);
-    transform: rotate3d(0, 1, 0, -17deg) ;
+    transform: rotate3d(0, 1, 0, -17deg);
   }
   transition: all 0.2s;
   @include respond(tab-port) {
@@ -483,6 +483,15 @@
 }
 
 .minimal {
+  width: 100% !important;
+  background-color: $color-grey-light;
+  border-radius: 0.5rem;
+  border-width: 0;
+  height: $height-select;
+  margin: 0 auto;
+  color: $color-primary;
+  font-weight: 500;
+  font-size: $size-normal;
   background-image: linear-gradient(
       45deg,
       transparent 50%,
@@ -494,7 +503,6 @@
     calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.75em;
   background-size: 5px 5px, 5px 5px, 1px 1em;
   background-repeat: no-repeat;
-  width: 100%;
 }
 
 .minimal:focus {

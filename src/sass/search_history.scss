@@ -4,253 +4,254 @@
 @import "./sign_in.scss";
 
 .search_container {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    padding-top: 5rem;
-    line-height: 2.1rem;
-    background-color: white;
-    font-size: 1.3rem;
-    font-weight: 500;
-    position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  padding-top: 5rem;
+  line-height: 2.1rem;
+  background-color: white;
+  font-size: 1.3rem;
+  font-weight: 500;
+  position: relative;
 
-      @include respond(phone) {
-      position: fixed;
-      right: .5rem;
-      top:4rem;
-      padding-top: 1.4rem;
-      z-index: 27000;
-      width: 100%;
-    }
-    .search_panel_switch {
-      position: absolute;
-      width: 3.3rem;
-      height: 6.6rem;
-      border: none;
-      right: 0;
-      top: 50%;
-      border-radius: 4rem 0 0 4rem;
-      font-size: 4rem;
-      color: rgba($color: $color-grey-dark, $alpha: .4);
-      text-align: right;
-      align-self: center;
-      line-height: 3.2rem;
-      font-weight: 100;
-      display: none;
-      z-index: 15000;
-      cursor: pointer;
-      transform: scaleX(.4);
-      padding: 1rem 1rem;
-      @include respond(phone) {
-        display: block;
-      }
-    }
-    .loading {
-      position: absolute;
-      top: 60%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+  @include respond(phone) {
+    position: fixed;
+    right: 0.5rem;
+    top: 4rem;
+    padding-top: 1.4rem;
+    z-index: 27000;
+    width: 100%;
+  }
+
+  .search_history_head {
+    width: 100%;
+    padding: 0rem 3rem 0rem 3rem;
+    display: block;
+  }
+
+  .search_panel_switch {
+    position: absolute;
+    width: 3.3rem;
+    height: 6.6rem;
+    border: none;
+    right: 0;
+    top: 50%;
+    border-radius: 4rem 0 0 4rem;
+    font-size: 4rem;
+    color: rgba($color: $color-grey-dark, $alpha: 0.4);
+    text-align: right;
+    align-self: center;
+    line-height: 3.2rem;
+    font-weight: 100;
+    display: none;
+    z-index: 15000;
+    cursor: pointer;
+    transform: scaleX(0.4);
+    padding: 1rem 1rem;
+    @include respond(phone) {
       display: block;
-      width: 5rem;
-      height: 5rem;
-      border-radius: 20rem;
-      object-fit: cover;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
-  
-    ul {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      overflow: auto;
-      li {
-        list-style: none;
-        padding: 0% 7% 5rem 10%;
+  }
+  .loading {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 20rem;
+    object-fit: cover;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  ul {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    overflow: auto;
+    li {
+      list-style: none;
+      padding: 0% 7% 5rem 10%;
+      position: relative;
+      div {
+        margin-top: -0.5rem;
+        margin-bottom: -0.5rem;
+      }
+      .deleteBtn {
+        cursor: pointer;
+        width: 2.2rem;
+        height: 2.2rem;
+        z-index: 15000;
+        position: absolute;
+        right: 2rem;
+        top: 0.1rem;
+        display: flex;
+        align-items: center;
+        color: $color-grey-medium;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 900;
+      }
+      .s_container {
         position: relative;
-        div {
-          margin-top: -0.5rem;
-          margin-bottom: -0.5rem;
-        }
-        .deleteBtn {
-          cursor: pointer;
-          width: 2.2rem;
-          height: 2.2rem;
-          z-index: 15000;
-          position: absolute;
-          right: 2rem;
-          top: 0.1rem;
-          display: flex;
-          align-items: center;
-          color: $color-grey-medium;
-          justify-content: center;
-          font-size: 1rem;
-          font-weight: 900;
-        }
-        .s_container {
-          position: relative;
-        }
-        .s_times {
+      }
+      .s_times {
+        position: absolute;
+        right: 2rem;
+        top: 0rem;
+        color: $color-primary;
+        background-color: $color-yellow;
+        font-size: 1.2rem;
+        padding: 0.1rem 0.8rem;
+        border-radius: 5rem;
+        font-weight: 600;
+        &_hot {
           position: absolute;
           right: 2rem;
           top: 0rem;
-          color: $color-primary;
-          background-color: $color-yellow;
           font-size: 1.2rem;
           padding: 0.1rem 0.8rem;
           border-radius: 5rem;
           font-weight: 600;
-          &_hot {
-            position: absolute;
-            right: 2rem;
-            top: 0rem;
-            font-size: 1.2rem;
-            padding: 0.1rem 0.8rem;
-            border-radius: 5rem;
-            font-weight: 600;
-            background-color: $color-orange;
-            color: white;
-            animation: jump 0.5s linear alternate infinite;
-          }
-          &_init {
-            position: absolute;
-            right: 2rem;
-            top: 0rem;
-            font-size: 1.2rem;
-            padding: 0.1rem 0.8rem;
-            border-radius: 5rem;
-            font-weight: 600;
-            background-color: $color-grey-light;
-            color: $color-grey-dark;
-          }
+          background-color: $color-orange;
+          color: white;
+          animation: jump 0.5s linear alternate infinite;
         }
-        div {
-          color: $color-grey-dark;
-          line-height: 2.4rem;
-          font-size: 1.5rem;
-        }
-        .s_origin {
-          font-size: $size-small;
-          color: rgba($color: #000000, $alpha: 0.4);
-          line-height: 1.9rem;
-          margin-bottom: 0.8rem;
-        }
-        .s_word {
-          display: block;
-          font-size: 1.7rem;
-          font-weight: 800;
-          color: $color-primary;
-          margin-bottom: 1rem;
-        }
-        .s_phonetic {
+        &_init {
+          position: absolute;
+          right: 2rem;
+          top: 0rem;
           font-size: 1.2rem;
-          font-weight: 600;
-          color: $color-orange;
-          margin-top: 0rem;
-          margin-bottom: 0.5rem;
-          letter-spacing: 1px;
-        }
-        .s_detail {
-          font-size: $size-s-detail;
-          color: $color-grey-dark;
-          margin-top: 0.5rem;
-          margin-bottom: 0rem;
-          font-weight: 500;
-        }
-        .s_meaning {
-          font-size: $size-normal;
-          color: $color-green;
-          margin-top: 0.5rem;
-          &::before {
-            content: "-";
-            margin-right: 1rem;
-          }
-        }
-        .s_block {
-          display: inline-block;
-          font-size: 1.3rem;
           padding: 0.1rem 0.8rem;
-          font-weight: 700;
-          margin-top: 1.1rem;
-          margin-left: -0.8rem;
-          margin-bottom: 0.6rem;
-          text-underline-position: below;
-        }
-        .s_definition {
-          font-size: $size-s-detail;
+          border-radius: 5rem;
+          font-weight: 600;
+          background-color: $color-grey-light;
           color: $color-grey-dark;
         }
-        .s_example {
-          font-size: $size-s-detail;
-          color: grey;
-          margin-bottom: 0rem;
-        }
-        .s_synonyms {
-          font-size: 1.2rem;
-          color: $color-secondary;
-          line-height: 0rem;
-          font-weight: 600;
-        }
-        .s_speech {
-          display: inline-block;
-          font-size: 1.5rem;
-          font-weight: 800;
-          margin-left: -1.1rem;
-          margin-top: 1rem;
-          &::before {
-            content: "-";
-            font-weight: 800;
-            margin-right: 0.5rem;
-          }
-        }
       }
-    }
-    .search_title {
-      color: $color-primary;
-      font-size: $size-small;
-      letter-spacing: 0.3rem;
-      font-weight: 400;
-      height: 3rem;
-      margin: 2.2rem auto 1rem auto;
-      &::before {
-        content: "-  ";
+      div {
+        color: $color-grey-dark;
+        line-height: 2.4rem;
+        font-size: 1.5rem;
       }
-      &::after {
-        content: "  -";
-      }
-    }
-
-    @include respond(phone){
-        margin: 0rem auto 1rem auto;
-    }
-    select {
-      width: 80%;
-      background-color: $color-grey-light;
-      border-radius: 0.5rem;
-      border-width: 0;
-      height: $height-select;
-      margin: 0 auto;
-      color: $color-primary;
-      font-weight: 500;
-      font-size: $size-normal;
-    }
-    .search_radio_container {
-      font-size: $size-normal;
-      display: flex;
-      color: $color-primary;
-      align-items: center;
-      margin: 1.8rem auto;
-      * {
-        margin-right: 1rem;
-      }
-      .search_radio {
-        width: 2rem;
-        height: 2rem;
-        background-color: $color-primary;
-      }
-      .search_radio_divider {
-        margin: 0 2rem 0 1rem;
+      .s_origin {
         font-size: $size-small;
+        color: rgba($color: #000000, $alpha: 0.4);
+        line-height: 1.9rem;
+        margin-bottom: 0.8rem;
+      }
+      .s_word {
+        display: block;
+        font-size: 1.7rem;
+        font-weight: 800;
         color: $color-primary;
+        margin-bottom: 1rem;
+      }
+      .s_phonetic {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $color-orange;
+        margin-top: 0rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+      }
+      .s_detail {
+        font-size: $size-s-detail;
+        color: $color-grey-dark;
+        margin-top: 0.5rem;
+        margin-bottom: 0rem;
+        font-weight: 500;
+      }
+      .s_meaning {
+        font-size: $size-normal;
+        color: $color-green;
+        margin-top: 0.5rem;
+        &::before {
+          content: "-";
+          margin-right: 1rem;
+        }
+      }
+      .s_block {
+        display: inline-block;
+        font-size: 1.3rem;
+        padding: 0.1rem 0.8rem;
+        font-weight: 700;
+        margin-top: 1.1rem;
+        margin-left: -0.8rem;
+        margin-bottom: 0.6rem;
+        text-underline-position: below;
+      }
+      .s_definition {
+        font-size: $size-s-detail;
+        color: $color-grey-dark;
+      }
+      .s_example {
+        font-size: $size-s-detail;
+        color: grey;
+        margin-bottom: 0rem;
+      }
+      .s_synonyms {
+        font-size: 1.2rem;
+        color: $color-secondary;
+        line-height: 0rem;
+        font-weight: 600;
+      }
+      .s_speech {
+        display: inline-block;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-left: -1.1rem;
+        margin-top: 1rem;
+        &::before {
+          content: "-";
+          font-weight: 800;
+          margin-right: 0.5rem;
+        }
       }
     }
   }
-  
+  .search_title {
+    display: inline-block;
+    width:100%;
+    text-align: center;
+    color: $color-primary;
+    font-size: $size-small;
+    letter-spacing: 0.3rem;
+    font-weight: 400;
+    height: 3rem;
+    margin: 2.2rem auto 0rem auto;
+    &::before {
+      content: "-  ";
+    }
+    &::after {
+      content: "  -";
+    }
+  }
+
+  @include respond(phone) {
+    margin: 0rem auto 1rem auto;
+  }
+  .search_radio_container {
+    font-size: $size-normal;
+    display: flex;
+    color: $color-primary;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    * {
+      margin-right: 1rem;
+    }
+    .search_radio {
+      width: 2rem;
+      height: 2rem;
+      background-color: $color-primary;
+    }
+    .search_radio_divider {
+      margin: 0 2rem 0 1rem;
+      font-size: $size-small;
+      color: $color-primary;
+    }
+  }
+}

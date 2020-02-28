@@ -49,6 +49,7 @@ class Library extends React.Component {
   }
 
   generateBooks() {
+
     if (this.state.newDateGroups.length) {
       return this.state.newDateGroups.map((date, index) => {
         return (
@@ -65,7 +66,7 @@ class Library extends React.Component {
                 <Book
                   key={index}
                   titleCover={
-                    book.title.trim().split("").length < 5
+                    book.title.trim().split(" ").length < 5
                       ? book.title
                       : book.title.trim().split(" ")[0] +
                         " " +

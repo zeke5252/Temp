@@ -139,31 +139,37 @@ class Search_history extends React.Component {
         >
           >
         </div>
-        <span className={styles.search_title}>SEARCH HISTORY</span>
-        <select className={styles.minimal} onChange={this.sortHandler} defaultValue="alphabetic">
-          <option value="times">by frequency</option>
-          <option value="alphabetic">by alphabetic</option>
-        </select>
-        <div className={styles.search_radio_container}>
-          <input
-            type="radio"
-            name="content"
-            value={true}
-            className={styles.search_radio}
-            checked={this.state.isFull === true}
-            onChange={this.contentHandler}
-          ></input>
-          <span> Full </span>
-          <span className={styles.search_radio_divider}> | </span>
-          <input
-            type="radio"
-            name="content"
-            value={false}
-            className={styles.search_radio}
-            checked={this.state.isFull === false}
-            onChange={this.contentHandler}
-          ></input>
-          <span> Partial </span>
+        <div className={styles.search_history_head}>
+          <span className={styles.search_title}>SEARCH HISTORY</span>
+          <select
+            className={styles.minimal}
+            onChange={this.sortHandler}
+            defaultValue="times"
+          >
+            <option value="times">by frequency</option>
+            <option value="alphabetic">by alphabetic</option>
+          </select>
+          <div className={styles.search_radio_container}>
+            <input
+              type="radio"
+              name="content"
+              value={true}
+              className={styles.search_radio}
+              checked={this.state.isFull === true}
+              onChange={this.contentHandler}
+            ></input>
+            <span> Full </span>
+            <span className={styles.search_radio_divider}> | </span>
+            <input
+              type="radio"
+              name="content"
+              value={false}
+              className={styles.search_radio}
+              checked={this.state.isFull === false}
+              onChange={this.contentHandler}
+            ></input>
+            <span> Partial </span>
+          </div>
         </div>
         <ul>
           {this.state.isLoading ? (

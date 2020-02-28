@@ -4,10 +4,6 @@ import styles from "../sass/main.scss";
 import Word from "./word"
 import {} from "../actions/";
 
-// 從firebase上抓下來的需要重排。(可置後)
-// 先載入簡單版 然後執行showAllContent在切換成完整版
-// 把我的最愛拿
-
 class PopupSearch extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +13,7 @@ class PopupSearch extends React.Component {
       styleParent: {
         s_container: styles.s_container,
         s_times: styles.s_times,
+        s_times_init: styles.s_times_init,
         s_word: styles.s_word,
         s_phonetic: styles.s_phonetic,
         s_detail: styles.s_detail,
@@ -67,6 +64,7 @@ class PopupSearch extends React.Component {
           onClick={this.props.showAllContent}
         >
           <div className={styles.holdScroll}>{this.props.searchContent === "partial" ? renderPartial : renderFull}</div>
+          <div className={styles.popup_more} style={{display:this.props.isHintMoreVisible}}>›</div>
         </div>
       );
     }
@@ -77,8 +75,8 @@ class PopupSearch extends React.Component {
           style={{
             display: this.props.isPopupVisible,
             left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
+            top: "2rem",
+            transform:"translate(-50%, 0)"
           }}
         >
           <p>{this.props.resDetails}</p>
