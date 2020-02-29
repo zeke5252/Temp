@@ -1,0 +1,278 @@
+@import "./variables.scss";
+@import "./animation.scss";
+@import "./base.scss";
+@import "./sign_in.scss";
+@import "./search_history.scss";
+@import "./book_content.scss";
+
+.header_library {
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $color-primary;
+  height: 5rem;
+  align-items: center;
+  padding-left: 2.5%;
+  z-index: 22000;
+  letter-spacing: 0.08rem;
+  @include respond(phone) {
+    height: 4rem;
+  }
+
+  .logo_topRight {
+    display: flex;
+    align-items: center;
+    .tutorial {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .contact {
+      display: flex;
+      align-items: center;
+      margin-left: 2rem;
+    }
+    .tutorial_img {
+      width: 1.3rem;
+      height: 1.3rem;
+      @include respond(phone) {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 0 0.4rem;
+      }
+    }
+    .contact_img {
+      width: 1.3rem;
+      height: 0.9rem;
+      @include respond(phone) {
+        width: 1.5rem;
+        height: 1.1rem;
+        margin: 0 0.8rem;
+      }
+    }
+    .signout {
+      margin: 0 1rem;
+      background-color: transparent;
+      height: 4rem;
+      width: 4rem;
+      border: none;
+      z-index: 10000;
+      &:hover {
+        box-shadow: -3px 4px 5px rgba($color: #000000, $alpha: 0.3);
+      }
+
+      .signout_img {
+        margin-top: 0.2rem;
+        width: 1.6rem;
+      }
+    }
+  }
+  .logo_small {
+    display: inline-block;
+    width: 10rem;
+    height: auto;
+    @include respond(phone) {
+      margin-left: 1rem;
+    }
+  }
+  .logo_container {
+    display: flex;
+    align-items: center;
+  }
+  .logo_wording {
+    display: inline-block;
+    margin-left: 1rem;
+    vertical-align: top;
+    color: rgba(255, 255, 255, 0.719);
+    font-weight: 200;
+    font-size: $size-small;
+    @include respond(phone) {
+      display: none;
+    }
+  }
+  .contact_wording {
+    display: inline-block;
+    margin-left: 1rem;
+    vertical-align: top;
+    color: rgba(255, 255, 255, 0.705);
+    font-weight: 300;
+    font-size: $size-small;
+    @include respond(phone) {
+      display: none;
+    }
+  }
+  .tutorial_wording {
+    display: inline-block;
+    margin-left: 1rem;
+    vertical-align: top;
+    color: rgba(255, 255, 255, 0.705);
+    font-weight: 300;
+    font-size: $size-small;
+    @include respond(phone) {
+      display: none;
+    }
+  }
+}
+
+.tutorial_panel {
+  display: flex;
+  background-color: white;
+  border-radius: 1rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 120rem;
+  height: 70%;
+  max-height: 54rem;
+  padding: 8rem;
+  box-shadow: 0px 0px 10px rgba($color: #000000, $alpha: 0.2);
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  justify-content: space-between;
+  @include respond(tab-port){
+    padding: 6rem;
+    flex-wrap: wrap;
+    height: 80%;
+    max-height:100rem;
+    overflow: auto;
+    font-size: 1.6rem;
+  }
+  @include respond(phone){
+    padding: 4rem;
+    flex-wrap: wrap;
+    height: 96%;
+    max-height: 200rem;
+    overflow: auto;
+    font-size: 1.6rem;
+  }
+  .tutorial_select {
+    padding-right: 4%;
+    width: 60%;
+    align-content: flex-start;
+    display: flex;
+    flex-flow: column;
+    @include respond(tab-port){
+      align-items: center;
+      width: 100%;
+      padding-right: 0%;
+    }
+    @include respond(phone){
+      width: 100%;
+      padding-right: 0%;
+    }
+    p {
+      display: inline-block;
+      width: 100%;
+      height: 30%;
+      margin-bottom: 2rem;
+      @include respond(tab-port){
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  .tutorial_select_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+    @include respond(tab-port){
+      justify-content: center;
+      width: 70%;
+      margin-top: 4rem;
+      margin-bottom: 5rem;
+    }
+    @include respond(phone){
+      margin-top: 0;
+      width: 80%;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+  }
+  .tutorial_history_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 70%;
+    @include respond(tab-port){
+      width: 80%;
+      margin-top: 0;
+      margin-bottom: 3rem;
+    }
+    @include respond(phone){
+      width: 100%;
+      margin-top: 0;
+      align-items: center;
+      margin-bottom: 0;
+    }
+  }
+  .tutorial_history {
+    padding-left: 4%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 40%;
+    @include respond(tab-port){
+      justify-content: center;
+      width: 100%;
+      padding-left: 0%;
+    }
+    @include respond(phone){
+      width: 100%;
+      padding-left: 0%;
+    }
+    p {
+      display: inline-block;
+      width: 100%;
+      height: 30%;
+      margin-bottom: 2rem;
+      @include respond(tab-port){
+        margin-bottom: 0rem;
+      }
+    }
+  }
+  .tutorial_desktop_img {
+    width: 46%;
+    margin-right: 6%;
+    @include respond(tab-port){
+      width: 90%;
+      padding-right: 0%;
+    }
+  }
+  .tutorial_mobile_img {
+    width: 30%;
+    @include respond(tab-port){
+      width: 56%;
+      padding-left: 0%;
+    }
+  }
+  .tutorial_history_img {
+    width: 100%;
+    @include respond(tab-port){
+      width: 80%;
+      padding-left: 0%;
+      transform: translateX(10%);
+      margin-bottom: 5rem;
+    }
+  }
+
+}
+
+
+.tutorial_bg{
+  cursor: pointer;
+  display: block;
+  position: fixed ;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color: #000000, $alpha: .2);
+}

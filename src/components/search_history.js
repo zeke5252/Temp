@@ -24,7 +24,7 @@ class Search_history extends React.Component {
         s_speech: styles.s_speech,
         s_origin: styles.s_origin
       },
-      allIDs: [],
+      allDocNames: [],
       isLoading: true,
       sortBy: "times",
       isFull: true,
@@ -35,11 +35,21 @@ class Search_history extends React.Component {
     this.contentHandler = this.contentHandler.bind(this);
   }
   deleteWord(id) {
+    // console.log('id start=', id)
     let tempWords = this.state.allWords;
     let tempWord = tempWords[id];
+    let tempDocNames = this.state.allDocNames;
+    let tempDocName = tempDocNames[id];
+
+    console.log("tempWord=", tempWord);
+    console.log("tempDocName=", tempDocName);
+
     tempWords.splice(id, 1);
+    tempDocNames.splice(id, 1);
+
     this.setState({
-      books: tempWords
+      tempWords: tempWords,
+      tempDocNames: tempDocNames
     });
 
     let uid = this.props.userUID;
@@ -47,9 +57,9 @@ class Search_history extends React.Component {
     db.collection("users")
       .doc(`${uid}`)
       .collection("Search_history")
-      .doc(this.state.allIDs[id])
+      .doc(tempDocName)
       .delete()
-      .then(alert("The word has been deleted!"))
+      .then(console.log("The word has been deleted!"))
       .catch(error => console.log("Error removing document", error));
   }
 
@@ -91,7 +101,7 @@ class Search_history extends React.Component {
             tempWordArr.push(eachWord.data());
             this.setState({
               allWords: tempWordArr,
-              allIDs: tempWordArrIDs
+              allDocNames: tempWordArrIDs
             });
           });
         })
@@ -109,7 +119,7 @@ class Search_history extends React.Component {
             this.setState({
               allWords: tempWordArr,
               isLoading: false,
-              allIDs: tempWordArrIDs
+              allDocNames: tempWordArrIDs
             });
           })
         )

@@ -1,6 +1,7 @@
 import React from "react";
 import Book from "./book.js";
 import Search_history from "./search_history.js";
+import Tutorial from "./tutorial";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
 import SignOut from "./sign_out";
@@ -19,6 +20,7 @@ class Library extends React.Component {
       searchedWords: 0,
       today: "",
       isSearchContainerVisible: false,
+      isTutorialVisible:'none',
       browserWidth: 100,
       browserHeight: 100,
       booksAll:0
@@ -26,6 +28,22 @@ class Library extends React.Component {
     this.generateBooks = this.generateBooks.bind(this);
     this.hideSearchContainer = this.hideSearchContainer.bind(this);
     this.showSearchContainer = this.showSearchContainer.bind(this);
+    this.hideTutorial = this.hideTutorial.bind(this);
+    this.showTutorial = this.showTutorial.bind(this);
+  }
+
+  hideTutorial(){
+    console.log('hide')
+    this.setState({
+      isTutorialVisible:'none'
+    })
+  }
+
+  showTutorial(){
+    console.log('show')
+    this.setState({
+      isTutorialVisible:'block'
+    })
   }
 
   updateDimensions() {
@@ -228,8 +246,9 @@ class Library extends React.Component {
             />
             <span className={styles.logo_wording}>Search easy. Read easy</span>
           </div>
+          <Tutorial isTutorialVisible={this.state.isTutorialVisible} hideTutorial={this.hideTutorial}/>
           <div className={styles.logo_topRight}>
-            <div className={styles.tutorial}>
+            <div className={styles.tutorial} onClick={this.showTutorial}>
               <img
                 className={styles.tutorial_img}
                 src={require("../images/tutorial.png")}
