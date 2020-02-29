@@ -18,6 +18,7 @@
   padding-left: 2.5%;
   z-index: 22000;
   letter-spacing: 0.08rem;
+  box-shadow: 0 0 2rem rgba($color: #000000, $alpha: .5);
   @include respond(phone) {
     height: 4rem;
   }
@@ -136,6 +137,7 @@
   letter-spacing: 0;
   justify-content: space-between;
   @include respond(tab-port){
+    width: 80%;
     padding: 6rem;
     flex-wrap: wrap;
     height: 80%;
@@ -144,9 +146,9 @@
     font-size: 1.6rem;
   }
   @include respond(phone){
-    padding: 4rem;
+    padding: 3rem ;
     flex-wrap: wrap;
-    height: 96%;
+    height: 94%;
     max-height: 200rem;
     overflow: auto;
     font-size: 1.6rem;
@@ -192,7 +194,7 @@
     }
     @include respond(phone){
       margin-top: 0;
-      width: 80%;
+      width: 90%;
       justify-content: center;
       margin-bottom: 3rem;
     }
@@ -242,8 +244,9 @@
     width: 46%;
     margin-right: 6%;
     @include respond(tab-port){
-      width: 90%;
+      width: 96%;
       padding-right: 0%;
+      margin-right: 0%;
     }
   }
   .tutorial_mobile_img {
@@ -259,6 +262,12 @@
       width: 80%;
       padding-left: 0%;
       transform: translateX(10%);
+      margin-bottom: 5rem;
+    }
+    @include respond(phone){
+      width: 90%;
+      padding-left: 0%;
+      transform: translateX(5%);
       margin-bottom: 5rem;
     }
   }

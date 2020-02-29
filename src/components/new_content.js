@@ -138,7 +138,6 @@ class New_content extends React.Component {
             className={styles.library_new_title}
             onChange={this.onTitleChange}
             value={this.state.title}
-            autoFocus
           />
           <textarea
             className={styles.library_new_content_container}

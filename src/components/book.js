@@ -46,7 +46,7 @@ class Book extends React.Component {
           <span className={styles.book_cover_color} style={theColor}></span>
           <span className={styles.book_title}>{this.props.titleCover}</span>
           <div className={styles.book_page_container}>
-            <span className={styles.book_searchedWords}>{this.props.searchedWords} </span>
+            <span className={styles.book_searchedWords}>{this.props.searchedWords} searches </span>
           </div>
         </div>
       </div>
