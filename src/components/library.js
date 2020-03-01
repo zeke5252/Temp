@@ -255,13 +255,13 @@ class Library extends React.Component {
               />
               <span className={styles.tutorial_wording}>Tutorial</span>
             </div>
-            <div className={styles.contact}>
+            <a className={styles.contact} href="mailto:zeke5252@yahoo.com.tw">
               <img
                 className={styles.contact_img}
                 src={require("../images/contact.png")}
               />
               <span className={styles.contact_wording}>Contact me</span>
-            </div>
+            </a>
             <SignOut history={this.props.history} />
           </div>
         </header>

@@ -33,7 +33,34 @@ class Search_history extends React.Component {
     this.sortHandler = this.sortHandler.bind(this);
     this.renderWords = this.renderWords.bind(this);
     this.contentHandler = this.contentHandler.bind(this);
+    this.generatePDF = this.generatePDF.bind(this);
   }
+
+  generatePDF() {
+    let text = this.state.allWords.map((word, index) => {
+      return `${word.word} : ${Object.values(word.meaning)[0][0].definition}`;
+    });
+
+    var pageWidth = 8.5,
+      lineHeight = 1.3,
+      margin = 0.5,
+      maxLineWidth = pageWidth - margin * 2,
+      fontSize = 14,
+      ptsPerInch = 72,
+      oneLineHeight = (fontSize * lineHeight) / ptsPerInch,
+      doc = new jsPDF({
+        unit: "in",
+        lineHeight: lineHeight
+      }).setProperties({ title: "Search history" });
+
+    var textLines = doc
+      .setFont("courier")
+      .setFontSize(fontSize)
+      .splitTextToSize(text, maxLineWidth);
+    doc.text(textLines, margin, margin + 2 * oneLineHeight);
+    doc.save("Read_you_history.pdf");
+  }
+
   deleteWord(id) {
     // console.log('id start=', id)
     let tempWords = this.state.allWords;
@@ -180,6 +207,12 @@ class Search_history extends React.Component {
             ></input>
             <span> Partial </span>
           </div>
+        </div>
+        <div onClick={this.generatePDF} className={styles.downloadPDF}>
+        <img
+              className={styles.pdf_img}
+              src={require("../images/downloadPDF.png")}
+            />
         </div>
         <ul>
           {this.state.isLoading ? (

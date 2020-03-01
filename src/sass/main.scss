@@ -46,9 +46,9 @@
   }
 
   .library_right_container {
-    width: 30%;
+    width: 26%;
 
-    @include respond(tab-port) {
+    @include respond(tab-land) {
       width: 40%;
     }
     @include respond(phone) {
@@ -159,7 +159,7 @@
   }
 
   .library_left_container {
-    width: 70%;
+    width: 74%;
     position: relative;
     height: auto;
     padding: 5rem 1rem 0 2%;
@@ -472,12 +472,11 @@
     .book_page_container {
       text-align: right;
       color: $color-primary;
-      letter-spacing: 1px;
       .book_searchedWords {
         color: $color-grey-dark;
-        letter-spacing: 0px;
+        letter-spacing: 1px;
         font-weight: 400;
-        font-size: 6px;
+        font-size: 1rem;
       }
     }
   }

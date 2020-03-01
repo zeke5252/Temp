@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
+import { slangCollection } from "../components/slangs";
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class Sign_in extends React.Component {
       userPW: "",
       userName: "",
       errorMsg: "",
-      mode: "signIn"
+      mode: "signIn",
+      quoteNumSlang:0
     };
     this.onModeSwitch = this.onModeSwitch.bind(this);
     this.signUpHandler = this.signUpHandler.bind(
@@ -62,10 +64,15 @@ class Sign_in extends React.Component {
   }
 
   componentDidMount() {
+    
     var user = firebase.auth().currentUser;
     if (user) {
       this.props.history.push("/library");
     }
+    const tempQuoteNumSlang = Math.floor(Math.random()*slangCollection.length);
+    this.setState({
+      quoteNumSlang: tempQuoteNumSlang
+    })
   }
   onModeSwitch(text) {
     if (this.state.mode === "signIn") {
@@ -233,14 +240,14 @@ class Sign_in extends React.Component {
             </div>
           )}
           <div className={styles.sign_in_container_right}>
-            <span className={styles.sign_in_slang}>
-              “There is reading, and there is reading. Reading as a means to an
-              end, for information, to cultivate oneself; reading as an end in
-              itself, a process, a compulsion.”
-            </span>
-            <span className={styles.sign_in_slang_author}>
-            — Sven Birkerts
-            </span>
+            <div>
+              <span className={styles.sign_in_slang}>
+                {slangCollection[this.state.quoteNumSlang].slang}
+              </span>
+              <span className={styles.sign_in_slang_author}>
+                {slangCollection[this.state.quoteNumSlang].author}
+              </span>
+            </div>
           </div>
         </div>
       </div>
