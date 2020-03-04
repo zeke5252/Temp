@@ -578,3 +578,15 @@
     height: auto;
   }
 }
+
+.btnInnerStyle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnImg{
+  width:auto;
+  height:1.3rem;
+  margin-right: .5rem;
+}

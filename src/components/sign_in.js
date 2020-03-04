@@ -3,6 +3,7 @@ import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
 import { slangCollection } from "../components/slangs";
+import Button from "../components/button";
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -16,14 +17,32 @@ class Sign_in extends React.Component {
       mode: "signIn",
       quoteNumSlang: 0
     };
-    this.onModeSwitch = this.onModeSwitch.bind(this);
+    this.switchMode = this.switchMode.bind(this);
     this.signUpHandler = this.signUpHandler.bind(this, dispatch, history);
     this.signInHandler = this.signInHandler.bind(this, dispatch, history);
     this.onNameChange = this.onNameChange.bind(this);
     this.onIDChange = this.onIDChange.bind(this);
     this.onPWChange = this.onPWChange.bind(this);
     this.fbLoginHandler = this.fbLoginHandler.bind(this, dispatch, history);
+    this.forgetPW = this.forgetPW.bind(this);
   }
+
+  forgetPW() {
+    var auth = firebase.auth();
+    var emailAddress = this.state.userID;
+
+    auth
+      .sendPasswordResetEmail(emailAddress)
+      .then(function() {
+        alert("Email sent.");
+      })
+      .catch(error => {
+        this.setState({
+          errorMsg: error.message
+        });
+      });
+  }
+
   fbLoginHandler(propsDispatch, history) {
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase
@@ -63,7 +82,7 @@ class Sign_in extends React.Component {
       quoteNumSlang: tempQuoteNumSlang
     });
   }
-  onModeSwitch() {
+  switchMode() {
     if (this.state.mode === "signIn") {
       this.setState({
         mode: "signUp",
@@ -180,12 +199,21 @@ class Sign_in extends React.Component {
                 placeholder="Your password"
                 autoComplete="new-password"
               ></input>
-              <button onClick={this.signInHandler}>Sign in</button>
-              <button className={styles.fb_btn} onClick={this.fbLoginHandler}>
-                Facebook login
-              </button>
-              <span className={styles.sign_switch} onClick={this.onModeSwitch}>
+              <Button
+                clickHandler={this.signInHandler}
+                str="Sign in"
+              />
+              <Button
+                clickHandler={this.fbLoginHandler}
+                btnContainerStyle={styles.fb_btn}
+                img="facebook.png"
+                str="Facebook login"
+              />
+              <span className={styles.sign_switch} onClick={this.switchMode}>
                 Create an account
+              </span>
+              <span className={styles.sign_switch} onClick={this.forgetPW}>
+                Forget password?
               </span>
               <span className={styles.message}>{errorMsg}</span>
             </div>
@@ -217,7 +245,7 @@ class Sign_in extends React.Component {
                 autoComplete="new-password"
               ></input>
               <button onClick={this.signUpHandler}>Sign up</button>
-              <span className={styles.sign_switch} onClick={this.onModeSwitch}>
+              <span className={styles.sign_switch} onClick={this.switchMode}>
                 Sign in with the existing account
               </span>
               <span className={styles.message}>{errorMsg}</span>
