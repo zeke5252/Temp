@@ -20,7 +20,7 @@
     right: 0.5rem;
     top: 4rem;
     padding-top: 1.4rem;
-    z-index: 27000;
+    z-index: 20000;
     width: 100%;
   }
 
@@ -36,10 +36,14 @@
     border:1px solid rgba($color: #000000, $alpha: .1);
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
     border-right: 3px solid $color-secondary;
-
+    animation: rightIn .8s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    &:hover {
+      transition: all 0.2s;
+      width:5rem;
+    }
     .pdf_img{
-      width: 2rem;
-      height: 2.4rem;
+      width: 1.7rem;
+      height: 2.1rem;
       position: absolute;
       left: 50%;
       top: 50%;

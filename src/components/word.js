@@ -11,10 +11,11 @@ class Word extends React.Component {
   }
 
   responseHandler() {
+    let { isReverse, resDetails, styleParent, isFull } = this.props;
     let data = {};
-    if (this.props.isReverse) {
+    if (isReverse) {
       // Reverse the keys of data on Firestore to make the highlighted word shown at the top
-      let oldData = this.props.resDetails;
+      let oldData = resDetails;
       let keys = [];
       for (let key in oldData) {
         keys.push(key);
@@ -25,9 +26,9 @@ class Word extends React.Component {
       }
     }
 
-    if (!this.props.isReverse) {
+    if (!isReverse) {
       // Reverse the keys of data on Firestore to make the highlighted word shown at the top
-      data = this.props.resDetails;
+      data = resDetails;
     }
 
     // Full content
@@ -38,12 +39,12 @@ class Word extends React.Component {
         <div
           className={
             /\s/.test(Object.values(data)[index1])
-              ? this.props.styleParent.s_origin
+              ? styleParent.s_origin
               : Object.values(data)
                   [index1].toString()
                   .includes("/")
-              ? this.props.styleParent.s_phonetic
-              : this.props.styleParent.s_word
+              ? styleParent.s_phonetic
+              : styleParent.s_word
           }
         >
           {typeof Object.values(data)[index1] === "string" ? (
@@ -53,10 +54,10 @@ class Word extends React.Component {
             <div
               className={
                 data.times >= 5
-                  ? this.props.styleParent.s_times_hot
+                  ? styleParent.s_times_hot
                   : data.times > 1 && data.times < 5
-                  ? this.props.styleParent.s_times
-                  : this.props.styleParent.s_times_init
+                  ? styleParent.s_times
+                  : styleParent.s_times_init
               }
             >
               {data.times}
@@ -67,9 +68,7 @@ class Word extends React.Component {
                 return (
                   <div key={index}>
                     {/* adjective, noun */}
-                    <span className={this.props.styleParent.s_speech}>
-                      {catogory}
-                    </span>
+                    <span className={styleParent.s_speech}>{catogory}</span>
                     {data.meaning[catogory].map((detailObj, i) => {
                       return (
                         <div key={i}>
@@ -78,9 +77,7 @@ class Word extends React.Component {
                               return (
                                 <div key={i}>
                                   {/* definition, example, synonyms */}
-                                  <div
-                                    className={this.props.styleParent.s_block}
-                                  >
+                                  <div className={styleParent.s_block}>
                                     {eachDetailObjName}
                                   </div>
                                   <div>
@@ -95,11 +92,10 @@ class Word extends React.Component {
                                               <span
                                                 key={i}
                                                 className={
-                                                  this.props.styleParent
-                                                    .s_synonyms
+                                                  styleParent.s_synonyms
                                                 }
                                               >
-                                                {synonym},{" "}
+                                                {synonym}, {' '}
                                               </span>
                                             );
                                           }
@@ -123,9 +119,9 @@ class Word extends React.Component {
 
     // Partial content
     let renderPartial = (
-      <div className={this.props.styleParent.s_word}>
+      <div className={styleParent.s_word}>
         {data.word}
-        <div className={this.props.styleParent.s_detail}>
+        <div className={styleParent.s_detail}>
           {Object.values(data.meaning)[0][0].definition}
         </div>
       </div>
@@ -133,8 +129,8 @@ class Word extends React.Component {
 
     // Use props as a source of css style
     return (
-      <div className={this.props.styleParent.s_container}>
-        {this.props.isFull ? renderFull : renderPartial}
+      <div className={styleParent.s_container}>
+        {isFull ? renderFull : renderPartial}
       </div>
     );
   }

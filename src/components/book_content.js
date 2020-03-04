@@ -6,6 +6,8 @@ import Back from "./back";
 import Settings from "./settings";
 import PopupSearch from "./popup_search";
 import Note from "./note";
+import anchorme from "anchorme";
+import convert from "htmr";
 
 class Book_content extends React.Component {
   constructor(props) {
@@ -23,7 +25,7 @@ class Book_content extends React.Component {
       highlightText: "",
       showContent: "word",
       searchContent: "partial",
-      contentPosition: "cursor",
+      contentPosition: "top",
       resDetails: {
         meaning: {
           noun: [
@@ -36,6 +38,7 @@ class Book_content extends React.Component {
       width: "auto",
       tempRes: {},
       tempNote: this.props.bookNote,
+      chromeNote: "",
       isHintMoreVisible: "none"
     };
     this.turnOffSettings = this.turnOffSettings.bind(this);
@@ -70,12 +73,14 @@ class Book_content extends React.Component {
   }
 
   showSettings() {
+    this.highlightHandler("off");
     this.setState({
       isVisible: "block"
     });
   }
 
   turnOffNote() {
+    this.highlightHandler("on");
     this.setState({
       isNoteVisible: "none",
       isNoteTextVisible: "block"
@@ -99,12 +104,17 @@ class Book_content extends React.Component {
   }
 
   showNote() {
+    this.highlightHandler("off");
+    var anchorme = require("anchorme").default; // if installed via NPM
+    var someText = this.state.tempNote;
+    let tempChrome = anchorme(someText, { truncate: 36 });
     this.setState({
-      isNoteVisible: "block"
+      isNoteVisible: "block",
+      chromeNote: convert(tempChrome)
     });
   }
-
   turnOffSettings() {
+    this.highlightHandler("on");
     this.setState({
       isVisible: "none"
     });
@@ -115,7 +125,7 @@ class Book_content extends React.Component {
       this.setState({
         isPopupVisible: "none",
         searchContent: "partial",
-        contentPosition: "cursor",
+        contentPosition: "top",
         backgroundColor: "rgba(0,0,0,0)",
         width: "auto",
         isSearchBtnDisabled: ".3",
@@ -134,7 +144,7 @@ class Book_content extends React.Component {
       this.setState({
         isPopupVisible: "none",
         searchContent: "partial",
-        contentPosition: "cursor",
+        contentPosition: "top",
         backgroundColor: "rgba(0,0,0,0)",
         isHintMoreVisible: "none",
         width: "auto",
@@ -144,22 +154,30 @@ class Book_content extends React.Component {
   }
 
   handleUpEvent() {
+    const {
+      dictionaryGoogleAPI,
+      tempRes,
+      showContent,
+      transGoogleAPI,
+      apiKeyGoogle
+    } = this.state;
+    const { viewPreference, userUID, bookTitle } = this.props;
     let Chinese = require("chinese-s2t");
     // Get the hightlight text
     let highlightText = window
       .getSelection()
       .toString()
       .trim();
-    if (this.props.viewPreference.dictionary === "English") {
+    if (viewPreference.dictionary === "English") {
       if (highlightText.split(" ").length === 1 && highlightText !== "") {
         this.setState({
           highlightText: highlightText,
           isPopupVisible: "block"
         });
-        let uid = this.props.userUID;
+        let uid = userUID;
         let db = firebase.firestore();
 
-        fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`)
+        fetch(`${dictionaryGoogleAPI}?define=${highlightText}`)
           // Get response without key of 'times';
           .then(res => res.json())
           .then(res => {
@@ -182,8 +200,7 @@ class Book_content extends React.Component {
           .then(docRef => {
             if (docRef.data()) {
               // Existed
-              let newDocRef = db
-                .collection("users")
+              db.collection("users")
                 .doc(`${uid}`)
                 .collection("Search_history")
                 .doc(`${highlightText}`)
@@ -192,23 +209,19 @@ class Book_content extends React.Component {
                 });
             } else {
               // Not existed
-              let newRes = Object.assign(
-                {},
-                this.state.tempRes,
-                (this.state.tempRes[0].times = 1)
-              );
-              let newDocRef = db
-                .collection("users")
+              if(tempRes[0]){ // If connection is unstable, the response will be undefined, and error occurs.
+              let newRes = Object.assign({}, tempRes, (tempRes[0].times = 1));
+              db.collection("users")
                 .doc(`${uid}`)
                 .collection("Search_history")
                 .doc(`${highlightText}`)
                 .set(newRes[0]);
-            }
+            }}
             // SearchWords increment
             db.collection("users")
               .doc(`${uid}`)
               .collection("Library")
-              .doc(`${this.props.bookTitle}`)
+              .doc(`${bookTitle}`)
               .update({
                 searchedWords: firebase.firestore.FieldValue.increment(1)
               });
@@ -216,7 +229,8 @@ class Book_content extends React.Component {
             return db.collection("users").get();
           })
           .catch(error => {
-            if (this.state.showContent === "word") {
+            if (showContent === "word") {
+              console.log('this is error !!!!')
               this.setState({
                 resDetails: {
                   meaning: {
@@ -230,17 +244,16 @@ class Book_content extends React.Component {
               });
             } else {
               this.setState({
-                resDetails:
-                  "Loading...  ⚠ Unstable signal"
+                resDetails: "Loading...  ⚠ Unstable signal"
               });
             }
 
-            console.log("code in line 170,", this.state.re);
+            console.log("dictionary api error =", error);
           });
       } else if (highlightText.split(" ").length > 1 && highlightText !== "") {
         // Use Google translate api
         fetch(
-          `${this.state.transGoogleAPI}?key=${this.state.apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
+          `${transGoogleAPI}?key=${apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
         )
           .then(res => res.json())
           .then(res => {
@@ -252,12 +265,12 @@ class Book_content extends React.Component {
           });
       }
     } else if (
-      this.props.viewPreference.dictionary === "Chinese" &&
+      viewPreference.dictionary === "Chinese" &&
       highlightText !== ""
     ) {
       // Use Google translate api
       fetch(
-        `${this.state.transGoogleAPI}?key=${this.state.apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
+        `${transGoogleAPI}?key=${apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
       )
         .then(res => res.json())
         .then(res => {
@@ -271,72 +284,95 @@ class Book_content extends React.Component {
     }
   }
 
-  highlightHandler() {
-    document.ontouchend = () => {
-      let highlightText = window.getSelection().toString();
-      console.log("highlightText=", highlightText);
-    };
-
-    // For desktop system
-    document.onmouseup = () => {
-      this.handleUpEvent();
-    };
+  highlightHandler(switcher) {
+    switch (switcher) {
+      case "on":
+        // For mobile system
+        document.ontouchend = () => {
+          let highlightText = window.getSelection().toString();
+          console.log("highlightText=", highlightText);
+        };
+        // For desktop system
+        document.onmouseup = () => {
+          this.handleUpEvent();
+        };
+        break;
+      case "off":
+        document.ontouchend = null;
+        document.onmouseup = null;
+        break;
+    }
   }
 
   componentDidMount() {
-    this.highlightHandler();
+    this.highlightHandler("on");
   }
 
   componentWillUnmount() {
-    document.onmouseup = null;
+    this.highlightHandler("off");
   }
 
   render() {
     // Using store data
+    const { viewPreference, history, bookTitle, bookContent } = this.props;
+    const {
+      isVisible,
+      isNoteVisible,
+      isNoteTextAreaVisible,
+      tempNote,
+      isNoteTextVisible,
+      chromeNote,
+      highlightText,
+      showContent,
+      resDetails,
+      isPopupVisible,
+      searchContent,
+      contentPosition,
+      width,
+      isHintMoreVisible,
+      backgroundColor
+    } = this.state;
     let preferenceStyleTitle = {
-      fontSize: this.props.viewPreference.font_size + 7,
-      fontFamily: this.props.viewPreference.font_type,
-      lineHeight: this.props.viewPreference.line_height - 0.5
+      fontSize: viewPreference.font_size + 7,
+      fontFamily: viewPreference.font_type,
+      lineHeight: viewPreference.line_height - 0.5
     };
     let preferenceStyleContent = {
-      fontSize: this.props.viewPreference.font_size, // 17, 19, 21, 23, 25
-      fontFamily: this.props.viewPreference.font_type, // 'Lora', serif  ;  'Bitter', serif  ;  'Muli', sans-serif;
-      backgroundColor: this.props.viewPreference.background_color, // #edd1b0, #f6efdc
-      lineHeight: this.props.viewPreference.line_height, // 1.5 ; 2 ; 2.5
-      dictionary: this.props.viewPreference.dictionary, // English ; Chinese
+      fontSize: viewPreference.font_size, // 17, 19, 21, 23, 25
+      fontFamily: viewPreference.font_type, // 'Lora', serif  ;  'Bitter', serif  ;  'Muli', sans-serif;
+      backgroundColor: viewPreference.background_color, // #edd1b0, #f6efdc
+      lineHeight: viewPreference.line_height, // 1.5 ; 2 ; 2.5
+      dictionary: viewPreference.dictionary, // English ; Chinese
       whiteSpace: "pre-line"
     };
     return (
       <div
         className={styles.container_book}
-        style={{ backgroundColor: this.props.viewPreference.background_color }}
+        style={{ backgroundColor: viewPreference.background_color }}
       >
-        <ViewPreference isVisible={this.state.isVisible} />
+        <ViewPreference isVisible={isVisible} />
         <div className={styles.btns_leftTop}>
-          <Back history={this.props.history} />
+          <Back history={history} />
           <Settings showSettings={this.showSettings.bind(this)} />
         </div>
         <div
           className={styles.turnOffSettings}
-          style={{ display: this.state.isVisible }}
+          style={{ display: isVisible }}
           onClick={this.turnOffSettings}
         ></div>
-        <div
-          className={styles.note_panel}
-          style={{ display: this.state.isNoteVisible }}
-        >
+        <div className={styles.note_panel} style={{ display: isNoteVisible }}>
           <textarea
             className={styles.note_textarea}
-            style={{ display: this.state.isNoteTextAreaVisible }}
-            value={this.state.tempNote}
+            style={{ display: isNoteTextAreaVisible }}
+            value={tempNote}
             onChange={this.onNoteChange}
           />
-          {this.state.tempNote === "" ? (
+          {tempNote === "" ? (
             <div
               className={styles.add_note}
               onClick={this.editNote}
               style={
-                this.state.isNoteTextVisible === "block"
+                isNoteTextVisible === "block"
                   ? { display: "flex" }
                   : { display: "none" }
               }
@@ -351,9 +387,9 @@ class Book_content extends React.Component {
             <p
               className={styles.note_text}
               onClick={this.editNote}
-              style={{ display: this.state.isNoteTextVisible }}
+              style={{ display: isNoteTextVisible }}
             >
-              {this.state.tempNote}
+              {chromeNote}
             </p>
           )}
         </div>
@@ -362,25 +398,25 @@ class Book_content extends React.Component {
         </div>
         <div
           className={styles.turnOffNote}
-          style={{ display: this.state.isNoteVisible }}
+          style={{ display: isNoteVisible }}
           onClick={this.turnOffNote}
         ></div>
         <PopupSearch
-          highlightText={this.state.highlightText}
-          showContent={this.state.showContent} // phrase or word
-          resDetails={this.state.resDetails}
-          isPopupVisible={this.state.isPopupVisible}
-          searchContent={this.state.searchContent} // Full or partial
-          contentPosition={this.state.contentPosition}
+          highlightText={highlightText}
+          showContent={showContent} // phrase or word
+          resDetails={resDetails}
+          isPopupVisible={isPopupVisible}
+          searchContent={searchContent} // Full or partial
+          contentPosition={contentPosition}
           showAllContent={this.showAllContent.bind(this)}
-          width={this.state.width}
-          isHintMoreVisible={this.state.isHintMoreVisible}
+          width={width}
+          isHintMoreVisible={isHintMoreVisible}
         />
         <div
           className={styles.turnOffPopup}
           style={{
-            display: this.state.isPopupVisible,
-            backgroundColor: this.state.backgroundColor
+            display: isPopupVisible,
+            backgroundColor: backgroundColor
           }}
           onClick={this.turnOffPopup.bind(this)}
         ></div>
@@ -391,10 +427,10 @@ class Book_content extends React.Component {
           ></img>
         </div>
         <div className={styles.bookTitle} style={preferenceStyleTitle}>
-          {this.props.bookTitle}
+          {bookTitle}
         </div>
         <div className={styles.bookContent} style={preferenceStyleContent}>
-          {this.props.bookContent}
+          {bookContent}
         </div>
       </div>
     );

@@ -23,6 +23,9 @@
   color: $color-grey-dark;
   padding: 6% 7% 0 7%;
   text-align: center;
+  @include respond(phone){
+    padding: 10% 7% 0 7%;
+  }
 }
 .container_book {
   background-color: $color-grey-light;
@@ -53,7 +56,7 @@
   .note_panel {
     font-size: $size-normal;
     display: flex;
-    width: 30%;
+    width: 35%;
     min-width: 40rem;
     max-width: 80rem;
     height: 40%;
@@ -69,6 +72,7 @@
     z-index: 20000;
     position: fixed;
     overflow: auto;
+    animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     @include respond(phone) {
       padding: 1.4rem 1.4rem;
       min-width: 0;
@@ -90,6 +94,26 @@
       height: 100%;
       font-size: $size-normal;
       white-space: pre-line;
+      font-weight: 400;
+      a {
+        color:$color-grey-dark;
+        background-color: rgb(219, 219, 219);
+        border-radius: .4rem;
+        font-size: 1.3rem;
+        text-decoration: none;
+        padding:.4rem .7rem;
+        font-weight: 500;
+        margin: 1.5rem -.8rem;
+        letter-spacing: 1px;
+        cursor: pointer;
+        &:hover{
+            transform: translateY(-0.35rem);
+            transition: all .2s ;
+            box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: .1);
+
+        }
+    
+    }
     }
   }
   .btns_leftTop {
@@ -348,6 +372,7 @@
     box-shadow: 0.2rem 0.2rem 1rem rgba($color: #000000, $alpha: 0.2);
     z-index: 20000;
     position: fixed;
+    animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     @include respond(phone) {
       padding: 1.4rem 0 1.4rem 1.4rem;
       width: 100%;

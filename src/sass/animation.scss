@@ -9,6 +9,39 @@
   }
 }
 
+@keyframes rightIn {
+  0% {
+    margin-right: -40px;
+    opacity: 1;
+  }
+  100% {
+    margin-right: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes topDown_header {
+  0% {
+    margin-top: -50px;
+    opacity: 1;
+  }
+  100% {
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes topDown_book {
+  0% {
+    margin-top: -10px;
+    opacity: 1;
+  }
+  100% {
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
 @keyframes spinner {
   0% {
     transform: rotateY(0deg);

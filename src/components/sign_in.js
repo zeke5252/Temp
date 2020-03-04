@@ -7,35 +7,23 @@ import { slangCollection } from "../components/slangs";
 class Sign_in extends React.Component {
   constructor(props) {
     super(props);
+    let { dispatch, history } = props;
     this.state = {
       userID: "",
       userPW: "",
       userName: "",
       errorMsg: "",
       mode: "signIn",
-      quoteNumSlang:0
+      quoteNumSlang: 0
     };
     this.onModeSwitch = this.onModeSwitch.bind(this);
-    this.signUpHandler = this.signUpHandler.bind(
-      this,
-      this.props.dispatch,
-      this.props.history
-    );
-    this.signInHandler = this.signInHandler.bind(
-      this,
-      this.props.dispatch,
-      this.props.history
-    );
+    this.signUpHandler = this.signUpHandler.bind(this, dispatch, history);
+    this.signInHandler = this.signInHandler.bind(this, dispatch, history);
     this.onNameChange = this.onNameChange.bind(this);
     this.onIDChange = this.onIDChange.bind(this);
     this.onPWChange = this.onPWChange.bind(this);
-    this.fbLoginHandler = this.fbLoginHandler.bind(
-      this,
-      this.props.dispatch,
-      this.props.history
-    );
+    this.fbLoginHandler = this.fbLoginHandler.bind(this, dispatch, history);
   }
-
   fbLoginHandler(propsDispatch, history) {
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase
@@ -64,17 +52,18 @@ class Sign_in extends React.Component {
   }
 
   componentDidMount() {
-    
     var user = firebase.auth().currentUser;
     if (user) {
-      this.props.history.push("/library");
+      history.push("/library");
     }
-    const tempQuoteNumSlang = Math.floor(Math.random()*slangCollection.length);
+    const tempQuoteNumSlang = Math.floor(
+      Math.random() * slangCollection.length
+    );
     this.setState({
       quoteNumSlang: tempQuoteNumSlang
-    })
+    });
   }
-  onModeSwitch(text) {
+  onModeSwitch() {
     if (this.state.mode === "signIn") {
       this.setState({
         mode: "signUp",
@@ -165,10 +154,11 @@ class Sign_in extends React.Component {
   }
 
   render() {
+    const { errorMsg, mode, quoteNumSlang } = this.state;
     return (
       <div className={styles.container_init}>
         <div className={styles.container_sign_in}>
-          {this.state.mode === "signIn" ? (
+          {mode === "signIn" ? (
             <div className={styles.sign_in_container_left}>
               <img
                 src={require("../images/logo_animation.gif")}
@@ -194,13 +184,10 @@ class Sign_in extends React.Component {
               <button className={styles.fb_btn} onClick={this.fbLoginHandler}>
                 Facebook login
               </button>
-              <span
-                className={styles.sign_switch}
-                onClick={this.onModeSwitch.bind(this, "signUp")}
-              >
+              <span className={styles.sign_switch} onClick={this.onModeSwitch}>
                 Create an account
               </span>
-              <span className={styles.message}>{this.state.errorMsg}</span>
+              <span className={styles.message}>{errorMsg}</span>
             </div>
           ) : (
             <div className={styles.sign_in_container_left}>
@@ -230,22 +217,19 @@ class Sign_in extends React.Component {
                 autoComplete="new-password"
               ></input>
               <button onClick={this.signUpHandler}>Sign up</button>
-              <span
-                className={styles.sign_switch}
-                onClick={this.onModeSwitch.bind(this, "signIn")}
-              >
+              <span className={styles.sign_switch} onClick={this.onModeSwitch}>
                 Sign in with the existing account
               </span>
-              <span className={styles.message}>{this.state.errorMsg}</span>
+              <span className={styles.message}>{errorMsg}</span>
             </div>
           )}
           <div className={styles.sign_in_container_right}>
             <div>
               <span className={styles.sign_in_slang}>
-                {slangCollection[this.state.quoteNumSlang].slang}
+                {slangCollection[quoteNumSlang].slang}
               </span>
               <span className={styles.sign_in_slang_author}>
-                {slangCollection[this.state.quoteNumSlang].author}
+                {slangCollection[quoteNumSlang].author}
               </span>
             </div>
           </div>

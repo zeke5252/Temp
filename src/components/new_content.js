@@ -1,20 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
-import Search_history from "./search_history";
 import Greetings from "../components/greeting";
-import SignOut from "./sign_out";
-const LanguageDetect = require("languagedetect");
-const lngDetector = new LanguageDetect();
 
 class New_content extends React.Component {
   constructor(props) {
     super(props);
+    let { history } = this.props;
     this.onContentChange = this.onContentChange.bind(this);
     this.onTitleChange = this.onTitleChange.bind(this);
     this.resetContent = this.resetContent.bind(this);
-    this.cancelContent = this.cancelContent.bind(this, this.props.history);
-    this.saveBook = this.saveBook.bind(this, this.props.history);
+    this.cancelContent = this.cancelContent.bind(this, history);
+    this.saveBook = this.saveBook.bind(this, history);
     this.assignBookAttr = this.assignBookAttr.bind(this);
     this.state = {
       title: "",
@@ -49,10 +46,11 @@ class New_content extends React.Component {
   }
 
   saveBook(history) {
+    const { content, title } = this.state;
     const LanguageDetect = require("languagedetect");
     const lngDetector = new LanguageDetect();
-    let detectResult = lngDetector.detect(this.state.content, 1);
-    if (this.state.content === "" || this.state.title === "") {
+    let detectResult = lngDetector.detect(content, 1);
+    if (content === "" || title === "") {
       this.setState({
         warningMsg: `Fill out all the contents.`
       });
@@ -69,14 +67,13 @@ class New_content extends React.Component {
             1
           )}. It is recommemded that the content is primarily composed of English.`
       });
-    }
-    else {
+    } else {
       let uid = this.props.userUID;
       let db = firebase.firestore();
       db.collection("users")
         .doc(`${uid}`)
         .collection("Library")
-        .doc(`${this.state.title}`)
+        .doc(`${title}`)
         .set(this.state)
         .then(() => {
           alert("Save to your library successfully!");
@@ -98,7 +95,7 @@ class New_content extends React.Component {
   resetContent(evn) {
     this.setState({
       content: "",
-      title:""
+      title: ""
     });
   }
 
@@ -109,6 +106,7 @@ class New_content extends React.Component {
   }
 
   render() {
+    const { warningMsg, title, content } = this.state;
     return (
       <div className={styles.container_library}>
         <div className={styles.library_new_content}>
@@ -116,33 +114,33 @@ class New_content extends React.Component {
             <Greetings userName={this.props.userName} />
             <div className={styles.groupBtn}>
               <button className={styles.cancelBtn} onClick={this.cancelContent}>
-              <img
-                className={styles.cancelBtn_img}
-                src={require("../images/cancel.png")}
-              />
+                <img
+                  className={styles.cancelBtn_img}
+                  src={require("../images/cancel.png")}
+                />
               </button>
               <button className={styles.resetBtn} onClick={this.resetContent}>
-              <img
-                className={styles.resetBtn_img}
-                src={require("../images/reset.png")}
-              />
+                <img
+                  className={styles.resetBtn_img}
+                  src={require("../images/reset.png")}
+                />
               </button>
               <button className={styles.saveBtn} onClick={this.saveBook}>
                 Save
               </button>
             </div>
           </div>
-          <div className={styles.warningMsg}>{this.state.warningMsg}</div>
+          <div className={styles.warningMsg}>{warningMsg}</div>
           <input
             type="text"
             className={styles.library_new_title}
             onChange={this.onTitleChange}
-            value={this.state.title}
+            value={title}
           />
           <textarea
             className={styles.library_new_content_container}
             onChange={this.onContentChange}
-            value={this.state.content}
+            value={content}
             autoComplete="off"
           />
         </div>

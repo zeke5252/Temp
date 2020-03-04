@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 class Book extends React.Component {
   constructor (props) {
     super(props)
-    this.openBook = this.openBook.bind(this, this.props.dispatch, this.props.history)
+    const {dispatch, history} = this.props
+    this.openBook = this.openBook.bind(this, dispatch, history)
     this.showDeleteBtn = this.showDeleteBtn.bind(this)
     this.hideDeleteBtn = this.hideDeleteBtn.bind(this)
     this.state = {
@@ -16,10 +17,11 @@ class Book extends React.Component {
   }
 
   openBook(propsDispatch){
-    propsDispatch(addTempContent(this.props.content))
-    propsDispatch(addTempTitle(this.props.title))
-    propsDispatch(addTempNote(this.props.note))
-    this.props.history.push('/Book_content')
+    const {content, title, note, history} = this.props
+    propsDispatch(addTempContent(content))
+    propsDispatch(addTempTitle(title))
+    propsDispatch(addTempNote(note))
+    history.push('/Book_content')
   }
 
   showDeleteBtn(){
@@ -35,18 +37,19 @@ class Book extends React.Component {
   }
 
   render () {
+    const {color, deleteBook, id, date, position, titleCover, searchedWords } =this.props
     let theColor = {
-      backgroundColor:this.props.color
+      backgroundColor:color
     }
     return (
     <div className={styles.book_container_out}>
       <div className={styles.book_container} onMouseOver={this.showDeleteBtn} onMouseOut={this.hideDeleteBtn}>
-        <div className={styles.deleteBtn} style={{display:this.state.isVisible}} onClick={this.props.deleteBook.bind(this, this.props.id, this.props.date, this.props.position)}>✕</div>
+        <div className={styles.deleteBtn} style={{display:this.state.isVisible}} onClick={deleteBook.bind(this, id, date, position)}>✕</div>
         <div className={styles.book_cover} onClick={this.openBook}>  
           <span className={styles.book_cover_color} style={theColor}></span>
-          <span className={styles.book_title}>{this.props.titleCover}</span>
+          <span className={styles.book_title}>{titleCover}</span>
           <div className={styles.book_page_container}>
-            <span className={styles.book_searchedWords}>{this.props.searchedWords} searches </span>
+            <span className={styles.book_searchedWords}>{searchedWords} searches </span>
           </div>
         </div>
       </div>

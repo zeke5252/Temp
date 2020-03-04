@@ -78,7 +78,7 @@ class ViewPreference extends React.Component {
       });
   }
 
-  onDictionaryChange(){
+  onDictionaryChange() {
     let value = event.target.value;
     this.props.dispatch(changeDictionary(value));
     let uid = this.props.userUID;
@@ -91,11 +91,15 @@ class ViewPreference extends React.Component {
   }
 
   render() {
+    const {
+      isVisible,
+      font_type,
+      background_color,
+      line_height,
+      dictionary
+    } = this.props;
     return (
-      <div
-        className={styles.viewContainer}
-        style={{ display: this.props.isVisible }}
-      >
+      <div className={styles.viewContainer} style={{ display: isVisible }}>
         <div className={styles.view_item}>
           <span className={styles.view_item_title}>Font size:</span>
           <div className={styles.view_item_size}>
@@ -122,9 +126,9 @@ class ViewPreference extends React.Component {
                 name="fontType"
                 value={`"Muli", sans-serif`}
                 onChange={this.onFontTypeChange}
-                checked={this.props.font_type === `"Muli", sans-serif`}
+                checked={font_type === `"Muli", sans-serif`}
               />
-            }{" "}
+            }
             Muli
             {
               <input
@@ -132,9 +136,9 @@ class ViewPreference extends React.Component {
                 name="fontType"
                 value={`"Bitter", serif`}
                 onChange={this.onFontTypeChange}
-                checked={this.props.font_type === `"Bitter", serif`}
+                checked={font_type === `"Bitter", serif`}
               />
-            }{" "}
+            }
             Bitter
             {
               <input
@@ -142,9 +146,9 @@ class ViewPreference extends React.Component {
                 name="fontType"
                 value={`"Lora", serif`}
                 onChange={this.onFontTypeChange}
-                checked={this.props.font_type === `"Lora", serif`}
+                checked={font_type === `"Lora", serif`}
               />
-            }{" "}
+            }
             Lora
           </div>
         </div>
@@ -157,7 +161,7 @@ class ViewPreference extends React.Component {
                 name="bgColor"
                 value={"#eeeeee"}
                 onChange={this.onBgChange}
-                checked={this.props.background_color === "#eeeeee"}
+                checked={background_color === "#eeeeee"}
               />
             }
             <span className={styles.view_item_bg_color_grey}></span>
@@ -167,7 +171,7 @@ class ViewPreference extends React.Component {
                 name="bgColor"
                 value={"#f6efdc"}
                 onChange={this.onBgChange}
-                checked={this.props.background_color === "#f6efdc"}
+                checked={background_color === "#f6efdc"}
               />
             }
             <span className={styles.view_item_bg_color_yellow}></span>
@@ -177,7 +181,7 @@ class ViewPreference extends React.Component {
                 name="bgColor"
                 value={"#edd1b0"}
                 onChange={this.onBgChange}
-                checked={this.props.background_color === "#edd1b0"}
+                checked={background_color === "#edd1b0"}
               />
             }
             <span className={styles.view_item_bg_color_peach}></span>
@@ -192,7 +196,7 @@ class ViewPreference extends React.Component {
                 name="lineHeight"
                 value={1.5}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height == 1.5}
+                checked={line_height == 1.5}
               />
             }
             Short
@@ -202,7 +206,7 @@ class ViewPreference extends React.Component {
                 name="lineHeight"
                 value={2}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height == 2}
+                checked={line_height == 2}
               />
             }
             Normal
@@ -212,7 +216,7 @@ class ViewPreference extends React.Component {
                 name="lineHeight"
                 value={2.5}
                 onChange={this.onLineHeightChange}
-                checked={this.props.line_height == 2.5}
+                checked={line_height == 2.5}
               />
             }
             Tall
@@ -221,28 +225,28 @@ class ViewPreference extends React.Component {
         <div className={styles.view_item}>
           <span className={styles.view_item_title}>Dictionary:</span>
           <div className={styles.view_item_size}>
-          <div>
-            {
-              <input
-                type="radio"
-                name="dictionary"
-                value="English"
-                onChange={this.onDictionaryChange}
-                checked={this.props.dictionary === 'English'}
-              />
-            }
-            English
-            {
-              <input
-                type="radio"
-                name="dictionary"
-                value="Chinese"
-                onChange={this.onDictionaryChange}
-                checked={this.props.dictionary === 'Chinese'}
-              />
-            }
-            Chinese
-          </div>
+            <div>
+              {
+                <input
+                  type="radio"
+                  name="dictionary"
+                  value="English"
+                  onChange={this.onDictionaryChange}
+                  checked={dictionary === "English"}
+                />
+              }
+              English
+              {
+                <input
+                  type="radio"
+                  name="dictionary"
+                  value="Chinese"
+                  onChange={this.onDictionaryChange}
+                  checked={dictionary === "Chinese"}
+                />
+              }
+              Chinese
+            </div>
           </div>
         </div>
       </div>

@@ -42,10 +42,10 @@ class Search_history extends React.Component {
     });
 
     var pageWidth = 8.5,
-      lineHeight = 1.3,
+      lineHeight = 1.6,
       margin = 0.5,
       maxLineWidth = pageWidth - margin * 2,
-      fontSize = 14,
+      fontSize = 13,
       ptsPerInch = 72,
       oneLineHeight = (fontSize * lineHeight) / ptsPerInch,
       doc = new jsPDF({
@@ -161,6 +161,7 @@ class Search_history extends React.Component {
   }
 
   render() {
+    const {isFull, isLoading, allWords, isVisible, styleParent } =this.state
     return (
       <div
         className={styles.search_container}
@@ -192,7 +193,7 @@ class Search_history extends React.Component {
               name="content"
               value={true}
               className={styles.search_radio}
-              checked={this.state.isFull === true}
+              checked={isFull === true}
               onChange={this.contentHandler}
             ></input>
             <span> Full </span>
@@ -202,7 +203,7 @@ class Search_history extends React.Component {
               name="content"
               value={false}
               className={styles.search_radio}
-              checked={this.state.isFull === false}
+              checked={isFull === false}
               onChange={this.contentHandler}
             ></input>
             <span> Partial </span>
@@ -215,12 +216,12 @@ class Search_history extends React.Component {
             />
         </div>
         <ul>
-          {this.state.isLoading ? (
+          {isLoading ? (
             <img
               className={styles.loading}
               src={require("../images/loading2.gif")}
             />
-          ) : this.state.allWords.length === 0 ? (
+          ) : allWords.length === 0 ? (
             <div className={styles.empty_history}>
               <img
                 src={require("../images/empty.png")}
@@ -231,20 +232,20 @@ class Search_history extends React.Component {
               </span>
             </div>
           ) : (
-            this.state.allWords.map((word, i) => {
+            allWords.map((word, i) => {
               return (
                 <li key={i}>
                   <div
                     className={styles.deleteBtn}
-                    style={{ display: this.state.isVisible }}
+                    style={{ display: isVisible }}
                     onClick={this.deleteWord.bind(this, i)}
                   >
                     ✕
                   </div>
                   <Word
                     resDetails={word}
-                    styleParent={this.state.styleParent}
-                    isFull={this.state.isFull}
+                    styleParent={styleParent}
+                    isFull={isFull}
                     isReverse={true}
                   />
                 </li>

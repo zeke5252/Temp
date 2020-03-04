@@ -29,7 +29,7 @@
       height: auto;
       font-size: 1rem;
       color: rgba($color: $color-green, $alpha: 1);
-      letter-spacing: 0.5rem;
+      letter-spacing: 1rem;
       margin-bottom: 1%;
       font-weight: 600;
     }
@@ -39,7 +39,7 @@
       height: auto;
       font-size: 1rem;
       color: rgba($color: $color-grey-dark, $alpha: 0.5);
-      letter-spacing: 0.5rem;
+      letter-spacing: 1rem;
       margin: 0 0 1.5% 0;
       margin-bottom: 1%;
     }
@@ -371,15 +371,15 @@
   border-radius: 0.3rem 0 0 0.3rem;
   transform-origin: left center;
   z-index: 100;
-
+  animation: topDown_book 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   &:hover {
     box-shadow: 8px 0 15px rgba($color: #000000, $alpha: 0.2);
     transform: rotate3d(0, 1, 0, -17deg);
   }
   transition: all 0.2s;
   @include respond(tab-port) {
-    width: 15rem;
-    height: 20rem;
+    width: 12.4rem;
+    height: 16rem;
   }
   @include respond(phone) {
     width: 12.4rem;
@@ -399,10 +399,11 @@
     border-radius: 0.3rem 0 0 0.3rem;
     border: 1px solid rgba($color: #000000, $alpha: 0.1);
     z-index: 1;
+    animation: topDown_book 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     transition: all 0.2s;
     @include respond(tab-port) {
-      width: 15rem;
-      height: 20rem;
+      width: 12.4rem;
+      height: 16rem;
     }
     @include respond(phone) {
       width: 12.4rem;
@@ -443,7 +444,6 @@
     justify-content: space-between;
     position: relative;
     overflow: hidden;
-
     @include respond(phone) {
       padding: 1.8rem;
       padding-top: 1.2rem;
@@ -464,6 +464,10 @@
       font-size: 1.6rem;
       font-weight: 400;
       line-height: 2.6rem;
+      @include respond(tab-port) {
+        font-size: 1.35rem;
+        line-height: 2.3rem;
+      }
       @include respond(phone) {
         font-size: 1.35rem;
         line-height: 2.3rem;

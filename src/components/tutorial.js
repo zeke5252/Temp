@@ -2,14 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
 
-class Tutorial extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function Tutorial(props) {
+  let self = {
+    props
+  };
 
-  render() {
-    return (
-      <div className={styles.tutorial_bg} style={{display:this.props.isTutorialVisible}} onClick={this.props.hideTutorial}>
+  return (
+    <div className={styles.tutorial_bg} style={{display:self.props.isTutorialVisible}} onClick={self.props.hideTutorial}>
         <div
           className={styles.tutorial_panel}
           // style={{ display: this.props.isVisible }}
@@ -45,8 +44,7 @@ class Tutorial extends React.Component {
           </div>
         </div>
       </div>
-    );
-  }
+  );
 }
 
 function mapStateToProps(state) {

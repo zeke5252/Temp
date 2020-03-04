@@ -20,30 +20,31 @@ class Library extends React.Component {
       searchedWords: 0,
       today: "",
       isSearchContainerVisible: false,
-      isTutorialVisible:'none',
+      isTutorialVisible: "none",
       browserWidth: 100,
       browserHeight: 100,
-      booksAll:0
+      booksAll: 0
     };
     this.generateBooks = this.generateBooks.bind(this);
     this.hideSearchContainer = this.hideSearchContainer.bind(this);
     this.showSearchContainer = this.showSearchContainer.bind(this);
     this.hideTutorial = this.hideTutorial.bind(this);
     this.showTutorial = this.showTutorial.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
 
-  hideTutorial(){
-    console.log('hide')
+  hideTutorial() {
+    console.log("hide");
     this.setState({
-      isTutorialVisible:'none'
-    })
+      isTutorialVisible: "none"
+    });
   }
 
-  showTutorial(){
-    console.log('show')
+  showTutorial() {
+    console.log("show");
     this.setState({
-      isTutorialVisible:'block'
-    })
+      isTutorialVisible: "block"
+    });
   }
 
   updateDimensions() {
@@ -67,17 +68,14 @@ class Library extends React.Component {
   }
 
   generateBooks() {
-
-    if (this.state.newDateGroups.length) {
-      return this.state.newDateGroups.map((date, index) => {
+    const { history } = this.props;
+    const { newDateGroups, today } = this.state;
+    if (newDateGroups.length) {
+      return newDateGroups.map((date, index) => {
         return (
           <div key={index} className={styles.library_date_container}>
-            <span
-              className={
-                date[0] === this.state.today ? styles.today : styles.date
-              }
-            >
-              {date[0] === this.state.today ? "TODAY" : date[0]}
+            <span className={date[0] === today ? styles.today : styles.date}>
+              {date[0] === today ? "TODAY" : date[0]}
             </span>
             {date[1].map((book, index) => {
               return (
@@ -103,9 +101,9 @@ class Library extends React.Component {
                   color={book.coverColor}
                   id={book.id}
                   position={index}
-                  history={this.props.history}
+                  history={history}
                   content={book.content}
-                  note={book.note}
+                  note={book.note ? book.note : ""}
                   deleteBook={this.deleteBook.bind(this)}
                 />
               );
@@ -158,8 +156,8 @@ class Library extends React.Component {
   }
 
   componentDidMount() {
-    // If uid not exist, return to sign in page
-    let uid = this.props.userUID;
+    const { userUID, dispatch, viewPreference } = this.props;
+    let uid = userUID;
     let db = firebase.firestore();
 
     let getDate = new Date();
@@ -183,8 +181,8 @@ class Library extends React.Component {
           booksAll.push(tempData);
         });
         this.setState({
-          booksAll:booksAll.length
-        })
+          booksAll: booksAll.length
+        });
         let dateAll = booksAll.map((book, index) => {
           var temp = new Date(book.createdTime);
           let n =
@@ -214,47 +212,55 @@ class Library extends React.Component {
       .doc(`${uid}`)
       .get()
       .then(res => {
-        // Set preference to store
-        // If user exists, get data and set to redux
+        // Set preference to store, If user exists, get data and set to redux
         if (res.data()) {
-          this.props.dispatch(savePrefToRedux(res.data().preference));
+          dispatch(savePrefToRedux(res.data().preference));
         } else {
           db.collection("users")
             .doc(`${uid}`)
-            .set({ preference: this.props.viewPreference });
+            .set({ preference: viewPreference });
         }
       });
     this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
+    window.addEventListener("resize", this.updateDimensions);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions.bind(this));
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   render() {
-    // Get data from firebase, if library array is not 0
-    // If library array is 0
-    // Tell user to add some thing by clicking the button above
+    const {
+      isTutorialVisible,
+      booksAll,
+      isLoading,
+      isSearchContainerVisible
+    } = this.state;
+    const { history, userName } = this.props;
     return (
       <div className={styles.container_library}>
         <header className={styles.header_library}>
           <div className={styles.logo_container}>
-            <img
-              className={styles.logo_small}
-              src={require("../images/logo_small.png")}
-            />
+            {
+              <img
+                className={styles.logo_small}
+                src={require("../images/logo_small.png")}
+              />
+            }
             <span className={styles.logo_wording}>Search easy. Read easy</span>
           </div>
-          <Tutorial isTutorialVisible={this.state.isTutorialVisible} hideTutorial={this.hideTutorial}/>
+          <Tutorial
+            isTutorialVisible={isTutorialVisible}
+            hideTutorial={this.hideTutorial}
+          />
           <div className={styles.logo_topRight}>
-            <div className={styles.tutorial} onClick={this.showTutorial}>
+            <a className={styles.tutorial} onClick={this.showTutorial}>
               <img
                 className={styles.tutorial_img}
                 src={require("../images/tutorial.png")}
               />
               <span className={styles.tutorial_wording}>Tutorial</span>
-            </div>
+            </a>
             <a className={styles.contact} href="mailto:zeke5252@yahoo.com.tw">
               <img
                 className={styles.contact_img}
@@ -262,7 +268,7 @@ class Library extends React.Component {
               />
               <span className={styles.contact_wording}>Contact me</span>
             </a>
-            <SignOut history={this.props.history} />
+            <SignOut history={history} />
           </div>
         </header>
         <div className={styles.library_left_container}>
@@ -273,7 +279,7 @@ class Library extends React.Component {
             {"<"}
           </div>
           <div className={styles.library_left_top}>
-            <Greetings userName={this.props.userName} booksAll={this.state.booksAll}/>
+            <Greetings userName={userName} booksAll={booksAll} />
             <button onClick={this.addNewContent} className={styles.addBtn}>
               <img
                 src={require("../images/add.png")}
@@ -282,7 +288,7 @@ class Library extends React.Component {
             </button>
           </div>
           <div className={styles.library_book_container}>
-            {this.state.isLoading === true ? (
+            {isLoading === true ? (
               <img
                 className={styles.loading}
                 src={require("../images/loading2.gif")}
@@ -294,10 +300,10 @@ class Library extends React.Component {
         </div>
         <div className={styles.library_right_container}>
           <Search_history
-            isSearchContainerVisible={this.state.isSearchContainerVisible}
+            isSearchContainerVisible={isSearchContainerVisible}
             hideSearchContainer={this.hideSearchContainer}
           />
-        </div>{" "}
+        </div>
       </div>
     );
   }

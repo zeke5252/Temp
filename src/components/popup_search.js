@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
-import Word from "./word"
+import Word from "./word";
 import {} from "../actions/";
 
 class PopupSearch extends React.Component {
@@ -27,44 +27,63 @@ class PopupSearch extends React.Component {
     };
   }
   showPopup(showContent) {
+    const {styleParent} = this.state
+    const {
+      resDetails,
+      contentPosition,
+      isPopupVisible,
+      width,
+      showAllContent,
+      searchContent,
+      isHintMoreVisible
+    } = this.props;
     if (showContent === "word") {
-      // Full content ( 後方帶參數進去顯示full )
-      let renderFull = <Word 
-      resDetails={this.props.resDetails}
-      styleParent={this.state.styleParent}
-      isFull= {true}
-      isReverse={false}
-      />;
-      // Partial content ( 後方帶參數進去顯示partial )
-      let renderPartial = <Word 
-      resDetails={this.props.resDetails}
-      styleParent={this.state.styleParent}
-      isFull= {false}
-      />
+      let renderFull = (
+        <Word
+          resDetails={resDetails}
+          styleParent={styleParent}
+          isFull={true}
+          isReverse={false}
+        />
+      );
+      let renderPartial = (
+        <Word
+          resDetails={resDetails}
+          styleParent={styleParent}
+          isFull={false}
+        />
+      );
       return (
         <div
           className={styles.popupSearchContainer}
           style={
-            this.props.contentPosition === "cursor"
+            contentPosition === "top"
               ? {
-                  display: this.props.isPopupVisible,
+                  display: isPopupVisible,
                   left: "50%",
                   top: "2rem",
-                  transform:"translate(-50%, 0)"
+                  transform: "translate(-50%, 0)"
                 }
               : {
-                  display: this.props.isPopupVisible,
+                  display: isPopupVisible,
                   left: "50%",
                   top: "50%",
                   transform: "translate(-50%, -50%)",
-                  width: this.props.width,
-                  height:'60%'
+                  width: width,
+                  height: "60%"
                 }
           }
-          onClick={this.props.showAllContent}
+          onClick={showAllContent}
         >
-          <div className={styles.holdScroll}>{this.props.searchContent === "partial" ? renderPartial : renderFull}</div>
-          <div className={styles.popup_more} style={{display:this.props.isHintMoreVisible}}>›</div>
+          <div className={styles.holdScroll}>
+            {searchContent === "partial" ? renderPartial : renderFull}
+          </div>
+          <div
+            className={styles.popup_more}
+            style={{ display: isHintMoreVisible }}
+          >
+            ›
+          </div>
         </div>
       );
     }
@@ -73,13 +92,13 @@ class PopupSearch extends React.Component {
         <div
           className={styles.popupSearchContainer}
           style={{
-            display: this.props.isPopupVisible,
+            display: isPopupVisible,
             left: "50%",
             top: "2rem",
-            transform:"translate(-50%, 0)"
+            transform: "translate(-50%, 0)"
           }}
         >
-          <p>{this.props.resDetails}</p>
+          <p>{resDetails}</p>
         </div>
       );
     }
