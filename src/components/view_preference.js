@@ -8,6 +8,7 @@ import {
   changeViewLineHeight,
   changeDictionary
 } from "../actions/";
+import {db} from "../firebaseConfig"
 
 class ViewPreference extends React.Component {
   constructor(props) {
@@ -28,7 +29,6 @@ class ViewPreference extends React.Component {
     }
     this.props.dispatch(changeViewFontSize(value));
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .update({
@@ -41,7 +41,6 @@ class ViewPreference extends React.Component {
     let value = event.target.value;
     this.props.dispatch(changeViewFontType(value));
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .update({
@@ -56,7 +55,6 @@ class ViewPreference extends React.Component {
     let value = event.target.value;
     this.props.dispatch(changeViewBG(value));
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .update({
@@ -70,7 +68,6 @@ class ViewPreference extends React.Component {
     let value = event.target.value;
     this.props.dispatch(changeViewLineHeight(value));
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .update({
@@ -82,7 +79,6 @@ class ViewPreference extends React.Component {
     let value = event.target.value;
     this.props.dispatch(changeDictionary(value));
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .update({

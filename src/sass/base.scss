@@ -1,97 +1,104 @@
 *,
 *::after,
 *::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-    font-family: "Muli", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: "Muli", sans-serif;
 }
 
 ::selection {
-    background-color: $color-primary;
-    color: white;
+  background-color: $color-primary;
+  color: white;
 }
 
 html {
-    // -webkit-touch-callout: none; 
-    height: 100%;
-    font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
-
+  // -webkit-touch-callout: none;
+  height: 100%;
+  font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
 }
-  
 
 @mixin respond($breakpoint) {
-    @if $breakpoint == phone {
-        @media only screen and (max-width: 600px) { @content };    //600px
-    }
-    @if $breakpoint == tab-port {
-        @media only screen and (max-width: 800px) { @content };     //800px
-    }
-    @if $breakpoint == tab-land {
-        @media only screen and (max-width: 1200px) { @content };    //1200px
-    }
-    @if $breakpoint == big-desktop {
-        @media only screen and (min-width: 112.5em) { @content };    //1800
-    }
+  @if $breakpoint == phone {
+    @media only screen and (max-width: 600px) {
+      @content;
+    } //600px
+  }
+  @if $breakpoint == tab-port {
+    @media only screen and (max-width: 800px) {
+      @content;
+    } //800px
+  }
+  @if $breakpoint == tab-land {
+    @media only screen and (max-width: 1200px) {
+      @content;
+    } //1200px
+  }
+  @if $breakpoint == big-desktop {
+    @media only screen and (min-width: 112.5em) {
+      @content;
+    } //1800
+  }
 }
 
 ::-webkit-scrollbar {
-    width: 1rem;
-    
-    @include respond(phone){
-        width: .5rem;
-    }
+  width: 1rem;
+
+  @include respond(phone) {
+    width: 0.5rem;
   }
-  
-  ::-webkit-scrollbar-track {
-    border-radius: 2rem;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: rgba($color: #000000, $alpha: 0.1);
-    border-radius: 2rem;
-    border: 1px solid transparent;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba($color: #000000, $alpha: 0.6);
-  }
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 2rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba($color: #000000, $alpha: 0.1);
+  border-radius: 2rem;
+  border: 1px solid transparent;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba($color: #000000, $alpha: 0.6);
+}
 
 body {
-    // -webkit-touch-callout: none !important;
-    // a { -webkit-user-select: none !important; } 
-    box-sizing: border-box;
-    padding: 0rem;
-    font-weight: 600;
-    line-height: 1.7;
+  // -webkit-touch-callout: none !important;
+  // a { -webkit-user-select: none !important; }
+  box-sizing: border-box;
+  padding: 0rem;
+  font-weight: 600;
+  line-height: 1.7;
+  background-color: white;
+  color: $color-grey-dark;
+  height: 100%;
+  select {
     background-color: white;
-    color: $color-grey-dark;
-    height: 100%;
-    select {
-        background-color: white;
-        border: thin solid $color-primary;
-        border-radius: 4px;
-        display: inline-block;
-        font: inherit;
-        line-height: 1.5em;
-        padding: 0.5em 3.5em 0.5em 1em;
-      
-        margin: 0;      
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-appearance: none;
-        -moz-appearance: none;
+    border: thin solid $color-primary;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
 
-      }
-    button {
-        border-radius: 4rem;
-        cursor: pointer;
-        &:hover{
-            transform: translateY(-.35rem);
-            transition: all .2s ;
-            box-shadow: 1px 4px 5px rgba($color: #000000, $alpha: .3);
-
-        }
-    
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  a{
+    text-decoration: none;
+  }
+  button {
+    border-radius: 4rem;
+    cursor: pointer;
+     border: 0 ;
+     color:white;
+    &:hover {
+      transform: translateY(-0.35rem);
+      transition: all 0.2s;
+      box-shadow: 1px 4px 5px rgba($color: #000000, $alpha: 0.3);
     }
-
+  }
 }

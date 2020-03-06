@@ -6,8 +6,8 @@ import Back from "./back";
 import Settings from "./settings";
 import PopupSearch from "./popup_search";
 import Note from "./note";
-import anchorme from "anchorme";
 import convert from "htmr";
+import {db} from "../firebaseConfig";
 
 class Book_content extends React.Component {
   constructor(props) {
@@ -49,6 +49,7 @@ class Book_content extends React.Component {
   }
 
   onNoteChange() {
+    console.log('tempNote=', event.target.value)
     this.setState({
       tempNote: event.target.value
     });
@@ -87,7 +88,6 @@ class Book_content extends React.Component {
     });
     // Update note on firebase
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     this.setState({
       isNoteTextAreaVisible: "none"
     });
@@ -104,14 +104,31 @@ class Book_content extends React.Component {
   }
 
   showNote() {
-    this.highlightHandler("off");
-    var anchorme = require("anchorme").default; // if installed via NPM
-    var someText = this.state.tempNote;
-    let tempChrome = anchorme(someText, { truncate: 36 });
     this.setState({
       isNoteVisible: "block",
-      chromeNote: convert(tempChrome)
     });
+    this.highlightHandler("off");
+    var anchorme = require("anchorme").default; // if installed via NPM
+
+    let uid = this.props.userUID;
+    db.collection("users")
+      .doc(`${uid}`)
+      .collection("Library")
+      .doc(`${this.props.bookTitle}`)
+      .get()
+      .then(res => {
+        this.setState({
+          tempNote:res.data().note
+        })
+        let someText = this.state.tempNote;
+        let tempChrome = anchorme(someText, { truncate: 36 });
+        this.setState({
+          chromeNote: convert(tempChrome)
+        });
+      }
+      )
+    
+
   }
   turnOffSettings() {
     this.highlightHandler("on");
@@ -175,7 +192,6 @@ class Book_content extends React.Component {
           isPopupVisible: "block"
         });
         let uid = userUID;
-        let db = firebase.firestore();
 
         fetch(`${dictionaryGoogleAPI}?define=${highlightText}`)
           // Get response without key of 'times';

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
 import { slangCollection } from "../components/slangs";
 import Button from "../components/button";
+import Dialogue from "../components/dialogue";
+import {auth} from "../firebaseConfig"
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -15,7 +17,8 @@ class Sign_in extends React.Component {
       userName: "",
       errorMsg: "",
       mode: "signIn",
-      quoteNumSlang: 0
+      quoteNumSlang: 0,
+      isDialogueVisible: "none"
     };
     this.switchMode = this.switchMode.bind(this);
     this.signUpHandler = this.signUpHandler.bind(this, dispatch, history);
@@ -25,14 +28,35 @@ class Sign_in extends React.Component {
     this.onPWChange = this.onPWChange.bind(this);
     this.fbLoginHandler = this.fbLoginHandler.bind(this, dispatch, history);
     this.forgetPW = this.forgetPW.bind(this);
+    this.showDialogue = this.showDialogue.bind(this);
+    this.closeDialogue = this.closeDialogue.bind(this)
+    this.onMailChangeHandler = this.onMailChangeHandler.bind(this)
+  }
+
+  onMailChangeHandler(){
+
+    this.setState({
+      eMail : event.target.value
+    }, function(){
+      console.log(this.state.eMail)
+    })
+  }
+
+  closeDialogue(){
+    this.setState({
+      isDialogueVisible: "none"
+    });
+  }
+
+  showDialogue() {
+    this.setState({
+      isDialogueVisible: "flex"
+    });
   }
 
   forgetPW() {
-    var auth = firebase.auth();
-    var emailAddress = this.state.userID;
-
     auth
-      .sendPasswordResetEmail(emailAddress)
+      .sendPasswordResetEmail(this.state.eMail)
       .then(function() {
         alert("Email sent.");
       })
@@ -51,9 +75,9 @@ class Sign_in extends React.Component {
       .then(function(result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         // var token = result.credential.accessToken;
-        propsDispatch(updateUID(firebase.auth().currentUser.uid));
+        propsDispatch(updateUID(auth.currentUser.uid));
         propsDispatch(
-          updateDisplayName(firebase.auth().currentUser.displayName)
+          updateDisplayName(auth.currentUser.displayName)
         );
       })
       .then(res => {
@@ -71,7 +95,7 @@ class Sign_in extends React.Component {
   }
 
   componentDidMount() {
-    var user = firebase.auth().currentUser;
+    var user = auth.currentUser;
     if (user) {
       history.push("/library");
     }
@@ -88,14 +112,16 @@ class Sign_in extends React.Component {
         mode: "signUp",
         userID: "",
         userPW: "",
-        userName: ""
+        userName: "",
+        errorMsg: ""
       });
     } else if (this.state.mode === "signUp") {
       this.setState({
         mode: "signIn",
         userID: "",
         userPW: "",
-        userName: ""
+        userName: "",
+        errorMsg: ""
       });
     }
   }
@@ -105,12 +131,12 @@ class Sign_in extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
-        firebase.auth().currentUser.updateProfile({
+        auth.currentUser.updateProfile({
           displayName: this.state.userName
         });
       })
       .then(res => {
-        propsDispatch(updateUID(firebase.auth().currentUser.uid));
+        propsDispatch(updateUID(auth.currentUser.uid));
       })
       .then(res => {
         console.log("signup!");
@@ -133,11 +159,11 @@ class Sign_in extends React.Component {
       .auth()
       .signInWithEmailAndPassword(this.state.userID, this.state.userPW)
       .then(res => {
-        var user = firebase.auth().currentUser;
+        var user = auth.currentUser;
         if (user) {
-          propsDispatch(updateUID(firebase.auth().currentUser.uid));
+          propsDispatch(updateUID(auth.currentUser.uid));
           propsDispatch(
-            updateDisplayName(firebase.auth().currentUser.displayName)
+            updateDisplayName(auth.currentUser.displayName)
           );
           history.push("/library");
         } else {
@@ -173,9 +199,17 @@ class Sign_in extends React.Component {
   }
 
   render() {
-    const { errorMsg, mode, quoteNumSlang } = this.state;
+    const { errorMsg, mode, quoteNumSlang, isDialogueVisible } = this.state;
     return (
       <div className={styles.container_init}>
+        <Dialogue
+          title="Your verification e-mail address"
+          clickHandler={this.forgetPW}
+          btnStr="Send"
+          isDialogueVisible={isDialogueVisible}
+          closeDialogue={this.closeDialogue}
+          onMailChangeHandler={this.onMailChangeHandler}
+        />
         <div className={styles.container_sign_in}>
           {mode === "signIn" ? (
             <div className={styles.sign_in_container_left}>
@@ -202,6 +236,7 @@ class Sign_in extends React.Component {
               <Button
                 clickHandler={this.signInHandler}
                 str="Sign in"
+                img="signIn.png"
               />
               <Button
                 clickHandler={this.fbLoginHandler}
@@ -209,12 +244,14 @@ class Sign_in extends React.Component {
                 img="facebook.png"
                 str="Facebook login"
               />
+              <div className={styles.sign_switch_container}>
               <span className={styles.sign_switch} onClick={this.switchMode}>
-                Create an account
+                Sign up
               </span>
-              <span className={styles.sign_switch} onClick={this.forgetPW}>
+              <span className={styles.sign_switch} onClick={this.showDialogue}>
                 Forget password?
               </span>
+              </div>
               <span className={styles.message}>{errorMsg}</span>
             </div>
           ) : (
@@ -244,7 +281,11 @@ class Sign_in extends React.Component {
                 placeholder="Your password"
                 autoComplete="new-password"
               ></input>
-              <button onClick={this.signUpHandler}>Sign up</button>
+              <Button
+                clickHandler={this.signUpHandler}
+                str="Sign up"
+                img="signIn.png"
+              />
               <span className={styles.sign_switch} onClick={this.switchMode}>
                 Sign in with the existing account
               </span>

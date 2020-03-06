@@ -7,6 +7,8 @@ import styles from "../sass/main.scss";
 import SignOut from "./sign_out";
 import Greetings from "../components/greeting";
 import { savePrefToRedux } from "../actions/";
+import Button from "../components/button";
+import {db} from "../firebaseConfig"
 
 class Library extends React.Component {
   constructor(props) {
@@ -141,7 +143,6 @@ class Library extends React.Component {
       newDateGroups: tempDates
     });
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .collection("Library")
@@ -158,7 +159,6 @@ class Library extends React.Component {
   componentDidMount() {
     const { userUID, dispatch, viewPreference } = this.props;
     let uid = userUID;
-    let db = firebase.firestore();
 
     let getDate = new Date();
     let today =
@@ -254,19 +254,18 @@ class Library extends React.Component {
             hideTutorial={this.hideTutorial}
           />
           <div className={styles.logo_topRight}>
-            <a className={styles.tutorial} onClick={this.showTutorial}>
-              <img
-                className={styles.tutorial_img}
-                src={require("../images/tutorial.png")}
-              />
-              <span className={styles.tutorial_wording}>Tutorial</span>
-            </a>
-            <a className={styles.contact} href="mailto:zeke5252@yahoo.com.tw">
-              <img
-                className={styles.contact_img}
-                src={require("../images/contact.png")}
-              />
-              <span className={styles.contact_wording}>Contact me</span>
+            <Button
+              clickHandler={this.showTutorial}
+              btnContainerStyle={styles.tutorial}
+              img="tutorial.png"
+              str="Tips"
+            />
+            <a href="mailto:zeke5252@yahoo.com.tw">
+            <Button
+              btnContainerStyle={styles.contact}
+              img="contact.png"
+              str="Contact me"
+            />
             </a>
             <SignOut history={history} />
           </div>

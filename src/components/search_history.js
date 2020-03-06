@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import Word from "./word";
+import {db} from "../firebaseConfig"
 
 class Search_history extends React.Component {
   constructor(props) {
@@ -80,7 +81,6 @@ class Search_history extends React.Component {
     });
 
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     db.collection("users")
       .doc(`${uid}`)
       .collection("Search_history")
@@ -107,7 +107,6 @@ class Search_history extends React.Component {
   }
   renderWords() {
     let uid = this.props.userUID;
-    let db = firebase.firestore();
     let tempWordArr = [];
     let tempWordArrIDs = [];
     let historyRef = db

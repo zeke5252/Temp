@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
 import Greetings from "../components/greeting";
+import Button from "../components/button";
+import {db} from "../firebaseConfig"
 
 class New_content extends React.Component {
   constructor(props) {
@@ -69,7 +71,6 @@ class New_content extends React.Component {
       });
     } else {
       let uid = this.props.userUID;
-      let db = firebase.firestore();
       db.collection("users")
         .doc(`${uid}`)
         .collection("Library")
@@ -125,9 +126,12 @@ class New_content extends React.Component {
                   src={require("../images/reset.png")}
                 />
               </button>
-              <button className={styles.saveBtn} onClick={this.saveBook}>
-                Save
-              </button>
+              <Button
+                clickHandler={this.saveBook}
+                btnContainerStyle={styles.saveBtn}
+                img="save.png"
+                str="Save"
+              />
             </div>
           </div>
           <div className={styles.warningMsg}>{warningMsg}</div>
