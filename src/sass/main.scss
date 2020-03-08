@@ -175,29 +175,7 @@
       padding: 5rem 1rem 0 4%;
     }
 
-    .search_panel_switch {
-      position: absolute;
-      width: 3.3rem;
-      height: 6.6rem;
-      border: none;
-      right: 0;
-      top: 50%;
-      border-radius: 4rem 0 0 4rem;
-      font-size: 4rem;
-      color: rgba($color: $color-grey-dark, $alpha: 0.4);
-      text-align: right;
-      align-self: center;
-      line-height: 3.2rem;
-      font-weight: 100;
-      display: none;
-      z-index: 15000;
-      cursor: pointer;
-      transform: scaleX(0.4);
-      padding: 1rem 1rem;
-      @include respond(phone) {
-        display: block;
-      }
-    }
+
 
     .library_left_top {
       margin: 5rem 0 2rem 0;
@@ -355,6 +333,29 @@
   }
 }
 
+.search_panel_switch {
+  position: fixed;
+  width: 4rem;
+  height: 7rem;
+  border: none;
+  right: 0;
+  top: 50%;
+  border-radius: 4rem 0 0 4rem;
+  font-size: 4rem;
+  color: rgba($color: $color-grey-dark, $alpha: 0.4);
+  text-align: right;
+  align-self: center;
+  line-height: 3.2rem;
+  font-weight: 100;
+  display: none;
+  cursor: pointer;
+  transform: scaleX(0.4);
+  padding: 1rem 1rem;
+  @include respond(phone) {
+    display: block;
+  }
+}
+
 .book_container_out {
   position: relative;
   perspective: 1920px;
@@ -370,7 +371,6 @@
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
   border-radius: 0.3rem 0 0 0.3rem;
   transform-origin: left center;
-  z-index: 100;
   animation: topDown_book 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   &:hover {
     box-shadow: 8px 0 15px rgba($color: #000000, $alpha: 0.2);
@@ -398,7 +398,6 @@
     background-color: rgba($color: #000000, $alpha: 0.3);
     border-radius: 0.3rem 0 0 0.3rem;
     border: 1px solid rgba($color: #000000, $alpha: 0.1);
-    z-index: 1;
     animation: topDown_book 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     transition: all 0.2s;
     @include respond(tab-port) {
@@ -417,7 +416,6 @@
     height: 2.8rem;
     border-radius: 4rem;
     background-color: white;
-    z-index: 15000;
     position: absolute;
     right: -1rem;
     top: -1.4rem;
@@ -457,7 +455,6 @@
       position: absolute;
       left: 0px;
       top: 0px;
-      z-index: 2000;
     }
     .book_title {
       color: $color-grey-dark;
@@ -579,28 +576,31 @@
   }
 }
 
-.btnInnerStyle{
+.btnInnerStyle {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.btnImg{
-  width:auto;
-  height:1.3rem;
-  margin-right: .7rem;
-  opacity: .9;
+.btnImg {
+  width: auto;
+  height: 1.3rem;
+  margin-right: 0.7rem;
+  opacity: 0.9;
 }
 
-.dialogueContainer{
+.dialogueContainer {
   width: 100%;
-  height:100%;
-  display: fixed;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
-.dialogueStyle{
-  width:40rem;
-  height:30%;
+.dialogueStyle {
+  width: 40rem;
+  height: 21rem;
+  max-height: 22rem;
   font-size: $size-normal;
   display: flex;
   flex-direction: column;
@@ -608,53 +608,45 @@
   left: 50%;
   top: 50%;
   background-color: $color-panel-light;
-  border: 1px rgba($color: $color-grey-dark, $alpha: .8) solid;
+  border: 1px rgba($color: $color-grey-dark, $alpha: 0.8) solid;
   box-shadow: 0.2rem 0.2rem 1rem rgba($color: #000000, $alpha: 0.2);
-  z-index: 20000;
   animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
   transform: translate(-20rem, -50%);
-  padding: 5rem;
-  justify-content: center;
-  position: relative;
-  .diaLogueInput{
-      width: 100%;
-      min-width: 20rem;
-      border-radius: 0.5rem;
-      height: $height-input;
-      margin: 1rem 0 3rem 0;
-      padding: 1rem;
-      border: 1px solid rgba($color: grey, $alpha: .3);
+  padding: 3rem;
+  justify-content: space-between;
+  @include respond(phone){
+    width:32rem;
+    transform: translate(-16rem, -50%);
   }
-  .dialogueTitle{
+  .diaLogueInput {
+    width: 100%;
+    min-width: 20rem;
+    border-radius: 0.5rem;
+    height: $height-input;
+    margin: 0rem 0 1rem 0;
+    padding: 1rem;
+    border: 1px solid rgba($color: grey, $alpha: 0.3);
+  }
+  .dialogueTitle {
     font-size: $size-normal;
     color: $color-grey-dark;
     font-weight: 400;
     line-height: 3rem;
   }
-  .closeBtnStyle{
-    display: block;
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    padding:1rem;
-    background-color: transparent;
-  }
 }
 
-.dialogueBtnStyle{
-  padding: 1.4rem 1rem;
+.dialogueBtnStyle {
+  padding: 1.2rem 0rem;
   background-color: $color-primary;
-  width: 50%;
-  margin-top: 1rem;
+  width: 40%;
   align-self: flex-end;
 }
 
-.btnBackground{
-  width:100%;
-  height:100%;
+.btnBackground {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  left:0;
-  top:0;
-  background-color: rgba($color: #000000, $alpha: .2);
-  z-index: 19999;
+  left: 0;
+  top: 0;
+  background-color: rgba($color: #000000, $alpha: 0.2);
 }

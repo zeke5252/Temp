@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import styles from "../sass/main.scss";
 
 function Tutorial(props) {
@@ -47,10 +46,4 @@ function Tutorial(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    userUID: state.userUID
-  };
-}
-
-export default connect(mapStateToProps)(Tutorial);
+export default Tutorial;

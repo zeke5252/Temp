@@ -16,7 +16,6 @@
   height: 5rem;
   align-items: center;
   padding-left: 2.5%;
-  z-index: 22000;
   letter-spacing: 0.08rem;
   box-shadow: 0 0 1.5rem rgba($color: #000000, $alpha: 0.4);
   animation: topDown_header 0.8s cubic-bezier(0.785, 0.135, 0.15, 0.86);
@@ -71,7 +70,6 @@
       height: 3rem;
       width: 3rem;
       border: none;
-      z-index: 10000;
       &:hover {
         transform: translate(.2rem );
         transition: all 0.2s;
@@ -150,7 +148,6 @@
   letter-spacing: 0;
   justify-content: space-between;
   animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-  z-index: 38000;
   transition: all 0.2s;
   @include respond(tab-port) {
     width: 80%;
@@ -300,5 +297,4 @@
   width: 100%;
   height: 100%;
   background-color: rgba($color: #000000, $alpha: 0.2);
-  z-index: 37000;
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from '../sass/main.scss'
-import { connect } from 'react-redux'
 
 class Back extends React.Component {
   constructor (props) {
@@ -23,10 +22,4 @@ class Back extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    initState: state
-  }
-}
-
-export default connect(mapStateToProps)(Back)
+export default Back

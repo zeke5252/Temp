@@ -5,11 +5,7 @@ import { connect } from "react-redux";
 class Note extends React.Component {
   constructor(props) {
     super(props);
-    this.noteHandler = this.noteHandler.bind(
-      this,
-      this.props.dispatch,
-      this.props.history
-    );
+    this.noteHandler = this.noteHandler.bind(this);
   }
   noteHandler() {
     this.props.showNote();

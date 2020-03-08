@@ -49,7 +49,6 @@ class Book_content extends React.Component {
   }
 
   onNoteChange() {
-    console.log('tempNote=', event.target.value)
     this.setState({
       tempNote: event.target.value
     });
@@ -130,6 +129,7 @@ class Book_content extends React.Component {
     
 
   }
+
   turnOffSettings() {
     this.highlightHandler("on");
     this.setState({
@@ -171,15 +171,8 @@ class Book_content extends React.Component {
   }
 
   handleUpEvent() {
-    const {
-      dictionaryGoogleAPI,
-      tempRes,
-      showContent,
-      transGoogleAPI,
-      apiKeyGoogle
-    } = this.state;
-    const { viewPreference, userUID, bookTitle } = this.props;
     let Chinese = require("chinese-s2t");
+    const { viewPreference, userUID, bookTitle } = this.props;
     // Get the hightlight text
     let highlightText = window
       .getSelection()
@@ -193,7 +186,7 @@ class Book_content extends React.Component {
         });
         let uid = userUID;
 
-        fetch(`${dictionaryGoogleAPI}?define=${highlightText}`)
+        fetch(`${this.state.dictionaryGoogleAPI}?define=${highlightText}`)
           // Get response without key of 'times';
           .then(res => res.json())
           .then(res => {
@@ -216,7 +209,8 @@ class Book_content extends React.Component {
           .then(docRef => {
             if (docRef.data()) {
               // Existed
-              db.collection("users")
+              let newDocRef = db
+                .collection("users")
                 .doc(`${uid}`)
                 .collection("Search_history")
                 .doc(`${highlightText}`)
@@ -225,9 +219,14 @@ class Book_content extends React.Component {
                 });
             } else {
               // Not existed
-              if(tempRes[0]){ // If connection is unstable, the response will be undefined, and error occurs.
-              let newRes = Object.assign({}, tempRes, (tempRes[0].times = 1));
-              db.collection("users")
+              if(this.state.tempRes[0]){ // If connection is unstable, the response will be undefined, and error occurs.
+              let newRes = Object.assign(
+                {},
+                this.state.tempRes,
+                (this.state.tempRes[0].times = 1)
+              );
+              let newDocRef = db
+                .collection("users")
                 .doc(`${uid}`)
                 .collection("Search_history")
                 .doc(`${highlightText}`)
@@ -245,8 +244,7 @@ class Book_content extends React.Component {
             return db.collection("users").get();
           })
           .catch(error => {
-            if (showContent === "word") {
-              console.log('this is error !!!!')
+            if (this.state.showContent === "word") {
               this.setState({
                 resDetails: {
                   meaning: {
@@ -260,16 +258,17 @@ class Book_content extends React.Component {
               });
             } else {
               this.setState({
-                resDetails: "Loading...  ⚠ Unstable signal"
+                resDetails:
+                  "Loading...  ⚠ Unstable signal"
               });
             }
 
-            console.log("dictionary api error =", error);
+            console.log("code in line 170,", this.state.re);
           });
       } else if (highlightText.split(" ").length > 1 && highlightText !== "") {
         // Use Google translate api
         fetch(
-          `${transGoogleAPI}?key=${apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
+          `${this.state.transGoogleAPI}?key=${this.state.apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
         )
           .then(res => res.json())
           .then(res => {
@@ -286,7 +285,7 @@ class Book_content extends React.Component {
     ) {
       // Use Google translate api
       fetch(
-        `${transGoogleAPI}?key=${apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
+        `${this.state.transGoogleAPI}?key=${this.state.apiKeyGoogle}&source=en&target=zh-CN&q=${highlightText}`
       )
         .then(res => res.json())
         .then(res => {
@@ -366,7 +365,12 @@ class Book_content extends React.Component {
         className={styles.container_book}
         style={{ backgroundColor: viewPreference.background_color }}
       >
-        <ViewPreference isVisible={isVisible} />
+        <div className={styles.bookTitle} style={preferenceStyleTitle}>
+          {bookTitle}
+        </div>
+        <div className={styles.bookContent} style={preferenceStyleContent}>
+          {bookContent}
+        </div>
         <div className={styles.btns_leftTop}>
           <Back history={history} />
           <Settings showSettings={this.showSettings.bind(this)} />
@@ -376,6 +380,15 @@ class Book_content extends React.Component {
           style={{ display: isVisible }}
           onClick={this.turnOffSettings}
         ></div>
+        <ViewPreference isVisible={isVisible} />
+        <div
+          className={styles.turnOffNote}
+          style={{ display: isNoteVisible }}
+          onClick={this.turnOffNote}
+        ></div>
+        <div className={styles.btns_rightTop}>
+          <Note showNote={this.showNote.bind(this)} />
+        </div>
         <div className={styles.note_panel} style={{ display: isNoteVisible }}>
           <textarea
             className={styles.note_textarea}
@@ -383,7 +396,7 @@ class Book_content extends React.Component {
             value={tempNote}
             onChange={this.onNoteChange}
           />
-          {tempNote === "" ? (
+          {tempNote === "" || tempNote === "undefined" ? (
             <div
               className={styles.add_note}
               onClick={this.editNote}
@@ -409,13 +422,13 @@ class Book_content extends React.Component {
             </p>
           )}
         </div>
-        <div className={styles.btns_rightTop}>
-          <Note showNote={this.showNote.bind(this)} />
-        </div>
         <div
-          className={styles.turnOffNote}
-          style={{ display: isNoteVisible }}
-          onClick={this.turnOffNote}
+          className={styles.turnOffPopup}
+          style={{
+            display: isPopupVisible,
+            backgroundColor: backgroundColor
+          }}
+          onClick={this.turnOffPopup.bind(this)}
         ></div>
         <PopupSearch
           highlightText={highlightText}
@@ -428,25 +441,11 @@ class Book_content extends React.Component {
           width={width}
           isHintMoreVisible={isHintMoreVisible}
         />
-        <div
-          className={styles.turnOffPopup}
-          style={{
-            display: isPopupVisible,
-            backgroundColor: backgroundColor
-          }}
-          onClick={this.turnOffPopup.bind(this)}
-        ></div>
         <div className={styles.mobileSearch} onClick={this.handleUpEvent}>
           <img
             src={require("../images/mobileSearch.png")}
             className={styles.mobileSearch_img}
           ></img>
-        </div>
-        <div className={styles.bookTitle} style={preferenceStyleTitle}>
-          {bookTitle}
-        </div>
-        <div className={styles.bookContent} style={preferenceStyleContent}>
-          {bookContent}
         </div>
       </div>
     );

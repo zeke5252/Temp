@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import styles from "../sass/main.scss";
 import {} from "../actions/";
 
 // For search history only first
@@ -140,10 +138,4 @@ class Word extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    state: state
-  };
-}
-
-export default connect(mapStateToProps)(Word);
+export default Word;

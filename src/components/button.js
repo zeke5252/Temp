@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 
 function Button(props) {
-  const { clickHandler, btnContainerStyle, img, str, href } = props;
+  const { clickHandler, btnContainerStyle, img, str } = props;
   return (
     <button
       className={btnContainerStyle}

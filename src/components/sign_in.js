@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
 import { slangCollection } from "../components/slangs";
 import Button from "../components/button";
-import Dialogue from "../components/dialogue";
+import {Dialogue, closeDialogue, showDialogue} from "../components/dialogue";
 import {auth} from "../firebaseConfig"
 
 class Sign_in extends React.Component {
@@ -28,8 +28,8 @@ class Sign_in extends React.Component {
     this.onPWChange = this.onPWChange.bind(this);
     this.fbLoginHandler = this.fbLoginHandler.bind(this, dispatch, history);
     this.forgetPW = this.forgetPW.bind(this);
-    this.showDialogue = this.showDialogue.bind(this);
-    this.closeDialogue = this.closeDialogue.bind(this)
+    this.showDialogue = showDialogue.bind(this);
+    this.closeDialogue = closeDialogue.bind(this)
     this.onMailChangeHandler = this.onMailChangeHandler.bind(this)
   }
 
@@ -40,18 +40,6 @@ class Sign_in extends React.Component {
     }, function(){
       console.log(this.state.eMail)
     })
-  }
-
-  closeDialogue(){
-    this.setState({
-      isDialogueVisible: "none"
-    });
-  }
-
-  showDialogue() {
-    this.setState({
-      isDialogueVisible: "flex"
-    });
   }
 
   forgetPW() {
@@ -202,14 +190,6 @@ class Sign_in extends React.Component {
     const { errorMsg, mode, quoteNumSlang, isDialogueVisible } = this.state;
     return (
       <div className={styles.container_init}>
-        <Dialogue
-          title="Your verification e-mail address"
-          clickHandler={this.forgetPW}
-          btnStr="Send"
-          isDialogueVisible={isDialogueVisible}
-          closeDialogue={this.closeDialogue}
-          onMailChangeHandler={this.onMailChangeHandler}
-        />
         <div className={styles.container_sign_in}>
           {mode === "signIn" ? (
             <div className={styles.sign_in_container_left}>
@@ -303,6 +283,14 @@ class Sign_in extends React.Component {
             </div>
           </div>
         </div>
+        <Dialogue
+          title="Your verification e-mail address"
+          clickHandler={this.forgetPW}
+          btnStr="Send"
+          isDialogueVisible={isDialogueVisible}
+          closeDialogue={this.closeDialogue}
+          onMailChangeHandler={this.onMailChangeHandler}
+        />
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
 import Word from "./word";
-import {db} from "../firebaseConfig"
+import { db } from "../firebaseConfig";
 
 class Search_history extends React.Component {
   constructor(props) {
@@ -160,7 +160,7 @@ class Search_history extends React.Component {
   }
 
   render() {
-    const {isFull, isLoading, allWords, isVisible, styleParent } =this.state
+    const { isFull, isLoading, allWords, isVisible, styleParent } = this.state;
     return (
       <div
         className={styles.search_container}
@@ -170,12 +170,6 @@ class Search_history extends React.Component {
             : { display: "none" }
         }
       >
-        <div
-          className={styles.search_panel_switch}
-          onClick={this.props.hideSearchContainer}
-        >
-          >
-        </div>
         <div className={styles.search_history_head}>
           <span className={styles.search_title}>SEARCH HISTORY</span>
           <select
@@ -209,10 +203,10 @@ class Search_history extends React.Component {
           </div>
         </div>
         <div onClick={this.generatePDF} className={styles.downloadPDF}>
-        <img
-              className={styles.pdf_img}
-              src={require("../images/downloadPDF.png")}
-            />
+          <img
+            className={styles.pdf_img}
+            src={require("../images/downloadPDF.png")}
+          />
         </div>
         <ul>
           {isLoading ? (
@@ -234,6 +228,12 @@ class Search_history extends React.Component {
             allWords.map((word, i) => {
               return (
                 <li key={i}>
+                  <Word
+                    resDetails={word}
+                    styleParent={styleParent}
+                    isFull={isFull}
+                    isReverse={true}
+                  />
                   <div
                     className={styles.deleteBtn}
                     style={{ display: isVisible }}
@@ -241,17 +241,17 @@ class Search_history extends React.Component {
                   >
                     ✕
                   </div>
-                  <Word
-                    resDetails={word}
-                    styleParent={styleParent}
-                    isFull={isFull}
-                    isReverse={true}
-                  />
                 </li>
               );
             })
           )}
         </ul>
+        <div
+          className={styles.search_panel_switch}
+          onClick={this.props.hideSearchContainer}
+        >
+          >
+        </div>
       </div>
     );
   }

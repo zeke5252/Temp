@@ -7,7 +7,6 @@ class Settings extends React.Component {
     super(props);
     this.settingsHandler = this.settingsHandler.bind(
       this,
-      this.props.dispatch,
       this.props.history
     );
   }
@@ -27,10 +26,4 @@ class Settings extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    initState: state
-  };
-}
-
-export default connect(mapStateToProps)(Settings);
+export default Settings;

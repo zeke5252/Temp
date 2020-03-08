@@ -4,6 +4,7 @@ import styles from "../sass/main.scss";
 import Greetings from "../components/greeting";
 import Button from "../components/button";
 import {db} from "../firebaseConfig"
+import { Dialogue, showDialogue, closeDialogue } from "./dialogue";
 
 class New_content extends React.Component {
   constructor(props) {
@@ -15,14 +16,24 @@ class New_content extends React.Component {
     this.cancelContent = this.cancelContent.bind(this, history);
     this.saveBook = this.saveBook.bind(this, history);
     this.assignBookAttr = this.assignBookAttr.bind(this);
+    this.gotoLibrary = this.gotoLibrary.bind(
+      this,
+      this.props.history,
+      );
     this.state = {
       title: "",
       content: "",
       coverColor: "",
       createdTime: "",
       searchedWords: 0,
-      warningMsg: ""
+      warningMsg: "",
+      isDialogueVisible: "none",
+      note:''
     };
+  }
+
+  gotoLibrary(history){
+    history.push("./library");
   }
 
   componentDidMount() {
@@ -77,8 +88,9 @@ class New_content extends React.Component {
         .doc(`${title}`)
         .set(this.state)
         .then(() => {
-          alert("Save to your library successfully!");
-          history.push("./library");
+          this.setState({
+            isDialogueVisible:"flex"
+          })
         });
     }
   }
@@ -107,7 +119,7 @@ class New_content extends React.Component {
   }
 
   render() {
-    const { warningMsg, title, content } = this.state;
+    const { warningMsg, title, content, isDialogueVisible } = this.state;
     return (
       <div className={styles.container_library}>
         <div className={styles.library_new_content}>
@@ -148,6 +160,13 @@ class New_content extends React.Component {
             autoComplete="off"
           />
         </div>
+        <Dialogue
+          title="File saved"
+          btnStr="OK"
+          isDialogueVisible={isDialogueVisible}
+          closeDialogue={this.gotoLibrary}
+          clickHandler={this.gotoLibrary}
+        />
       </div>
     );
   }

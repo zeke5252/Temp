@@ -69,7 +69,6 @@
     background-color: $color-panel-light;
     border: 1px $color-grey-dark solid;
     box-shadow: 0.2rem 0.2rem 1rem rgba($color: #000000, $alpha: 0.2);
-    z-index: 20000;
     position: fixed;
     overflow: auto;
     animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
@@ -85,7 +84,6 @@
       min-width: 0;
       width: 100%;
       height: 100%;
-      z-index: 28000;
       font-size: $size-normal;
     }
     .note_text {
@@ -127,14 +125,12 @@
     padding-bottom: 0rem;
     background-color: white;
     border-radius: 0 0 10rem 0;
-    z-index: 10000;
 
     .back {
       background-color: white;
       width: 50%;
       height: 100%;
       border: none;
-      z-index: 10000;
       .back_img {
         width: 1.5rem;
         height: 1.3rem;
@@ -150,7 +146,6 @@
       width: 40%;
       height: 100%;
       border: none;
-      z-index: 10000;
 
       .settings_img {
         width: 1.6rem;
@@ -174,14 +169,12 @@
     padding-bottom: 0rem;
     background-color: white;
     border-radius: 0 0 0 10rem;
-    z-index: 10000;
 
     .note {
       background-color: transparent;
       width: 50%;
       height: 100%;
       border: none;
-      z-index: 10000;
       .note_img {
         width: 1.4rem;
         height: 1.4rem;
@@ -199,7 +192,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
     background-color: rgba($color: #000000, $alpha: 0);
   }
 
@@ -209,7 +201,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
     background-color: rgba($color: #000000, $alpha: 0);
   }
 
@@ -227,7 +218,6 @@
     background-color: #fffecc;
     border: 1px $color-grey-dark solid;
     box-shadow: 0.2rem 0.2rem 0.6rem rgba($color: #000000, $alpha: 0.2);
-    z-index: 20000;
     @include respond(phone) {
       padding: 1.5rem 2rem 2rem 2rem;
       width: 90%;
@@ -356,7 +346,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 5000;
     background-color: rgba($color: #000000, $alpha: 0);
   }
   .viewContainer {
@@ -370,7 +359,6 @@
     background-color: $color-panel-light;
     border: 1px $color-grey-dark solid;
     box-shadow: 0.2rem 0.2rem 1rem rgba($color: #000000, $alpha: 0.2);
-    z-index: 20000;
     position: fixed;
     animation: topDown 0.4s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     @include respond(phone) {

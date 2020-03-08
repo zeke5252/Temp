@@ -8,7 +8,8 @@ import SignOut from "./sign_out";
 import Greetings from "../components/greeting";
 import { savePrefToRedux } from "../actions/";
 import Button from "../components/button";
-import {db} from "../firebaseConfig"
+import { db } from "../firebaseConfig";
+import { Dialogue, showDialogue, closeDialogue } from "./dialogue";
 
 class Library extends React.Component {
   constructor(props) {
@@ -25,11 +26,14 @@ class Library extends React.Component {
       isTutorialVisible: "none",
       browserWidth: 100,
       browserHeight: 100,
-      booksAll: 0
+      booksAll: 0,
+      isDialogueVisible: "none"
     };
     this.generateBooks = this.generateBooks.bind(this);
     this.hideSearchContainer = this.hideSearchContainer.bind(this);
     this.showSearchContainer = this.showSearchContainer.bind(this);
+    this.showDialogue = showDialogue.bind(this);
+    this.closeDialogue = closeDialogue.bind(this);
     this.hideTutorial = this.hideTutorial.bind(this);
     this.showTutorial = this.showTutorial.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
@@ -127,6 +131,9 @@ class Library extends React.Component {
   }
 
   deleteBook(id, date, position) {
+    this.setState({
+      isDialogueVisible: "flex"
+    });
     let tempDates = this.state.newDateGroups;
 
     tempDates.map(eachDate => {
@@ -148,7 +155,11 @@ class Library extends React.Component {
       .collection("Library")
       .doc(id)
       .delete()
-      .then(alert("The book has been deleted!"))
+      .then(
+        this.setState({
+          isDialogueVisible:'flex'
+        })
+        )
       .catch(error => console.log("Error removing document", error));
   }
 
@@ -234,11 +245,46 @@ class Library extends React.Component {
       isTutorialVisible,
       booksAll,
       isLoading,
-      isSearchContainerVisible
+      isSearchContainerVisible,
+      isDialogueVisible
     } = this.state;
     const { history, userName } = this.props;
     return (
       <div className={styles.container_library}>
+        <div className={styles.library_left_container}>
+          <div className={styles.library_left_top}>
+            <Greetings userName={userName} booksAll={booksAll} />
+            <button onClick={this.addNewContent} className={styles.addBtn}>
+              <img
+                src={require("../images/add.png")}
+                className={styles.addImg}
+              />
+            </button>
+          </div>
+          <div className={styles.library_book_container}>
+            {isLoading === true ? (
+              <img
+                className={styles.loading}
+                src={require("../images/loading2.gif")}
+              />
+            ) : (
+              this.generateBooks()
+            )}
+          </div>
+          <div
+          className={styles.search_panel_switch}
+          onClick={this.showSearchContainer}
+        >
+          {"<"}
+        </div>
+        </div>
+
+        <div className={styles.library_right_container}>
+          <Search_history
+            isSearchContainerVisible={isSearchContainerVisible}
+            hideSearchContainer={this.hideSearchContainer}
+          />
+        </div>
         <header className={styles.header_library}>
           <div className={styles.logo_container}>
             {
@@ -261,48 +307,22 @@ class Library extends React.Component {
               str="Tips"
             />
             <a href="mailto:zeke5252@yahoo.com.tw">
-            <Button
-              btnContainerStyle={styles.contact}
-              img="contact.png"
-              str="Contact me"
-            />
+              <Button
+                btnContainerStyle={styles.contact}
+                img="contact.png"
+                str="Contact me"
+              />
             </a>
             <SignOut history={history} />
           </div>
         </header>
-        <div className={styles.library_left_container}>
-          <div
-            className={styles.search_panel_switch}
-            onClick={this.showSearchContainer}
-          >
-            {"<"}
-          </div>
-          <div className={styles.library_left_top}>
-            <Greetings userName={userName} booksAll={booksAll} />
-            <button onClick={this.addNewContent} className={styles.addBtn}>
-              <img
-                src={require("../images/add.png")}
-                className={styles.addImg}
-              />
-            </button>
-          </div>
-          <div className={styles.library_book_container}>
-            {isLoading === true ? (
-              <img
-                className={styles.loading}
-                src={require("../images/loading2.gif")}
-              />
-            ) : (
-              this.generateBooks()
-            )}
-          </div>
-        </div>
-        <div className={styles.library_right_container}>
-          <Search_history
-            isSearchContainerVisible={isSearchContainerVisible}
-            hideSearchContainer={this.hideSearchContainer}
-          />
-        </div>
+        <Dialogue
+          title="The book has been deleted!"
+          btnStr="OK"
+          isDialogueVisible={isDialogueVisible}
+          closeDialogue={this.closeDialogue}
+          clickHandler={this.closeDialogue}
+        />
       </div>
     );
   }

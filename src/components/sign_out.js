@@ -1,46 +1,68 @@
-import React from 'react'
-import styles from '../sass/main.scss'
-import { connect } from 'react-redux'
-import { cleanStoreData } from '../actions/'
+import React from "react";
+import styles from "../sass/main.scss";
+import { cleanStoreData } from "../actions/";
+import { Dialogue, closeDialogue, showDialogue } from "./dialogue";
 
 class SignOut extends React.Component {
-  constructor (props) {
-    super(props)
-    this.signOut = this.signOut.bind(this, this.props.dispatch, this.props.history)
+  constructor(props) {
+    super(props);
+    this.state={
+      isDialogueVisible: "none"
+    }
+    this.closeDialogue = closeDialogue.bind(this);
+    this.showDialogue = showDialogue.bind(this);
+    this.gotoSignIn = this.gotoSignIn.bind(
+      this,
+      this.props.history,
+      );
+    this.signOut = this.signOut.bind(
+      this,
+      this.props.dispatch
+    );
   }
-  signOut (propsDispatch, history) {
 
+  gotoSignIn(history){
+    history.push("/");
+  }
+
+  signOut(propsDispatch) {
+    this.setState({
+      isDialogueVisible:'flex'
+    })
     firebase
       .auth()
       .signOut()
-      .then(function () {
+      .then(function() {
         // Clean all store data
         propsDispatch(cleanStoreData());
-        localStorage.clear(); 
-        alert('Sign-out successful.')
-        history.push('/')
+        localStorage.clear();
       })
-      .catch(function (error) {
-        console.log('An error happened')
-      })
+      .catch(function(error) {
+        console.log("Error :", error);
+      });
   }
 
-  render () {
+  render() {
+    let {isDialogueVisible}=this.state
     return (
-      <button className={styles.signout} onClick={this.signOut}>
-        <img
-          src={require('../images/signout.png')}
-          className={styles.signout_img}
+      <div>
+        <button className={styles.signout} onClick={this.signOut}>
+          <img
+            src={require("../images/signout.png")}
+            className={styles.signout_img}
+          />
+        </button>
+        <Dialogue
+          title="Sign out successfully"
+          btnStr="OK"
+          isDialogueVisible={isDialogueVisible}
+          closeDialogue={this.gotoSignIn}
+          clickHandler={this.gotoSignIn}
         />
-      </button>
-    )
+      </div>
+    );
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    initState: state
-  }
-}
 
-export default connect(mapStateToProps)(SignOut)
+export default SignOut;
