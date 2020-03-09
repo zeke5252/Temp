@@ -17,7 +17,7 @@ Accroding to the reasons above, I created this online tool to store search resul
 * Responsive design for hand-held devices
 * and many more....
 
-## User flow
+## Use flow
 1. Sign up / Sign in
 
 ![](https://g0vhackmd.blob.core.windows.net/g0v-hackmd-images/upload_bebadf0b26aef56a15118076e5c317fa)
@@ -43,6 +43,10 @@ Accroding to the reasons above, I created this online tool to store search resul
 6. Check the search history to know 
 
 ![](https://g0vhackmd.blob.core.windows.net/g0v-hackmd-images/upload_bd6d558623c0d96412b508353a5ed259)
+
+( Responsive design for hand-held devices )
+
+![](https://g0vhackmd.blob.core.windows.net/g0v-hackmd-images/upload_f78dc2b4735984b2e701977f3cb09e5e)
 
 
 
