@@ -7,7 +7,7 @@ import Settings from "./settings";
 import PopupSearch from "./popup_search";
 import Note from "./note";
 import convert from "htmr";
-import {db} from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 
 class Book_content extends React.Component {
   constructor(props) {
@@ -104,7 +104,7 @@ class Book_content extends React.Component {
 
   showNote() {
     this.setState({
-      isNoteVisible: "block",
+      isNoteVisible: "block"
     });
     this.highlightHandler("off");
     var anchorme = require("anchorme").default; // if installed via NPM
@@ -117,17 +117,14 @@ class Book_content extends React.Component {
       .get()
       .then(res => {
         this.setState({
-          tempNote:res.data().note
-        })
+          tempNote: res.data().note
+        });
         let someText = this.state.tempNote;
         let tempChrome = anchorme(someText, { truncate: 36 });
         this.setState({
           chromeNote: convert(tempChrome)
         });
-      }
-      )
-    
-
+      });
   }
 
   turnOffSettings() {
@@ -219,19 +216,21 @@ class Book_content extends React.Component {
                 });
             } else {
               // Not existed
-              if(this.state.tempRes[0]){ // If connection is unstable, the response will be undefined, and error occurs.
-              let newRes = Object.assign(
-                {},
-                this.state.tempRes,
-                (this.state.tempRes[0].times = 1)
-              );
-              let newDocRef = db
-                .collection("users")
-                .doc(`${uid}`)
-                .collection("Search_history")
-                .doc(`${highlightText}`)
-                .set(newRes[0]);
-            }}
+              if (this.state.tempRes[0]) {
+                // If connection is unstable, the response will be undefined, and error occurs.
+                let newRes = Object.assign(
+                  {},
+                  this.state.tempRes,
+                  (this.state.tempRes[0].times = 1)
+                );
+                let newDocRef = db
+                  .collection("users")
+                  .doc(`${uid}`)
+                  .collection("Search_history")
+                  .doc(`${highlightText}`)
+                  .set(newRes[0]);
+              }
+            }
             // SearchWords increment
             db.collection("users")
               .doc(`${uid}`)
@@ -258,12 +257,9 @@ class Book_content extends React.Component {
               });
             } else {
               this.setState({
-                resDetails:
-                  "Loading...  ⚠ Unstable signal"
+                resDetails: "Loading...  ⚠ Unstable signal"
               });
             }
-
-            console.log("code in line 170,", this.state.re);
           });
       } else if (highlightText.split(" ").length > 1 && highlightText !== "") {
         // Use Google translate api

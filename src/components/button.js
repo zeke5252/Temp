@@ -18,7 +18,7 @@ function Button(props) {
         ) : (
           ""
         )}
-        {str ? str : ""}
+        <span>{str ? str : ""}</span>
       </div>
     </button>
   );

@@ -37,6 +37,11 @@
       text-decoration: none;
       background-color: transparent;
       border-width: 0;
+      span{
+        @include respond(phone){
+          display: none;
+        }
+      }
       &:hover {
         transform: translateY(-0.2rem);
         transition: all 0.2s;
@@ -54,6 +59,11 @@
       text-decoration: none;
       background-color: transparent;
       border-width: 0;
+      span{
+        @include respond(phone){
+          display: none;
+        }
+      }
       img{
         height: .9rem;
         width:auto;
