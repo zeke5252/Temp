@@ -376,7 +376,6 @@ class Book_content extends React.Component {
           style={{ display: isVisible }}
           onClick={this.turnOffSettings}
         ></div>
-        <ViewPreference isVisible={isVisible} />
         <div
           className={styles.turnOffNote}
           style={{ display: isNoteVisible }}
@@ -385,6 +384,7 @@ class Book_content extends React.Component {
         <div className={styles.btns_rightTop}>
           <Note showNote={this.showNote.bind(this)} />
         </div>
+        <ViewPreference isVisible={isVisible} />
         <div className={styles.note_panel} style={{ display: isNoteVisible }}>
           <textarea
             className={styles.note_textarea}

@@ -67,10 +67,11 @@ class Sign_in extends React.Component {
         propsDispatch(
           updateDisplayName(auth.currentUser.displayName)
         );
-      })
-      .then(res => {
         history.push("/library");
       })
+      // .then(res => {
+      //   // history.push("/library");
+      // })
       .then()
       .catch(function(error) {
         console.error(`Facebook error.${error.message}`);
