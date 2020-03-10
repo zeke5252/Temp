@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../sass/main.scss";
 import { cleanStoreData } from "../actions/";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { Dialogue, closeDialogue, showDialogue } from "./dialogue";
 
 class SignOut extends React.Component {
@@ -25,7 +25,7 @@ class SignOut extends React.Component {
 
   signOut(propsDispatch) {
     this.setState({
-      isDialogueVisible:'flex'
+      isDialogueVisible:"flex"
     })
     firebase
       .auth()

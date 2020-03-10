@@ -1,5 +1,5 @@
-import React from 'react'
-import styles from '../sass/main.scss'
+import React from "react"
+import styles from "../sass/main.scss"
 
 class Back extends React.Component {
   constructor (props) {
@@ -7,14 +7,14 @@ class Back extends React.Component {
     this.backHandler = this.backHandler.bind(this, this.props.history)
   }
   backHandler (history) {
-    history.push('./library')
+    history.push("./library")
   }
 
   render () {
     return (
       <button className={styles.back} onClick={this.backHandler}>
         <img
-          src={require('../images/back.png')}
+          src={require("../images/back.png")}
           className={styles.back_img}
         />
       </button>

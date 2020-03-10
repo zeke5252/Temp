@@ -93,7 +93,7 @@ class Word extends React.Component {
                                                   styleParent.s_synonyms
                                                 }
                                               >
-                                                {synonym}, {' '}
+                                                {synonym}, {" "}
                                               </span>
                                             );
                                           }

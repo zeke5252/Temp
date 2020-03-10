@@ -157,7 +157,7 @@ class Library extends React.Component {
       .delete()
       .then(
         this.setState({
-          isDialogueVisible:'flex'
+          isDialogueVisible:"flex"
         })
         )
       .catch(error => console.log("Error removing document", error));

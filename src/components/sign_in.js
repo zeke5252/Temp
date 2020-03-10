@@ -49,7 +49,7 @@ class Sign_in extends React.Component {
 
   forgetPW() {
     this.setState({
-      errorMsgDialogue: ''
+      errorMsgDialogue: ""
     }, ()=>{
       auth
       .sendPasswordResetEmail(this.state.eMail)

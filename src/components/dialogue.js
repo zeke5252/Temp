@@ -13,7 +13,7 @@ function showDialogue() {
     isDialogueVisible: "flex"
   });
   this.setState({
-    errorMsgDialogue: ''
+    errorMsgDialogue: ""
   });
 }
 

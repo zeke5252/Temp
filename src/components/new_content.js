@@ -28,7 +28,7 @@ class New_content extends React.Component {
       searchedWords: 0,
       warningMsg: "",
       isDialogueVisible: "none",
-      note:''
+      note:""
     };
   }
 
