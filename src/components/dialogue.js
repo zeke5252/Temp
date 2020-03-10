@@ -12,6 +12,9 @@ function showDialogue() {
   this.setState({
     isDialogueVisible: "flex"
   });
+  this.setState({
+    errorMsgDialogue: ''
+  });
 }
 
 class Dialogue extends React.Component {
@@ -26,7 +29,8 @@ class Dialogue extends React.Component {
       btnStr,
       isDialogueVisible,
       closeDialogue,
-      onMailChangeHandler
+      onMailChangeHandler,
+      errorMsgDialogue
     } = this.props;
     return (
       <div
@@ -36,12 +40,19 @@ class Dialogue extends React.Component {
         <div onClick={closeDialogue} className={styles.btnBackground}></div>
         <div className={styles.dialogueStyle}>
           <div className={styles.dialogueTitle}>{title}</div>
-          {onMailChangeHandler ?  <input
-            type="text"
-            className={styles.diaLogueInput}
-            onChange={onMailChangeHandler}
-            autoFocus
-          /> : ''}
+          {onMailChangeHandler ? (
+            <div>
+              <input
+                type="text"
+                className={styles.diaLogueInput}
+                onChange={onMailChangeHandler}
+                autoFocus
+              />
+              <span className={styles.message}>{errorMsgDialogue}</span>
+            </div>
+          ) : (
+            ""
+          )}
           <Button
             clickHandler={clickHandler}
             str={btnStr}

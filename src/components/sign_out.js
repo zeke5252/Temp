@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../sass/main.scss";
 import { cleanStoreData } from "../actions/";
+import { connect } from 'react-redux';
 import { Dialogue, closeDialogue, showDialogue } from "./dialogue";
 
 class SignOut extends React.Component {
@@ -15,10 +16,7 @@ class SignOut extends React.Component {
       this,
       this.props.history,
       );
-    this.signOut = this.signOut.bind(
-      this,
-      this.props.dispatch
-    );
+      this.signOut = this.signOut.bind(this, this.props.dispatch)
   }
 
   gotoSignIn(history){
@@ -64,5 +62,10 @@ class SignOut extends React.Component {
   }
 }
 
+function mapStateToProps (state) {
+  return {
+    initState: state
+  }
+}
 
-export default SignOut;
+export default connect(mapStateToProps)(SignOut)

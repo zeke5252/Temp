@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { updateUID, updateDisplayName } from "../actions/";
 import { slangCollection } from "../components/slangs";
 import Button from "../components/button";
-import {Dialogue, closeDialogue, showDialogue} from "../components/dialogue";
-import {auth} from "../firebaseConfig"
+import { Dialogue, closeDialogue, showDialogue } from "../components/dialogue";
+import { auth } from "../firebaseConfig";
 
 class Sign_in extends React.Component {
   constructor(props) {
@@ -14,8 +14,10 @@ class Sign_in extends React.Component {
     this.state = {
       userID: "",
       userPW: "",
+      userPW_re: "",
       userName: "",
       errorMsg: "",
+      errorMsgDialogue: "",
       mode: "signIn",
       quoteNumSlang: 0,
       isDialogueVisible: "none"
@@ -26,33 +28,41 @@ class Sign_in extends React.Component {
     this.onNameChange = this.onNameChange.bind(this);
     this.onIDChange = this.onIDChange.bind(this);
     this.onPWChange = this.onPWChange.bind(this);
+    this.onPWChange_re = this.onPWChange_re.bind(this);
     this.fbLoginHandler = this.fbLoginHandler.bind(this, dispatch, history);
     this.forgetPW = this.forgetPW.bind(this);
     this.showDialogue = showDialogue.bind(this);
-    this.closeDialogue = closeDialogue.bind(this)
-    this.onMailChangeHandler = this.onMailChangeHandler.bind(this)
+    this.closeDialogue = closeDialogue.bind(this);
+    this.onMailChangeHandler = this.onMailChangeHandler.bind(this);
   }
 
-  onMailChangeHandler(){
-
-    this.setState({
-      eMail : event.target.value
-    }, function(){
-      console.log(this.state.eMail)
-    })
+  onMailChangeHandler() {
+    this.setState(
+      {
+        eMail: event.target.value
+      },
+      function() {
+        console.log(this.state.eMail);
+      }
+    );
   }
 
   forgetPW() {
-    auth
+    this.setState({
+      errorMsgDialogue: ''
+    }, ()=>{
+      auth
       .sendPasswordResetEmail(this.state.eMail)
       .then(function() {
         alert("Email sent.");
       })
       .catch(error => {
         this.setState({
-          errorMsg: error.message
+          errorMsgDialogue: error.message
         });
       });
+    });
+    
   }
 
   fbLoginHandler(propsDispatch, history) {
@@ -64,15 +74,9 @@ class Sign_in extends React.Component {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         // var token = result.credential.accessToken;
         propsDispatch(updateUID(auth.currentUser.uid));
-        propsDispatch(
-          updateDisplayName(auth.currentUser.displayName)
-        );
+        propsDispatch(updateDisplayName(auth.currentUser.displayName));
         history.push("/library");
       })
-      // .then(res => {
-      //   // history.push("/library");
-      // })
-      .then()
       .catch(function(error) {
         console.error(`Facebook error.${error.message}`);
         var errorMessage = error.message;
@@ -116,32 +120,36 @@ class Sign_in extends React.Component {
   }
 
   signUpHandler(propsDispatch, history) {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
-      .then(res => {
-        auth.currentUser.updateProfile({
-          displayName: this.state.userName
-        });
-      })
-      .then(res => {
-        propsDispatch(updateUID(auth.currentUser.uid));
-      })
-      .then(res => {
-        console.log("signup!");
-        propsDispatch(updateDisplayName(this.state.userName));
-      })
-      .then(res => {
-        history.push("/library");
-      })
-      .catch(
-        error => {
-          this.setState({
-            errorMsg: error.message
-          });
-        }
-        // Add warning message here
-      );
+    this.state.userPW !== this.state.userPW_re
+      ? this.setState({
+          errorMsg: "Passwords do not match."
+        })
+      : firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.state.userID, this.state.userPW)
+          .then(res => {
+            auth.currentUser.updateProfile({
+              displayName: this.state.userName
+            });
+          })
+          .then(res => {
+            propsDispatch(updateUID(auth.currentUser.uid));
+          })
+          .then(res => {
+            console.log("signup!");
+            propsDispatch(updateDisplayName(this.state.userName));
+          })
+          .then(res => {
+            history.push("/library");
+          })
+          .catch(
+            error => {
+              this.setState({
+                errorMsg: error.message
+              });
+            }
+            // Add warning message here
+          );
   }
   signInHandler(propsDispatch, history) {
     firebase
@@ -151,9 +159,7 @@ class Sign_in extends React.Component {
         var user = auth.currentUser;
         if (user) {
           propsDispatch(updateUID(auth.currentUser.uid));
-          propsDispatch(
-            updateDisplayName(auth.currentUser.displayName)
-          );
+          propsDispatch(updateDisplayName(auth.currentUser.displayName));
           history.push("/library");
         } else {
           console.log("No one signed in");
@@ -187,8 +193,20 @@ class Sign_in extends React.Component {
     });
   }
 
+  onPWChange_re() {
+    this.setState({
+      userPW_re: event.target.value
+    });
+  }
+
   render() {
-    const { errorMsg, mode, quoteNumSlang, isDialogueVisible } = this.state;
+    const {
+      errorMsg,
+      errorMsgDialogue,
+      mode,
+      quoteNumSlang,
+      isDialogueVisible
+    } = this.state;
     return (
       <div className={styles.container_init}>
         <div className={styles.container_sign_in}>
@@ -226,12 +244,15 @@ class Sign_in extends React.Component {
                 str="Facebook login"
               />
               <div className={styles.sign_switch_container}>
-              <span className={styles.sign_switch} onClick={this.switchMode}>
-                Sign up
-              </span>
-              <span className={styles.sign_switch} onClick={this.showDialogue}>
-                Forget password?
-              </span>
+                <span className={styles.sign_switch} onClick={this.switchMode}>
+                  Sign up
+                </span>
+                <span
+                  className={styles.sign_switch}
+                  onClick={this.showDialogue}
+                >
+                  Forget password?
+                </span>
               </div>
               <span className={styles.message}>{errorMsg}</span>
             </div>
@@ -260,6 +281,12 @@ class Sign_in extends React.Component {
                 type="password"
                 onChange={this.onPWChange}
                 placeholder="Your password"
+                autoComplete="new-password"
+              ></input>
+              <input
+                type="password"
+                onChange={this.onPWChange_re}
+                placeholder="Enter your password again"
                 autoComplete="new-password"
               ></input>
               <Button
@@ -291,6 +318,7 @@ class Sign_in extends React.Component {
           isDialogueVisible={isDialogueVisible}
           closeDialogue={this.closeDialogue}
           onMailChangeHandler={this.onMailChangeHandler}
+          errorMsgDialogue={errorMsgDialogue}
         />
       </div>
     );

@@ -130,12 +130,6 @@
         margin-top: 1rem;
       }
   
-      .message {
-        margin-top: 1.6rem;
-        font-size: $size-small;
-        color: $color-orange;
-      }
-  
       .logo_signin {
         width: 21rem;
         height: auto;
@@ -166,4 +160,10 @@
         }
       }
     }
+  }
+
+  .message {
+    margin-top: 1.6rem;
+    font-size: $size-small;
+    color: $color-orange;
   }
