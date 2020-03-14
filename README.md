@@ -1,7 +1,7 @@
 # Readyou
 **An online tool for your English reading.**
 
-![](https://i.imgur.com/J2jDSAL.gif)
+![image](https://github.com/zeke5252/Readyou/blob/master/Readyou_50.gif)
 
 
 ## Origin
