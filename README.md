@@ -1,7 +1,7 @@
 # Readyou
 **An online tool for your English reading.**
 
-![image](https://github.com/zeke5252/Readyou/blob/master/Readyou_50.gif)
+![image](https://i.imgur.com/hkclVhW.gif)
 
 
 ## Origin
@@ -24,6 +24,8 @@ Therefore, I created this online tool to store search results automatically ever
 * Stored your search results automatically
 
 ### Test account
+[https://readu-2cdda.web.app/](https://readu-2cdda.web.app/)
+
 ID: first@first.com
 PW: 123456
 
@@ -58,7 +60,4 @@ PW: 123456
 
 ![](https://g0vhackmd.blob.core.windows.net/g0v-hackmd-images/upload_4034a74134171efaa411229305fc0716)
 
-
-## Live demo
-[https://readu-2cdda.web.app/](https://readu-2cdda.web.app/)
 
