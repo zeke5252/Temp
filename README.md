@@ -2,20 +2,31 @@
 **An online tool for your English reading.**
 
 
+![](https://i.imgur.com/LOSS9EM.gif)
+
 
 ## Origin
-English reading not only broadens my knowledge, but brings me lots of fun as well. However, I do look up some words again and again without even noticing the repeating behavior, which obviously reduces the effiency and hardens the English learning curve. I ask myself is it possible to track the search results conveniently and perhaps help me to memorize these word definitions with more effiency? 
+English reading not only broadens my knowledge, but brings me lots of fun as well. However, I do look up some words again and again without even noticing the repeating behavior, which obviously reduces the effiency and hardens the English learning curve. I ask myself is it possible to track the search results conveniently and perhaps help me to memorize these word definitions in a easier way? 
 
-Accroding to the reasons above, I created this online tool to store search results automatically every time after I am done with the searches. Also, combined with customizable settings for layout, I manage to provide a solution for reading experience. 
+Therefore, I created this online tool to store search results automatically every time after I am done with the searches. Combined with customizable settings for layout, I manage to provide a complete solution for reading experience. 
 
 ## Features
-* Customized reading experience where you can change background color, font type, and line height at will.
-* Look up dictionary simply by selecting the word or phrases.
-* Switch between English and Chinese dictionary without a hassle.  
-* Store your search results automatically. 
-* Display the search results based on the search times.
-* Responsive design for hand-held devices
-* and many more....
+
+* Set up **Webpack** environment 
+* Used **Redux** to store global variables 
+* Integrated **Firebase authentication** for member system 
+* Designed data structue in **Firebase Firestore** 
+* Looked up dictionary simply by selecting the word or phrases.   **( Google Translate, Google Dictionary API )** 
+* Used **React Router** to implement **Single-page application** 
+* Supported **RWD** with **Flexbox** 
+* Deployed website on **Firebase hosting** 
+* Customized reading experience where you can change background    color, font type, and line height at will 
+* Switched between English and Chinese dictionary without a hassle 
+* Stored your search results automatically
+
+### Test account
+ID: first@first.com
+PW: 123456
 
 ## Use flow
 1. Sign up / Sign in
@@ -49,23 +60,6 @@ Accroding to the reasons above, I created this online tool to store search resul
 ![](https://g0vhackmd.blob.core.windows.net/g0v-hackmd-images/upload_4034a74134171efaa411229305fc0716)
 
 
-
-
-## Technology
-* Javascript
-* React
-* Router
-* Webpack
-* API - Google translate, Google Dictionary API
-* SCSS
-* Redux
-* Photoshop
-* Illustrator
-
 ## Live demo
 [https://readu-2cdda.web.app/](https://readu-2cdda.web.app/)
 
-### Test account
-ID: first@first.com
-
-PW: 123456
