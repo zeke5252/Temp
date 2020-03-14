@@ -1,8 +1,7 @@
 # Readyou
 **An online tool for your English reading.**
 
-
-![](https://i.imgur.com/LOSS9EM.gif)
+![](https://i.imgur.com/J2jDSAL.gif)
 
 
 ## Origin
