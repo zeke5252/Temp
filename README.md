@@ -4,7 +4,7 @@
 ![image](https://github.com/zeke5252/Readyou/blob/master/Readyou.gif)
 
 ## Origin
-English reading not only broadens my knowledge, but brings me lots of fun as well. However, I do look up some words again and again without even noticing the repeating behavior, which obviously reduces the effiency and hardens the English learning curve. I ask myself is it possible to track the search results conveniently and perhaps help me to memorize these word definitions in a easier way? 
+English reading not only broadens my knowledge, but brings me lots of fun as well. However, I do look up some words again and again without even noticing the repeating behavior, which obviously reduces the effiency and hardens the English learning curve. I ask myself is it possible to track the search results conveniently and perhaps help me to memorize these word definitions in an easier way? 
 
 Therefore, I created this online tool to store search results automatically every time after I am done with the searches. Combined with customizable settings for layout, I manage to provide a complete solution for reading experience. 
 
