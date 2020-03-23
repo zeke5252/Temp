@@ -40,29 +40,31 @@ class Sign_in extends React.Component {
     this.setState(
       {
         eMail: event.target.value
-      },
-      function() {
-        console.log(this.state.eMail);
       }
     );
   }
 
   forgetPW() {
-    this.setState({
-      errorMsgDialogue: ""
-    }, ()=>{
-      auth
-      .sendPasswordResetEmail(this.state.eMail)
-      .then(function() {
-        alert("Email sent.");
+    if(!this.state.eMail){
+      this.setState({
+        errorMsgDialogue:"Fill in your e-mail"
       })
-      .catch(error => {
-        this.setState({
-          errorMsgDialogue: error.message
+    } else {
+      this.setState({
+        errorMsgDialogue: ""
+      }, ()=>{
+        auth
+        .sendPasswordResetEmail(this.state.eMail)
+        .then(function() {
+          alert("Email sent.");
+        })
+        .catch(error => {
+          this.setState({
+            errorMsgDialogue: error.message
+          });
         });
       });
-    });
-    
+    }
   }
 
   fbLoginHandler(propsDispatch, history) {
