@@ -37,33 +37,34 @@ class Sign_in extends React.Component {
   }
 
   onMailChangeHandler() {
-    this.setState(
-      {
-        eMail: event.target.value
-      }
-    );
+    this.setState({
+      eMail: event.target.value
+    });
   }
 
   forgetPW() {
-    if(!this.state.eMail){
+    if (!this.state.eMail) {
       this.setState({
-        errorMsgDialogue:"Fill in your e-mail"
-      })
-    } else {
-      this.setState({
-        errorMsgDialogue: ""
-      }, ()=>{
-        auth
-        .sendPasswordResetEmail(this.state.eMail)
-        .then(function() {
-          alert("Email sent.");
-        })
-        .catch(error => {
-          this.setState({
-            errorMsgDialogue: error.message
-          });
-        });
+        errorMsgDialogue: "Fill in your e-mail"
       });
+    } else {
+      this.setState(
+        {
+          errorMsgDialogue: ""
+        },
+        () => {
+          auth
+            .sendPasswordResetEmail(this.state.eMail)
+            .then(function() {
+              alert("Email sent.");
+            })
+            .catch(error => {
+              this.setState({
+                errorMsgDialogue: error.message
+              });
+            });
+        }
+      );
     }
   }
 
@@ -90,16 +91,18 @@ class Sign_in extends React.Component {
   }
 
   componentDidMount() {
-    var user = auth.currentUser;
-    if (user) {
-      history.push("/library");
-    }
-    const tempQuoteNumSlang = Math.floor(
-      Math.random() * slangCollection.length
-    );
-    this.setState({
-      quoteNumSlang: tempQuoteNumSlang
-    });
+    this.props.userUID ? this.props.history.push("/library") : function(){
+      var user = auth.currentUser;
+      if (user) {
+        history.push("/library");
+      }
+      const tempQuoteNumSlang = Math.floor(
+        Math.random() * slangCollection.length
+      );
+      this.setState({
+        quoteNumSlang: tempQuoteNumSlang
+      });
+    };
   }
   switchMode() {
     if (this.state.mode === "signIn") {

@@ -22,6 +22,7 @@ class App extends React.Component {
           <Route path={"/" + "library"} component={Library} />
           <Route path={"/" + "new_content"} component={New_content} />
           <Route path={"/" + "book_content"} component={Book_content} />
+          <Route path={"*"} component={Sign_in} />
           <Redirect from="/Link" to="/" />
         </Switch>
     )
