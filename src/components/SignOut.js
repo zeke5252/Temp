@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../sass/main.scss";
 import { cleanStoreData } from "../actions/";
 import { connect } from "react-redux";
-import { Dialogue, closeDialogue, showDialogue } from "./dialogue";
+import { Dialogue, closeDialogue, showDialogue } from "./Dialogue";
 
 class SignOut extends React.Component {
   constructor(props) {

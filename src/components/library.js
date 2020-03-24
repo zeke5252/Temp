@@ -1,15 +1,15 @@
 import React from "react";
-import Book from "./book.js";
-import Search_history from "./search_history.js";
-import Tutorial from "./tutorial";
+import Book from "./Book.js";
+import Search_history from "./SearchHistory.js";
+import Tutorial from "./Tutorial";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
-import SignOut from "./sign_out";
-import Greetings from "../components/greeting";
-import { savePrefToRedux } from "../actions/";
-import Button from "../components/button";
+import SignOut from "./SignOut";
+import Greetings from "./Greeting";
+import { savePrefToRedux } from "../actions";
+import Button from "./Button";
 import { db } from "../firebaseConfig";
-import { Dialogue, showDialogue, closeDialogue } from "./dialogue";
+import { Dialogue, showDialogue, closeDialogue } from "./Dialogue";
 
 class Library extends React.Component {
   constructor(props) {

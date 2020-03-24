@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
-import ViewPreference from "../components/view_preference";
-import Back from "./back";
-import Settings from "./settings";
-import PopupSearch from "./popup_search";
-import Note from "./note";
+import ViewPreference from "./ViewPreference";
+import Back from "./Back";
+import Settings from "./Settings";
+import PopupSearch from "./PopupSearch";
+import Note from "./Note";
 import convert from "htmr";
 import { db } from "../firebaseConfig";
 

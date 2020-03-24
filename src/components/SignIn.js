@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "../sass/main.scss";
 import { connect } from "react-redux";
-import { updateUID, updateDisplayName } from "../actions/";
-import { slangCollection } from "../components/slangs";
-import Button from "../components/button";
-import { Dialogue, closeDialogue, showDialogue } from "../components/dialogue";
+import { updateUID, updateDisplayName } from "../actions";
+import { slangCollection } from "./slangs";
+import Button from "./Button";
+import { Dialogue, closeDialogue, showDialogue } from "./Dialogue";
 import { auth } from "../firebaseConfig";
 
 class Sign_in extends React.Component {

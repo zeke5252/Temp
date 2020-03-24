@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../sass/main.scss";
-import Button from "./button";
+import Button from "./Button";
 
 function closeDialogue() {
   this.setState({

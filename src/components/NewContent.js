@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "../sass/main.scss";
-import Greetings from "../components/greeting";
-import Button from "../components/button";
+import Greetings from "./Greeting";
+import Button from "./Button";
 import {db} from "../firebaseConfig"
-import { Dialogue, showDialogue, closeDialogue } from "./dialogue";
+import { Dialogue, showDialogue, closeDialogue } from "./Dialogue";
 
 class New_content extends React.Component {
   constructor(props) {

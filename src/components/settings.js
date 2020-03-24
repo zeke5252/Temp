@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../sass/main.scss";
-import { connect } from "react-redux";
 
 class Settings extends React.Component {
   constructor(props) {
