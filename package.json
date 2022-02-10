@@ -40,7 +40,7 @@
     "htmr": "^0.8.8",
     "languagedetect": "^2.0.0",
     "lodash.groupby": "^4.6.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
