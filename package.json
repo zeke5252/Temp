@@ -36,7 +36,7 @@
     "anchorme": "^1.1.2",
     "chinese-s2t": "^1.0.0",
     "css-declaration-sorter": "^5.1.2",
-    "html2pdf.js": "^0.9.2",
+    "html2pdf.js": "^0.10.1",
     "htmr": "^0.8.8",
     "languagedetect": "^2.0.0",
     "lodash.groupby": "^4.6.0",
